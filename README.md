@@ -24,7 +24,7 @@ Plain static site — no build step. Edit the HTML/CSS directly and push to `mai
 
 - AETHER-1 is shown at a high level only (code private; no landing-sequence video is published
   pre-patent-filing — the EU has no disclosure grace period).
-- Videos are H.264 MP4s kept small (< 7 MB) for fast loads; the collision-avoidance demo was
+- Videos are H.264 MP4s kept small (< 8 MB) for fast loads; the collision-avoidance demo was
   transcoded from GIF with ffmpeg.
 - Some project demos (Duckietown lane following, palletizing arm) are embedded as
   privacy-enhanced YouTube (`youtube-nocookie.com`) iframes inside the project cards.
