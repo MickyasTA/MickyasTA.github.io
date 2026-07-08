@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DRL collision avoidance — vision-based quadrotor navigation · Mickyas Tamiru Asfaw</title>
+<meta name="description" content="Vision-based, goal-directed quadrotor collision avoidance learned end-to-end with a from-scratch TD3 from stacked depth frames, trained in Gazebo Classic on ROS 2 Humble — no RL libraries.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>&#129302;</text></svg>">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="../index.html">mickyas<span class="tick">@</span>robotics<span class="tick">:~$</span></a>
+    <div class="nav-links">
+      <a href="../index.html#projects">Projects</a>
+      <a class="nav-cta" href="mailto:mickyastamiru92@gmail.com">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="detail-hero">
+  <img src="../assets/img/collision-poster.png" alt="Deep-RL collision avoidance — a quadrotor navigating a cluttered Gazebo room">
+</div>
+
+<main class="detail-body">
+  <a class="back-link" href="../index.html">&#8592; back to all projects</a>
+  <h1 style="margin-top:18px;">DRL collision avoidance</h1>
+  <p class="lede">
+    Vision-based, goal-directed <strong>quadrotor navigation</strong> learned end-to-end with a
+    <strong>from-scratch TD3</strong> from stacked depth frames &mdash; the agent learns obstacle
+    avoidance <em>and</em> goal seeking together, trained in Gazebo Classic on ROS&nbsp;2 Humble with
+    no external RL libraries.
+  </p>
+
+  <div class="notice">
+    &#128274; <strong>Code is private</strong> &mdash; available on request. This page describes the
+    project at a high level; if you want to talk details,
+    <a href="mailto:mickyastamiru92@gmail.com">get in touch</a>.
+  </div>
+
+  <h2>What it is</h2>
+  <p>
+    A quadrotor has to reach a goal point in a cluttered room &mdash; red boxes, grey pillars,
+    L-shaped walls &mdash; without hitting anything, using only what it can see. There is no map and
+    no planner: a single neural-network policy reads depth vision and a goal direction and outputs
+    continuous velocity and yaw commands, learning to route around obstacles on its way to the goal.
+  </p>
+
+  <figure class="media16">
+    <video controls muted loop playsinline preload="none" poster="../assets/img/collision-poster.png" src="../assets/video/collision_avoidance_eval.mp4"></video>
+  </figure>
+  <figcaption>Deterministic evaluation in <code>gen_room_mixed</code> (20&times;16&nbsp;m, 16 obstacles), exploration noise off &mdash; green sphere is the goal, red boxes and grey pillars are obstacles.</figcaption>
+
+  <h2>How it works</h2>
+  <p>
+    The observation is a 7-channel 128&times;160 tensor &mdash; six stacked depth frames (clipped to
+    0&ndash;10&nbsp;m) plus a goal-direction channel &mdash; alongside an explicit goal vector
+    <code>[sin&theta;, cos&theta;, 1 &minus; d/10]</code> fed to the actor and critic heads. The
+    policy commands continuous velocity and yaw-rate. Reward is dominated by
+    <strong>progress toward the goal</strong>, plus a heading-alignment term and a small survival
+    bonus, minus a collision penalty; collision, goal, and stuck are terminal while timeout is
+    deliberately non-terminal, since the agent cannot observe time.
+  </p>
+  <figure>
+    <img src="../assets/img/collision-goal-channel.png" alt="The goal-direction channel: a gaussian stripe encoding the bearing to the goal, added to the stacked depth frames">
+    <figcaption>The goal is injected into vision as a separate channel &mdash; a soft stripe encoding the bearing to the target &mdash; so a single convolutional policy fuses &ldquo;where can I go&rdquo; with &ldquo;where do I want to go.&rdquo;</figcaption>
+  </figure>
+  <p>
+    The learner is a <strong>TD3 written from scratch in PyTorch</strong> &mdash; twin critics,
+    target-policy smoothing, and delayed actor updates &mdash; with exploration noise annealed from
+    40% down to 10% over training. A discrete D3QN agent is included as an alternative.
+  </p>
+
+  <h2>Curriculum that respects the room</h2>
+  <p>
+    Goal distance grows with the agent's success rate, and a per-room feasibility probe caps it so
+    the curriculum never asks for a goal the world cannot actually place. Training spans nine worlds,
+    from trivial to expert, orchestrated across runs because Gazebo Classic cannot hot-swap worlds.
+  </p>
+  <figure>
+    <img src="../assets/img/collision-learning.png" alt="Learning curves: success rate and score rising as the curriculum advances goal distance">
+    <figcaption>Learning curves &mdash; success rate and score rise as the curriculum advances the goal distance.</figcaption>
+  </figure>
+
+  <h2>Results</h2>
+  <p>
+    On the hardest goal tier of <code>gen_room_mixed</code>, the deterministic (noise-off) policy
+    reaches <strong>~80% success</strong> with <strong>near-optimal paths (1.05&times;</strong> the
+    straight-line distance) and <strong>0% timeouts</strong> &mdash; it commits to the goal rather
+    than stalling. Goal-generation failures are detected and excluded from the success rate, so the
+    reported numbers are honest.
+  </p>
+  <figure>
+    <img src="../assets/img/collision-trajectory-map.png" alt="Bird's-eye view of evaluation trajectories over the real obstacle map, coloured by outcome">
+    <figcaption>Every evaluation run drawn over the real occupancy grid &mdash; green reaches the goal, red is a collision with the crash point marked, stars are goal positions.</figcaption>
+  </figure>
+  <figure>
+    <img src="../assets/img/trajectories.gif" alt="Animated 2D trajectory playback over the obstacle map">
+    <figcaption>Animated 2D playback of the same evaluation set over the occupancy grid.</figcaption>
+  </figure>
+  <figure>
+    <img src="../assets/img/collision-stats.png" alt="Outcome breakdown and step-count, path-efficiency and score distributions">
+    <figcaption>Outcome breakdown with step-count, path-efficiency, and score distributions across the evaluation run.</figcaption>
+  </figure>
+
+  <h2>Honest evaluation</h2>
+  <p>
+    Every number comes from a deterministic harness &mdash; greedy policy, no exploration noise, no
+    training, no curriculum advance, no weight writes &mdash; that logs trajectories and turns them
+    into a trajectory map, statistics panel, failure analysis, animated playback, a third-person
+    Gazebo render, and a written report. The point is a success rate you can trust, not a
+    best-case cherry-pick.
+  </p>
+
+  <p style="margin-top:34px;">
+    <a class="btn btn-primary" href="mailto:mickyastamiru92@gmail.com">Talk to me about this project</a>
+  </p>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
+    <span><a href="../index.html">mickyasta.github.io</a></span>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mybot — two-wheeled wheel-legged bipedal robot · Mickyas Tamiru Asfaw</title>
+<meta name="description" content="mybot: a two-wheeled wheel-legged bipedal robot that learns to self-balance and drive to a goal with a from-scratch PPO (no RL libraries), trained in MuJoCo with a ROS 2 + Gazebo reference stack.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>&#129302;</text></svg>">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="../index.html">mickyas<span class="tick">@</span>robotics<span class="tick">:~$</span></a>
+    <div class="nav-links">
+      <a href="../index.html#projects">Projects</a>
+      <a class="nav-cta" href="mailto:mickyastamiru92@gmail.com">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="detail-hero">
+  <img src="../assets/img/mybot-render.png" alt="mybot two-wheeled wheel-legged bipedal robot render">
+</div>
+
+<main class="detail-body">
+  <a class="back-link" href="../index.html">&#8592; back to all projects</a>
+  <h1 style="margin-top:18px;">mybot — wheel-legged bipedal robot</h1>
+  <p class="lede">
+    A <strong>two-wheeled, wheel-legged bipedal robot</strong> that learns to balance on its wheels
+    and drive to a goal point — trained with a <strong>from-scratch PPO</strong> (no
+    Stable-Baselines3, no RL library), written from the equations up in PyTorch.
+  </p>
+
+  <div class="notice">
+    &#128274; <strong>Code is private</strong> &mdash; available on request. This page describes the
+    project at a high level; if you want to talk details,
+    <a href="mailto:mickyastamiru92@gmail.com">get in touch</a>.
+  </div>
+
+  <h2>What it is</h2>
+  <p>
+    mybot has two independent legs (a 3-DOF hip plus knee each) ending in driven wheels. With its
+    centre of mass above the wheel axle it is <strong>statically unstable</strong> &mdash; standing
+    still is already a control problem, exactly like a Segway. The legs are individually actuated
+    revolute joints, so once balance is solved they can be added to the policy for squatting,
+    stepping, and climbing.
+  </p>
+
+  <figure class="media16">
+    <video controls muted loop playsinline preload="none" poster="../assets/img/mybot-balance-poster.png" src="../assets/video/mujoco_balance_stable.mp4"></video>
+  </figure>
+  <figcaption>Stage&nbsp;1 &mdash; a full 20-second balance in MuJoCo (ep_len 1000): upright on its wheels, legs held at stance, realistic contacts and friction.</figcaption>
+
+  <h2>How it learns</h2>
+  <p>
+    The controller is a <strong>hand-written PPO</strong>: an actor-critic MLP with a learnable
+    log-std, generalized advantage estimation, a clipped surrogate objective, and running
+    mean/std normalization on both observations and rewards &mdash; all in PyTorch, no RL library.
+    Control runs at 50&nbsp;Hz. The single most important stabilizer was a <strong>KL cap</strong>
+    (<code>--target-kl 0.02</code>): without it KL blew up to 0.3&ndash;1.0, the policy over-updated
+    and <em>degraded</em>; with it, training converges smoothly to a full 1000-step balance.
+  </p>
+  <ul>
+    <li><strong>Observation</strong> &mdash; base roll/pitch and angular rate, wheel velocities, base
+      velocity, leg positions/velocities and the previous action (69-d with a 3-frame history at
+      Stage&nbsp;1; 117-d at Stage&nbsp;2 once all eight leg joints are exposed).</li>
+    <li><strong>Action</strong> &mdash; two wheel torques (&plusmn;20&nbsp;Nm) at Stage&nbsp;1; a 10-D
+      action adding eight leg position targets at Stage&nbsp;2.</li>
+    <li><strong>Reward</strong> &mdash; an alive bonus minus penalties on tilt, x-y drift, yaw-rate
+      and effort. The yaw-rate term matters: without it the robot balances but <em>spins</em> in
+      place (~230&deg;/s); with it, it holds heading to within a few degrees.</li>
+  </ul>
+
+  <h2>One policy, a curriculum</h2>
+  <p>
+    Each stage warm-starts from the previous policy. <strong>Stage&nbsp;1 (balance)</strong> reaches
+    a full 20-second balance. <strong>Stage&nbsp;2 (goal navigation)</strong> unlocks the legs as a
+    real 8-D action and adds a base-frame goal vector to the observation, with reward terms for
+    progress toward the goal, facing it, arriving, and station-keeping there. A first attempt
+    exploited a loophole &mdash; splaying the legs into a wide static split for free lateral
+    stability &mdash; so a <strong>posture penalty</strong> was added to keep the legs near their
+    stance. Actuating the legs, adding a goal, and banning the shortcut all at once made the robot
+    fall in a few steps, so the stage was split into <em>2a</em> (balance with actuated legs, no
+    goal) then <em>2b</em> (warm-start 2a, add the goal), which learns navigation while keeping its
+    balance from step one.
+  </p>
+
+  <figure class="media16">
+    <video controls muted loop playsinline preload="none" poster="../assets/img/mybot-nav-poster.png" src="../assets/video/nav_goal_reach.mp4"></video>
+  </figure>
+  <figcaption>Stage&nbsp;2 &mdash; the robot drives to a randomized goal marker and stops there, balancing throughout.</figcaption>
+
+  <h2>Results</h2>
+  <ul>
+    <li><strong>Balance</strong> &mdash; holds the full 1000-step (20&nbsp;s) episode upright on its wheels.</li>
+    <li><strong>Goal navigation</strong> &mdash; <strong>9/10</strong> held-out episodes arrive and
+      station-keep, mean end-distance <strong>0.16&nbsp;m</strong> from a mean start of
+      <strong>1.47&nbsp;m</strong>, still balancing the full episode.</li>
+  </ul>
+  <figure>
+    <img src="../assets/img/mybot-training-metrics.png" alt="mybot training metrics overview: episode length, reward, and losses over training">
+    <figcaption>Training overview for the balance run &mdash; episode length climbs to the full 1000 steps as the policy converges.</figcaption>
+  </figure>
+
+  <h2>Two simulators, one hard lesson</h2>
+  <p>
+    Training runs primarily in <strong>MuJoCo</strong>, with a <strong>ROS&nbsp;2 Humble +
+    Gazebo Classic</strong> stack kept for integration and reference. The split was forced by
+    physics: Gazebo Classic could not hold this robot's load-bearing, chained revolute leg joints
+    &mdash; they buckle to a collapsed pose the instant physics runs and then kinematically lock
+    (confirmed across every actuator, gain, and damping setting). MuJoCo's constrained dynamics hold
+    the same joints at 0.007&nbsp;rad under full body load, so training moved there. On this machine
+    a <strong>parallel-CPU PPO</strong> (N MuJoCo envs across cores, plain multiprocessing, still no
+    RL library) trained the goal-nav result ~5&ndash;10&times; faster than a single env, while a
+    JAX/MJX GPU path is kept as a flag for larger machines.
+  </p>
+  <figure class="media16">
+    <video controls muted loop playsinline preload="none" poster="../assets/img/mybot-gazebo-poster.png" src="../assets/video/mybot_gazebo_demo.mp4"></video>
+  </figure>
+  <figcaption>The ROS&nbsp;2 + Gazebo Classic reference stack &mdash; kept for integration alongside the primary MuJoCo training path.</figcaption>
+
+  <h2>Status</h2>
+  <ul>
+    <li><strong>Done</strong> &mdash; Stage&nbsp;1 balance and Stage&nbsp;2 goal navigation, verified on held-out episodes.</li>
+    <li><strong>Next</strong> &mdash; obstacle avoidance, ducking and terrain (squat under obstacles, stairs, rough ground), then sim-to-real with IMU-only observations and domain randomization.</li>
+  </ul>
+
+  <p style="margin-top:34px;">
+    <a class="btn btn-primary" href="mailto:mickyastamiru92@gmail.com">Talk to me about mybot</a>
+  </p>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
+    <span><a href="../index.html">mickyasta.github.io</a></span>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
