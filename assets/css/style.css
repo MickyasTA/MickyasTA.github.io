@@ -120,7 +120,7 @@ section { padding: 72px 0; }
   display: grid; grid-template-columns: 1.25fr 1fr;
 }
 .featured-media { position: relative; min-height: 340px; }
-.featured-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.featured-media img, .featured-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .featured-body { padding: 36px 36px 30px; display: flex; flex-direction: column; }
 .featured-tag {
   font-family: var(--mono); font-size: 12.5px; color: var(--accent);
@@ -221,6 +221,7 @@ section { padding: 72px 0; }
 }
 .badge-ok { color: var(--teal); border: 1px solid rgba(45, 212, 191, 0.4); background: rgba(45, 212, 191, 0.1); }
 .badge-wip { color: var(--accent); border: 1px solid rgba(224, 138, 60, 0.4); background: var(--accent-soft); }
+.badge-sub { color: var(--blue); border: 1px solid rgba(88, 166, 255, 0.4); background: rgba(88, 166, 255, 0.1); }
 
 .edu {
   background: var(--card); border: 1px solid var(--card-edge);
