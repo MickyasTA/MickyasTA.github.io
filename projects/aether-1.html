@@ -71,9 +71,41 @@
     <figcaption>To-scale geometry, generated directly from the simulation model's constants.</figcaption>
   </figure>
   <figure class="media16">
-    <video controls muted loop playsinline preload="none" poster="../assets/img/aether1-sim-frame.png" src="../assets/video/aether1_sim_drive.mp4"></video>
+    <video controls muted loop playsinline preload="none" poster="../assets/img/aether1-sim-frame.png" src="../assets/video/aether1_sim_montage.mp4"></video>
   </figure>
-  <figcaption>The deployed policy driving in the verification simulator.</figcaption>
+  <figcaption>The deployed policy driving and flying in the verification simulator (montage).</figcaption>
+
+  <h2>Results</h2>
+  <p>
+    Before anything is cleared for hardware, the deployed controller must pass a seeded,
+    deterministic verification battery in MuJoCo — 18 scenarios covering driving, flight, landing,
+    a domain-randomization sweep, and edge cases, measured on the exact controller build that
+    would run on the robot. The training run itself closed its final curriculum stage at a
+    <strong>0.995 success gate</strong>; the battery below is the independent check on the
+    deployed build, and it currently stands at <strong>14 PASS / 4 WARN / 0 FAIL</strong> with
+    no divergence in any episode.
+  </p>
+  <table class="results-table">
+    <thead>
+      <tr><th>Capability</th><th>Result</th><th>Key measurement</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><b>Drive</b> to ground goals, 1&ndash;8 m</td><td>1.00 success</td><td>final goal distance 0.17&ndash;0.19 m, final tilt &asymp; 4&deg;</td></tr>
+      <tr><td><b>Fly</b> to air goals + hover-hold, 1&ndash;8 m</td><td>1.00 success</td><td>station-keeping error 0.18&ndash;0.20 m</td></tr>
+      <tr><td><b>Land</b> (rotor&#8594;wheel handoff)</td><td>1.00 success, 1.00 latch rate</td><td>touchdown 0.14&ndash;0.15 m/s, upright within 9&deg;</td></tr>
+      <tr><td><b>Robustness</b> sweep, 7 randomization axes</td><td>1.00 success on all 7</td><td>wind, +20% mass &amp; +2 kg payload, rotor asymmetry, battery sag, sensor bias, latency, floor tilt</td></tr>
+      <tr><td><b>Full battery</b>, 18 scenarios</td><td>14 PASS / 4 WARN / 0 FAIL</td><td>no divergence or NaN in any episode</td></tr>
+    </tbody>
+  </table>
+  <figcaption>Measured on the deployed controller in the verification simulator — 5 seeded episodes per scenario, deterministic policy.</figcaption>
+  <figure>
+    <img src="../assets/img/aether1-results-success.png" alt="Evaluation success rate rising over the curriculum run, with dips at stage transitions and recovery to about 0.9">
+    <figcaption>Evaluation success rate over the one-brain curriculum run — each dip is a new stage being introduced, then re-mastered without forgetting earlier skills.</figcaption>
+  </figure>
+  <figure>
+    <img src="../assets/img/aether1-results-curriculum.png" alt="Curriculum stage index stepping from 0 to 5 over the training run">
+    <figcaption>Curriculum stage progression — advancement is earned by measured performance at each gate, not scheduled.</figcaption>
+  </figure>
 
   <h2>From simulation to hardware</h2>
   <figure>
@@ -85,10 +117,10 @@
     15 kg Mk1 demonstrator with a full engineering package behind it: component selection and
     sourcing, power and endurance modeling, EU regulatory strategy, a parametric CAD model with a
     validated URDF, staged test rigs that replace guessed simulation constants with measured ones,
-    and a safety-gated bring-up procedure. The guiding number is honest: at this scale a battery
-    aircraft hovers for minutes — but a hybrid that drives at a tenth of a kilowatt completes
-    <strong>90&ndash;120 minute missions</strong> with 10&ndash;15 minutes of flight exactly where
-    it's needed.
+    and a safety-gated bring-up procedure. The physics that motivated the project stays the design
+    driver: driving is roughly ten times cheaper than hovering, so the hybrid spends rotor time
+    only where wheels cannot go — the same energy asymmetry the policy learned to exploit in
+    simulation.
   </p>
 
   <h2>Status</h2>
