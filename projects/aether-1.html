@@ -54,17 +54,29 @@
 
   <h2>How it works</h2>
   <p>
-    A single learned policy, trained from scratch in MuJoCo, controls the whole robot. It acquires
-    its skills through a staged curriculum — balance, driving, hover, 3D flight, and finally free
-    drive-or-fly arbitration — advancing only when measured performance clears each stage's gate,
-    with earlier skills continually rehearsed so nothing is forgotten. The final stage closed at a
+    <strong>One brain, grown through a curriculum.</strong> A single policy, trained from scratch
+    in MuJoCo, controls the whole robot. It earns its skills in stages — balance, driving, hover,
+    3D flight, and finally free drive-or-fly arbitration — and advancement is never scheduled: a
+    stage is passed only when measured success rates clear its gate. Earlier skills are continually
+    rehearsed while new ones are learned, so the policy that eventually flies has not forgotten how
+    to balance — anti-forgetting by construction, not by hope. The final stage closed at a
     <strong>0.995 success gate</strong> under domain randomization.
   </p>
   <p>
-    The learned policy is backed by classical controllers that serve as benchmarks and safety
-    layers, and the training run is protected by verification gates — physics sanity checks, an
-    extensive automated test suite, and a reward-economics audit — so a broken simulation or a
-    mis-priced reward halts training rather than silently corrupting the policy.
+    <strong>Hybrid by design, not by fallback.</strong> The learned policy doesn't replace
+    classical control — it is composed <em>with</em> it. LQR balance and model-based flight
+    controllers act as stabilizing bases on which the policy learns residual corrections, as
+    independent safety layers, and as honest benchmarks: learned, classical, and hybrid
+    controllers are interchangeable behind one interface and compared on identical seeded
+    evaluations, so every claim about "the learned controller is better here" is a measured one.
+  </p>
+  <p>
+    <strong>Decisions that emerge, training that polices itself.</strong> The robot is never told
+    when to fly — the fly-vs-drive choice emerges from a reward that prices energy, so the policy
+    discovers on its own that wheels are cheap and rotors are precious. And because reward-driven
+    learning fails quietly, the training run polices itself: physics sanity gates, an extensive
+    automated test suite, and a reward-economics audit that halts training if any stage ever makes
+    failure more profitable than success.
   </p>
   <figure>
     <img src="../assets/img/aether1-geometry.png" alt="AETHER-1 to-scale geometry drawing: side view with center of mass, top view of rotor and wheel layout">
