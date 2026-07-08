@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AETHER-1 — hybrid legged-wheeled-aerial robot · Mickyas Tamiru Asfaw</title>
+<meta name="description" content="AETHER-1: one reinforcement-learning policy that balances, drives, flies, lands, and chooses between driving and flying — validated in simulation, hardware prototype in development.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>&#129302;</text></svg>">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="../index.html">mickyas<span class="tick">@</span>robotics<span class="tick">:~$</span></a>
+    <div class="nav-links">
+      <a href="../index.html#projects">Projects</a>
+      <a class="nav-cta" href="mailto:tamirumickyas@gmail.com">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="detail-hero">
+  <img src="../assets/img/aether1-hero.png" alt="AETHER-1 hybrid legged-wheeled-aerial robot">
+</div>
+
+<main class="detail-body">
+  <a class="back-link" href="../index.html">&#8592; back to all projects</a>
+  <h1 style="margin-top:18px;">AETHER-1</h1>
+  <p class="lede">
+    A hybrid legged-wheeled-aerial robot controlled by <strong>one</strong> reinforcement-learning
+    policy that balances, drives, flies, lands, and — most importantly — <em>decides for itself</em>
+    when to drive and when to fly, because flying costs roughly ten times more energy than driving.
+  </p>
+
+  <div class="notice">
+    &#128274; <strong>Code and full technical documentation are private</strong> while the hardware
+    program and intellectual-property work are in progress. This page describes the project at a
+    high level; if you want to talk details, <a href="mailto:tamirumickyas@gmail.com">get in touch</a>.
+  </div>
+
+  <h2>Why a hybrid?</h2>
+  <p>
+    Inspection robots today split into two families with hard limits: confined-space drones fly
+    superbly but only for minutes, and ground robots run for hours but stop at the first stairwell,
+    drop, or debris field. The physics is unforgiving — hovering burns kilowatts while driving burns
+    watts. AETHER-1's answer is one asset that drives for hours and spends its precious flight
+    seconds only where wheels cannot go, with that trade-off <strong>learned</strong> through an
+    energy-priced reward rather than hard-coded.
+  </p>
+
+  <h2>The machine</h2>
+  <figure>
+    <img src="../assets/img/aether1-multi-view.png" alt="AETHER-1 multi-view technical sheet: front, side, rear, top views">
+    <figcaption>Concept multi-view: two articulated legs each carrying a drive wheel; four tilting rotors on a dorsal boom.</figcaption>
+  </figure>
+  <ul>
+    <li>Statically unstable two-wheel base — standing still is already a control problem (the center of mass sits ahead of the axle, so it balances like a Segway, by design).</li>
+    <li>Four tilting rotors for vertical takeoff, 3D flight, and translation without pitching the body.</li>
+    <li>Articulated legs that set stance geometry on the ground and tuck in flight.</li>
+  </ul>
+
+  <h2>The control stack</h2>
+  <figure>
+    <img src="../assets/img/aether1-architecture.png" alt="Three-layer control architecture">
+    <figcaption>Three layers, one action contract: a 500 Hz joint-servo layer, a 100 Hz decision layer (learned policy or classical controller), and hybrid compositions of the two.</figcaption>
+  </figure>
+  <p>
+    The reinforcement-learning side is a <strong>from-scratch PPO</strong> — networks, advantage
+    estimation, masking, and normalization hand-written in PyTorch and unit-tested, no RL libraries.
+    Beside it sits a classical stack (LQR wheel balance, an MPC hover controller, cascade PID), used
+    as benchmarks, safety layers, and bases the policy learns corrections on. Everything runs behind
+    one controller interface, so learned and classical controllers are interchangeable and honestly
+    comparable on identical seeded evaluations.
+  </p>
+
+  <h2>One brain, six stages</h2>
+  <figure>
+    <img src="../assets/img/aether1-curriculum.png" alt="Curriculum stage flow">
+    <figcaption>The curriculum: balance &#8594; drive &#8594; hover &#8594; 3D flight &#8594; takeoff/landing &#8594; free drive-or-fly arbitration — advancement gated on measured performance.</figcaption>
+  </figure>
+  <p>
+    A single policy advances through six stages on measured performance, with a fraction of
+    training always replaying earlier stages so new skills never overwrite old ones. The run is
+    protected by verification gates — physics sanity checks, 250 unit tests, and a reward-economics
+    auditor that blocks training if any stage's reward structure makes failure more profitable than
+    success. The final arbitration stage closed at a <strong>0.995 success gate</strong> under
+    domain randomization across 36 axes.
+  </p>
+
+  <h2>From simulation to hardware</h2>
+  <figure>
+    <img src="../assets/img/aether1-cad-iso.png" alt="AETHER-1 Mk1 CAD model, isometric view">
+    <figcaption>The Mk1 prototype CAD — a 15 kg redesign generated parametrically (every dimension flows from one parameter file into STEP, URDF, and previews).</figcaption>
+  </figure>
+  <p>
+    The 26.47 kg simulation robot is the validated dynamics reference; the hardware track is a
+    15 kg Mk1 demonstrator with a full engineering package behind it: component selection and
+    sourcing, power and endurance modeling, EU regulatory strategy, a parametric CAD model with a
+    validated URDF, staged test rigs that replace guessed simulation constants with measured ones,
+    and a safety-gated bring-up procedure. The guiding number is honest: at this scale a battery
+    aircraft hovers for minutes — but a hybrid that drives at a tenth of a kilowatt completes
+    <strong>90&ndash;120 minute missions</strong> with 10&ndash;15 minutes of flight exactly where
+    it's needed.
+  </p>
+
+  <h2>Status</h2>
+  <ul>
+    <li><strong>Done</strong> — simulation-validated full stack (curriculum complete at 0.995), deployment package with hard sim verification, Mk1 engineering package (BOM, build plan, CAD + URDF).</li>
+    <li><strong>Now</strong> — Mk1 hardware prototype program: test rigs, procurement, build.</li>
+    <li><strong>Next</strong> — tethered flight tests, the drive&#8594;fly&#8594;land&#8594;drive demo, and first pilot conversations in industrial inspection.</li>
+  </ul>
+
+  <p style="margin-top:34px;">
+    <a class="btn btn-primary" href="mailto:tamirumickyas@gmail.com">Talk to me about AETHER-1</a>
+  </p>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
+    <span><a href="../index.html">mickyasta.github.io</a></span>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

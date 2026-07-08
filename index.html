@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mickyas Tamiru Asfaw — Robotics · Reinforcement Learning · Control</title>
+<meta name="description" content="Robotics engineer building robots that learn to move: hybrid ground-air robots, from-scratch reinforcement learning, classical control, and sim-to-real.">
+<meta property="og:title" content="Mickyas Tamiru Asfaw — Robotics Engineer">
+<meta property="og:description" content="Hybrid ground-air robots, from-scratch RL, classical control, sim-to-real.">
+<meta property="og:image" content="assets/img/aether1-hero.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>&#129302;</text></svg>">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top">mickyas<span class="tick">@</span>robotics<span class="tick">:~$</span></a>
+    <div class="nav-links">
+      <a href="#aether">AETHER-1</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#about">About</a>
+      <a class="nav-cta" href="mailto:tamirumickyas@gmail.com">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-kicker">// robotics · reinforcement learning · control</div>
+    <h1>I build robots that <span class="grad">learn to move</span> — from equations to hardware.</h1>
+    <p class="hero-sub">
+      I'm <strong>Mickyas Tamiru Asfaw</strong>, a robotics engineer focused on learned control for
+      mobile robots: hand-written reinforcement learning, classical control (MPC/LQR/PID),
+      and the sim-to-real engineering that makes policies survive contact with reality.
+    </p>
+    <div class="hero-meta">
+      <span>&#128205; Toulouse, France</span>
+      <span>&#129302; Currently building: AETHER-1, a hybrid ground&ndash;air robot</span>
+    </div>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#aether">Flagship project &#8595;</a>
+      <a class="btn btn-ghost" href="https://github.com/MickyasTA" target="_blank" rel="noopener">GitHub &#8599;</a>
+    </div>
+  </div>
+</header>
+
+<section id="aether">
+  <div class="wrap">
+    <div class="sec-kicker">Flagship</div>
+    <h2 class="sec-title">AETHER-1 — hybrid legged-wheeled-aerial robot</h2>
+    <p class="sec-lead">
+      One robot that drives for hours and flies for minutes: a self-balancing two-wheel base with
+      four tilting rotors, controlled by a single reinforcement-learning policy trained through a
+      performance-gated curriculum — with the fly-vs-drive decision <em>learned</em> from an
+      energy-priced reward, not hard-coded.
+    </p>
+
+    <div class="featured reveal">
+      <div class="featured-media">
+        <img src="assets/img/aether1-hero.png" alt="AETHER-1 hybrid legged-wheeled-aerial robot concept render">
+      </div>
+      <div class="featured-body">
+        <div class="featured-tag">SIMULATION-VALIDATED &middot; HARDWARE PROTOTYPE IN DEVELOPMENT</div>
+        <h3>From a blank MuJoCo file to a deployable control stack</h3>
+        <p>
+          From-scratch PPO (no RL libraries) beside an MPC/LQR/PID classical stack; one policy
+          advances through six curriculum stages — balance, drive, hover, 3D flight,
+          takeoff/landing, and free drive-or-fly arbitration — without forgetting earlier skills.
+        </p>
+        <div class="fact-row">
+          <div class="fact"><b>0.995</b><span>final curriculum gate success</span></div>
+          <div class="fact"><b>6 stages</b><span>one policy, one continuous run</span></div>
+          <div class="fact"><b>250 tests</b><span>verified physics &amp; training stack</span></div>
+          <div class="fact"><b>~10&times;</b><span>drive vs hover energy asymmetry</span></div>
+          <div class="fact"><b>36 axes</b><span>domain randomization for sim2real</span></div>
+          <div class="fact"><b>15 kg</b><span>Mk1 hardware prototype target</span></div>
+        </div>
+        <div class="featured-foot">
+          <a class="btn btn-primary" href="projects/aether-1.html">Project deep dive &#8594;</a>
+          <span class="lock-note">&#128274; Code private — IP &amp; hardware program in progress</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" style="background: var(--bg-soft);">
+  <div class="wrap">
+    <div class="sec-kicker">Selected work</div>
+    <h2 class="sec-title">Projects</h2>
+    <p class="sec-lead">Robots that balance, navigate, and transfer from simulation to the real world.</p>
+
+    <div class="grid">
+
+      <article class="card reveal">
+        <div class="card-media">
+          <video controls muted loop playsinline preload="none" poster="assets/img/mybot-render.png" src="assets/video/mujoco_balance_stable.mp4"></video>
+        </div>
+        <div class="card-body">
+          <h4>mybot — two-wheeled bipedal robot</h4>
+          <p>
+            A wheeled biped that learns to self-balance and drive to goals with a
+            <strong>hand-written PPO</strong> (no RL libraries) — ROS 2 + Gazebo training
+            pipeline, MuJoCo verification, staged curriculum from balance to goal navigation.
+          </p>
+          <div class="tags">
+            <span class="tag">ROS 2</span><span class="tag">Gazebo</span><span class="tag">MuJoCo</span>
+            <span class="tag">PPO from scratch</span><span class="tag">PyTorch</span>
+          </div>
+          <div class="card-foot">
+            <a href="https://github.com/MickyasTA/mybotV1-DRL-BASED" target="_blank" rel="noopener">Code &#8599;</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-media">
+          <video controls muted loop playsinline preload="none" poster="assets/img/collision-poster.png" src="assets/video/collision_avoidance_eval.mp4"></video>
+        </div>
+        <div class="card-body">
+          <h4>DRL collision-avoidance system</h4>
+          <p>
+            Deep-RL collision avoidance for a mobile robot in Gazebo: laser-based observation
+            design, reward shaping, evaluation trajectories, and a reproducible
+            training/eval pipeline.
+          </p>
+          <div class="tags">
+            <span class="tag">ROS 2</span><span class="tag">Gazebo</span><span class="tag">DRL</span>
+            <span class="tag">Navigation</span>
+          </div>
+          <div class="card-foot">
+            <span class="private">&#128274; Code private — demo shown</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-media">
+          <video controls muted loop playsinline preload="none" poster="assets/img/mybot-nav-poster.png" src="assets/video/nav_goal_reach.mp4"></video>
+        </div>
+        <div class="card-body">
+          <h4>Goal navigation with learned balance</h4>
+          <p>
+            The balancing biped extended to point-goal navigation: the same learned controller
+            holds balance while steering to targets — the precursor to AETHER-1's
+            drive stages.
+          </p>
+          <div class="tags">
+            <span class="tag">MuJoCo</span><span class="tag">Curriculum RL</span><span class="tag">PPO</span>
+          </div>
+          <div class="card-foot">
+            <a href="https://github.com/MickyasTA/mybotV1-DRL-BASED" target="_blank" rel="noopener">Code &#8599;</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-media pattern"><span>TD3</span></div>
+        <div class="card-body">
+          <h4>DRL robot navigation (TD3)</h4>
+          <p>
+            TD3-based deep-RL navigation and collision avoidance for a mobile robot in ROS 2 —
+            continuous-action policy learning with laser scans, tested across randomized worlds.
+          </p>
+          <div class="tags">
+            <span class="tag">TD3</span><span class="tag">ROS 2</span><span class="tag">PyTorch</span>
+          </div>
+          <div class="card-foot">
+            <a href="https://github.com/MickyasTA/DRL_robot_navigation_ros2" target="_blank" rel="noopener">Code &#8599;</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-media pattern"><span>SIM&#8594;REAL</span></div>
+        <div class="card-body">
+          <h4>Duckiebot: from sim to real</h4>
+          <p>
+            Reinforcement learning for lane following trained in the Duckietown simulator and
+            transferred to a physical Duckiebot — domain adaptation, deployment pipeline, and
+            real-world evaluation.
+          </p>
+          <div class="tags">
+            <span class="tag">Duckietown</span><span class="tag">Sim2Real</span><span class="tag">RL</span>
+          </div>
+          <div class="card-foot">
+            <a href="https://github.com/MickyasTA/Duckiebot_From-SIM-to-Real" target="_blank" rel="noopener">Code &#8599;</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-media pattern"><span>QUAD</span></div>
+        <div class="card-body">
+          <h4>Wheeled quadruped robot</h4>
+          <p>
+            Simulation and control experiments for a wheeled quadruped platform — hybrid
+            locomotion studies that fed into the AETHER-1 morphology decisions.
+          </p>
+          <div class="tags">
+            <span class="tag">Legged robots</span><span class="tag">Python</span><span class="tag">Simulation</span>
+          </div>
+          <div class="card-foot">
+            <a href="https://github.com/MickyasTA/wheeled_quadruped_robot" target="_blank" rel="noopener">Code &#8599;</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-kicker">Toolbox</div>
+    <h2 class="sec-title">Skills &amp; stack</h2>
+    <div class="skill-groups">
+      <div class="skill-group reveal">
+        <h5>Reinforcement learning</h5>
+        <div class="tags">
+          <span class="tag">PPO (from scratch)</span><span class="tag">TD3</span>
+          <span class="tag">Curriculum learning</span><span class="tag">Reward design</span>
+          <span class="tag">Domain randomization</span><span class="tag">Sim2Real</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <h5>Control theory</h5>
+        <div class="tags">
+          <span class="tag">MPC (OSQP)</span><span class="tag">LQR</span><span class="tag">Cascade PID</span>
+          <span class="tag">State estimation</span><span class="tag">Residual RL</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <h5>Simulation &amp; robotics</h5>
+        <div class="tags">
+          <span class="tag">MuJoCo</span><span class="tag">Gazebo</span><span class="tag">ROS 2</span>
+          <span class="tag">URDF / MJCF</span><span class="tag">PyBullet / Isaac</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <h5>Engineering</h5>
+        <div class="tags">
+          <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">C++</span>
+          <span class="tag">CAD (SolidWorks / CadQuery)</span><span class="tag">PX4 / Jetson</span>
+          <span class="tag">CI &amp; testing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" style="background: var(--bg-soft);">
+  <div class="wrap">
+    <div class="sec-kicker">About</div>
+    <h2 class="sec-title">Engineering philosophy</h2>
+    <div class="about-flex">
+      <div class="reveal">
+        <p>
+          I like building the whole stack myself — not because libraries are bad, but because a
+          controller you derived, implemented, and unit-tested is one you can debug at 3 a.m.
+          when the robot does something strange. My PPO implementations are written from the
+          equations up; my reward functions are audited for economic exploits; my simulations
+          carry verification gates that block training when the physics stops making sense.
+        </p>
+        <p>
+          The thread through my work is <strong>locomotion that has to earn trust</strong>:
+          statically unstable bases that must balance to exist, aerial systems where the landing
+          is the hard part, and policies that transfer from simulation to hardware because the
+          gap was engineered away — measured latencies, calibrated actuators, and domain
+          randomization on the axes that actually matter.
+        </p>
+        <p>
+          Right now that thread leads through AETHER-1: taking a simulation-validated hybrid
+          robot to a physical prototype, and toward inspection missions neither drones nor
+          ground robots can complete alone.
+        </p>
+      </div>
+      <div class="about-side reveal">
+        <h5>At a glance</h5>
+        <ul>
+          <li><b>Focus</b> — learned control for hybrid mobile robots</li>
+          <li><b>Base</b> — Toulouse, France</li>
+          <li><b>Current</b> — AETHER-1 hardware prototype (Mk1, 15 kg)</li>
+          <li><b>Approach</b> — from-scratch implementations, test-gated pipelines</li>
+          <li><b>Open to</b> — collaborations, pilots, robotics conversations</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="sec-kicker">Contact</div>
+    <h2 class="sec-title">Let's build robots that work.</h2>
+    <p>
+      Whether it's reinforcement learning that has to run on real hardware, a control problem
+      that refuses to behave, or the AETHER-1 program — I'd love to hear from you.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="mailto:tamirumickyas@gmail.com">tamirumickyas@gmail.com</a>
+      <a class="btn btn-ghost" href="https://github.com/MickyasTA" target="_blank" rel="noopener">github.com/MickyasTA &#8599;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
+    <span>Built as a static site &middot; hosted on <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></span>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
