@@ -110,13 +110,41 @@
     </tbody>
   </table>
   <figcaption>Measured on the deployed controller in the verification simulator — 5 seeded episodes per scenario, deterministic policy.</figcaption>
+
+  <p style="margin-top:26px;">
+    The full battery, scenario by scenario (WARN = degraded but safe; a FAIL would block hardware —
+    there are none):
+  </p>
+  <table class="results-table">
+    <thead>
+      <tr><th>Scenario</th><th>Group</th><th>Status</th><th>Success</th><th>Key physical stats</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>drive_near</td><td>drive</td><td>PASS</td><td>1.00</td><td>goal 0.19 m &middot; station 0.18 m &middot; tilt 4.1&deg;</td></tr>
+      <tr><td>drive_far</td><td>drive</td><td>PASS</td><td>1.00</td><td>goal 0.17 m &middot; station 0.19 m &middot; tilt 3.9&deg;</td></tr>
+      <tr><td>fly_near</td><td>fly</td><td>PASS</td><td>1.00</td><td>goal 0.17 m &middot; station 0.18 m &middot; tilt 5.5&deg;</td></tr>
+      <tr><td>fly_far</td><td>fly</td><td>PASS</td><td>1.00</td><td>goal 0.20 m &middot; station 0.20 m &middot; tilt 5.5&deg;</td></tr>
+      <tr><td>land_nominal</td><td>land</td><td>WARN</td><td>1.00</td><td>touchdown 0.14 m/s &middot; goal 0.84 m &middot; tilt 8.5&deg;</td></tr>
+      <tr><td>land_higher</td><td>land</td><td>WARN</td><td>1.00</td><td>touchdown 0.15 m/s &middot; goal 0.70 m &middot; tilt 8.6&deg;</td></tr>
+      <tr><td>mission_full_handoff</td><td>mission</td><td>WARN</td><td>0.60</td><td>touchdown 0.15 m/s &middot; goal 0.38 m &middot; tilt 13.1&deg;</td></tr>
+      <tr><td>dr_wind</td><td>dr_sweep</td><td>PASS</td><td>1.00</td><td>goal 0.19 m &middot; station 0.20 m &middot; tilt 4.7&deg;</td></tr>
+      <tr><td>dr_mass_payload</td><td>dr_sweep</td><td>WARN</td><td>1.00</td><td>goal 0.79 m &middot; station 0.57 m &middot; tilt 15.9&deg;</td></tr>
+      <tr><td>dr_rotor_asym</td><td>dr_sweep</td><td>PASS</td><td>1.00</td><td>goal 0.17 m &middot; station 0.16 m &middot; tilt 5.3&deg;</td></tr>
+      <tr><td>dr_battery_sag</td><td>dr_sweep</td><td>PASS</td><td>1.00</td><td>goal 0.16 m &middot; station 0.16 m &middot; tilt 5.1&deg;</td></tr>
+      <tr><td>dr_sensor_bias</td><td>dr_sweep</td><td>PASS</td><td>1.00</td><td>goal 0.22 m &middot; station 0.22 m &middot; tilt 6.2&deg;</td></tr>
+      <tr><td>dr_latency</td><td>dr_sweep</td><td>PASS</td><td>1.00</td><td>goal 0.21 m &middot; station 0.19 m &middot; tilt 5.0&deg;</td></tr>
+      <tr><td>dr_floor_tilt</td><td>dr_sweep</td><td>PASS</td><td>1.00</td><td>goal 0.18 m &middot; station 0.19 m &middot; tilt 5.3&deg;</td></tr>
+      <tr><td>one_wheel_tilted</td><td>edge</td><td>PASS</td><td>0.80</td><td>goal 0.75 m &middot; tilt 10.3&deg;</td></tr>
+      <tr><td>gust_touchdown</td><td>edge</td><td>PASS</td><td>0.40</td><td>touchdown 0.20 m/s &middot; goal 0.81 m &middot; tilt 7.4&deg;</td></tr>
+      <tr><td>off_nominal_spawn</td><td>edge</td><td>PASS</td><td>1.00</td><td>goal 0.22 m &middot; station 0.21 m &middot; tilt 4.7&deg;</td></tr>
+      <tr><td>max_range_goal</td><td>edge</td><td>PASS</td><td>1.00</td><td>goal 0.18 m &middot; station 0.17 m &middot; tilt 3.7&deg;</td></tr>
+    </tbody>
+  </table>
+  <figcaption>Overall: <b>14 PASS / 4 WARN / 0 FAIL</b> &middot; no divergence or NaN in any episode &middot; 5 seeded episodes per scenario.</figcaption>
+
   <figure>
-    <img src="../assets/img/aether1-results-success.png" alt="Evaluation success rate rising over the curriculum run, with dips at stage transitions and recovery to about 0.9">
-    <figcaption>Evaluation success rate over the one-brain curriculum run — each dip is a new stage being introduced, then re-mastered without forgetting earlier skills.</figcaption>
-  </figure>
-  <figure>
-    <img src="../assets/img/aether1-results-curriculum.png" alt="Curriculum stage index stepping from 0 to 5 over the training run">
-    <figcaption>Curriculum stage progression — advancement is earned by measured performance at each gate, not scheduled.</figcaption>
+    <img src="../assets/img/aether1-results-overview.png" alt="Training outcome overview: curriculum stage progression, episode length and return, evaluation length, return and success rate over the run">
+    <figcaption>Training outcome overview — curriculum stage progression (0&#8594;5), episode length/return, and evaluation curves over the one-brain run. Each dip is a new stage being introduced, then re-mastered without forgetting earlier skills.</figcaption>
   </figure>
 
   <h2>From simulation to hardware</h2>
