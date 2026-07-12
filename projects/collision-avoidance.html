@@ -136,7 +136,7 @@
     <figcaption>TD3 anatomy applied to this problem. Top: the acting path &mdash; dual goal encoding (image channel + explicit vector) fused with the depth features, deterministic actor, exploration noise. Bottom: the learning path &mdash; replay, twin critics with separate encoders, smoothed targets with clipped double-Q, delayed actor updates.</figcaption>
   </figure>
 
-  <h3>Second learner &mdash; recurrent, predictive PPO (extension, evaluation in progress)</h3>
+  <h3>Second learner &mdash; recurrent, predictive PPO (extension &mdash; detour evaluation complete, dynamic-obstacle eval next)</h3>
   <p>
     The deployed controller above is the TD3 baseline, and it is deliberately <em>memoryless</em>:
     it maps the current 7-channel state straight to an action. That is enough when the goal is
@@ -289,9 +289,9 @@
     moving obstacles induce, detour-specific reward terms (a clearance-gated heading reward, a
     time-to-collision penalty, and a progress gate that stops paying for charging at occluders),
     and a decoupled distance&ndash;occlusion curriculum on a dedicated 34&times;26&nbsp;m world
-    with 20 large occluders and 8 moving obstacles. Training is in progress &mdash; 4135 episodes
-    logged, with the curriculum frontier oscillating near the 8.6&nbsp;m tier &mdash; and its
-    deterministic evaluation is deliberately not reported until it exists.
+    with 20 large occluders and 8 moving obstacles. Its deterministic evaluation on the
+    <em>static</em> detour world is now complete and reported below; the moving-obstacle case the
+    same architecture targets remains open.
   </p>
 
   <h2 id="results">Results &amp; analysis</h2>
@@ -355,28 +355,89 @@
     at mid-room occluders the reactive policy will not route around, and the policy's residual
     dependence on action jitter near tight gaps means the deterministic controller is not yet
     strictly better than its own behaviour policy. Those two gaps &mdash; detours and moving
-    obstacles &mdash; are exactly what the in-progress recurrent extension targets.
+    obstacles &mdash; are exactly what the recurrent extension targets, and the detour half of that
+    is now evaluated below.
   </p>
+  <h3>Second learner &mdash; deterministic detour evaluation</h3>
   <p>
-    Every success rate on this page is the <strong>TD3 baseline's</strong>, and those are the only
-    numbers the project claims. The <strong>second learner is reported honestly as
-    in&#8209;progress</strong>: on the dedicated detour world its resumed run has logged on the order
-    of 4,000 episodes and is self-limiting near the 8.6&nbsp;m distance tier (a recent retreat from
-    8.8&nbsp;m after a success collapse), and its deterministic detour and moving-obstacle
-    evaluation is deliberately <em>reserved until it exists</em> rather than reported early. No
-    detour or dynamic success figure is asserted for <code>ppo_rec</code> here &mdash; the point of
-    the extension is architectural (memory, value normalization, and prediction, laid out above),
-    and its quantitative payoff, if any, is future work run through the same harness-aware protocol
-    that made the TD3 numbers trustworthy.
+    The recurrent extension now has its first deterministic evaluation, run through the same
+    harness-aware protocol that made the TD3 numbers trustworthy: <code>ppo_rec</code>'s best
+    checkpoint, exploration noise off and training off, on the dedicated <code>gen_room_detour</code>
+    world it was built for &mdash; a cluttered room whose goals genuinely cannot be reached in a
+    straight line. The clip below is that greedy policy, recorded directly from the Gazebo viewer.
+  </p>
+  <figure class="media16">
+    <video controls muted loop playsinline preload="none" poster="../assets/img/collision-ppo-detour-poster.png" src="../assets/video/collision-ppo-detour-gazebo.mp4"></video>
+  </figure>
+  <figcaption>Deterministic <code>ppo_rec</code> evaluation in <code>gen_room_detour</code> &mdash; the drone flying the detour course, curving around the blue box occluders and orange pillars to reach the green goal, exploration noise off.</figcaption>
+  <p>
+    Across 15 deterministic episodes the recurrent policy reaches the goal in <strong>12 of 15
+    &mdash; 80.0%</strong>. The most important detail is <em>how</em> it fails: all three failures
+    are <strong>collisions, not timeouts</strong> (0 timeouts, 0 no-goal). The policy never stalls
+    or circles &mdash; it commits to a trajectory and, when it fails, drives into an obstacle. That
+    is the same decisive-but-occasionally-wrong signature as the TD3 baseline, now carried onto a
+    much harder task.
+  </p>
+  <figure>
+    <img src="../assets/img/collision-ppo-detour-map.png" alt="Bird's-eye plot of 15 deterministic ppo_rec detour trajectories over the gen_room_detour occupancy grid: green paths curve around grey obstacles to reach goal stars, three red paths end in crash-marked collisions">
+    <figcaption>Every <code>ppo_rec</code> detour run drawn over the real occupancy grid &mdash; green reaches the goal, red is a collision with the crash point marked, stars are goals. The green paths visibly <em>curve</em> around the occluders instead of cutting straight through them.</figcaption>
+  </figure>
+  <figure>
+    <img src="../assets/img/collision-ppo-detour-stats.png" alt="Outcome breakdown and step-count, path-efficiency and score distributions for the ppo_rec detour evaluation: 12 goals, 3 collisions, 0 timeouts, 0 no-goal; path efficiency mean 2.35; episode score mean 193">
+    <figcaption>Outcome breakdown with step-count, path-efficiency, and score distributions across the 15-episode <code>ppo_rec</code> detour evaluation.</figcaption>
+  </figure>
+  <p>
+    The figures make the detour behaviour concrete. Path efficiency &mdash; path length over
+    straight-line distance &mdash; averages <strong>2.35&times;</strong> on the successful runs
+    (1.0 would be a straight shot), so these are genuine curving detours, not near-straight lines
+    that happen to miss the obstacles. Successful episodes also run about <strong>twice as
+    long</strong> as failed ones (mean 374 steps versus 158; medians 382 versus 184): the failures
+    die early, while a completed detour is a longer, committed route around the clutter. Episode
+    score separates cleanly &mdash; a mean of 193 (median 259), with the collision episodes falling
+    well below &mdash; and even the failed runs get close, coming within a mean of 3.9&nbsp;m
+    (median 3.1&nbsp;m) of the goal before they crash.
+  </p>
+  <figure>
+    <img src="../assets/img/collision-ppo-detour-failures.png" alt="Two-panel failure analysis: left, goal positions coloured by outcome showing the three failed goals; right, the three collision endpoints marked where the deterministic policy crashes, clustered among the mid-room occluders on one side of the course">
+    <figcaption>Failure geometry: goal positions by outcome (left) and the three collision endpoints (right). The crashes cluster among the mid-room occluders on one side of the room rather than scattering randomly.</figcaption>
+  </figure>
+  <p>
+    The remaining <strong>three collisions</strong> are where the work now is: they cluster among
+    the mid-room occluders on one side of the course, where a committed curving route still clips a
+    box. One honest caveat on the headline number: 80% is the <em>deterministic</em> evaluation of
+    the best checkpoint &mdash; the stochastic success rate <em>during</em> training was lower
+    (around 40%, with more collisions), so the deployed greedy policy is meaningfully sharper than
+    the noisy behaviour policy that produced it.
+  </p>
+  <figure class="media16">
+    <video controls muted loop playsinline preload="none" poster="../assets/img/collision-ppo-detour-map.png" src="../assets/video/collision-ppo-detour-trajectories.mp4"></video>
+  </figure>
+  <figcaption>A lighter supporting clip &mdash; top-down animated playback of the same 15 detour runs over the occupancy grid.</figcaption>
+  <p>
+    A word on comparing the two learners: TD3's 80% and <code>ppo_rec</code>'s 80% are <strong>not
+    directly comparable</strong> &mdash; they are measured on <em>different worlds</em>. The TD3
+    figure is on the non-detour <code>gen_room_mixed</code> course; the <code>ppo_rec</code> figure
+    is on the harder <code>gen_room_detour</code> world it was purpose-built for, where straight-line
+    policies cannot succeed at all. Both are deterministic, harness-aware numbers from the same
+    evaluation protocol, and both are reported as such &mdash; neither is a claim that one learner
+    beats the other. What the detour result <em>does</em> establish is that the
+    memory-and-value-normalization extension can fly true detours &mdash; on <strong>static</strong>
+    obstacles. The moving-obstacle case the architecture also targets is not yet evaluated and
+    remains future work.
   </p>
 
   <h2 id="future">Future work</h2>
   <ul>
-    <li><strong>Finish and evaluate the second learner</strong> &mdash; carry the recurrent,
-      predictive PPO agent (<code>ppo_rec</code>, described above) to a stable curriculum frontier
-      and run the same deterministic, harness-aware evaluation battery on the detour world &mdash;
-      ideally as the ablation ladder <code>ppo</code>&nbsp;&rarr;&nbsp;+&nbsp;PopArt&nbsp;&rarr;&nbsp;+&nbsp;GRU&nbsp;&rarr;&nbsp;+&nbsp;future-depth
-      aux &mdash; for quantitative detour and moving-obstacle success rates.</li>
+    <li><strong>Evaluate the second learner on moving obstacles</strong> &mdash; the deterministic
+      detour evaluation on <em>static</em> occluders is done (80% above); the moving-obstacle case
+      the recurrent architecture (<code>ppo_rec</code>, described above) was built for still needs
+      the same harness-aware evaluation battery.</li>
+    <li><strong>Close the collision-mode failure gap</strong> &mdash; the three detour failures are
+      all collisions clustered at mid-room occluders, so drive that 20% collision tail down rather
+      than trading it for timeouts or stalling.</li>
+    <li><strong>Run the ablation ladder</strong> &mdash; isolate each contribution
+      (<code>ppo</code>&nbsp;&rarr;&nbsp;+&nbsp;PopArt&nbsp;&rarr;&nbsp;+&nbsp;GRU&nbsp;&rarr;&nbsp;+&nbsp;future-depth
+      aux) to show which pieces actually buy the detour capability.</li>
     <li><strong>Widen the observation</strong> &mdash; fold the existing laser ring into the
       policy input to cover the lateral and rearward blind zones implicated in the residual
       strafing collisions.</li>
