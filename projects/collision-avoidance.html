@@ -136,6 +136,73 @@
     <figcaption>TD3 anatomy applied to this problem. Top: the acting path &mdash; dual goal encoding (image channel + explicit vector) fused with the depth features, deterministic actor, exploration noise. Bottom: the learning path &mdash; replay, twin critics with separate encoders, smoothed targets with clipped double-Q, delayed actor updates.</figcaption>
   </figure>
 
+  <h3>Second learner &mdash; recurrent, predictive PPO (extension, evaluation in progress)</h3>
+  <p>
+    The deployed controller above is the TD3 baseline, and it is deliberately <em>memoryless</em>:
+    it maps the current 7-channel state straight to an action. That is enough when the goal is
+    visible and the obstacles hold still, but it charges into large occluders it should detour
+    around &mdash; the goal briefly hides behind a box and a reactive policy cannot
+    <em>remember</em> its last-seen bearing &mdash; and it has no mechanism to integrate a moving
+    obstacle's motion over time. A separate diagnosis pinned the dynamic-distance ceiling
+    (~6.6&ndash;7.2&nbsp;m with moving obstacles versus ~9.5&nbsp;m static in the same world) on
+    <strong>partial-observability return variance</strong> colliding with an unnormalized value
+    function: the same observed state leads to a crash or not depending on the obstacle's
+    <em>unobservable</em> future motion, so returns are high-variance, the value loss spikes, and a
+    single over-large update craters the policy into a degenerate &ldquo;ram a fixed
+    obstacle&rdquo; collapse. The project therefore adds a <strong>second, on-policy learner</strong>
+    &mdash; <code>ppo_rec</code>, a recurrent, predictive PPO agent, again hand-written in PyTorch
+    with no RL libraries. It does not replace TD3; it is an additional agent that attacks memory
+    and value variance directly.
+  </p>
+  <p>
+    The network reuses the TD3 <strong>front end unchanged</strong>: the same convolutional encoder
+    maps the 7-channel depth-plus-goal state to a 256-d feature, and the explicit goal vector
+    passes through a small MLP (3&nbsp;&rarr;&nbsp;64&nbsp;&rarr;&nbsp;64) to 64-d. The concatenated
+    320-d feature is fed <em>one control step at a time</em> into a single-layer <strong>GRU</strong>
+    (256-d hidden state) that is carried across the episode and reset at each boundary &mdash; the
+    temporal memory the fixed frame stack alone cannot provide. From the GRU output three heads
+    branch: a <strong>Gaussian actor</strong> (a linear mean plus a learnable, state-independent
+    log-std, sampled during training and taken deterministically at evaluation, acting in a
+    normalized action space affine-mapped to the physical bounds); a <strong>PopArt-normalized
+    value head</strong> that keeps the value loss O(1) regardless of return scale &mdash; the single
+    most targeted fix for the diagnosed collapse; and a <strong>training-only future-depth
+    head</strong> that predicts the next three low-resolution (16&times;20) depth frames, forcing
+    the recurrent state to encode <em>how the scene will evolve</em> rather than only where it is
+    now. That auxiliary head is discarded at deployment, so prediction adds zero inference cost and
+    no new hardware &mdash; the deployed path stays a single forward depth camera.
+  </p>
+  <p>
+    The learning loop is where the two agents diverge. Where TD3 samples an off-policy replay
+    buffer every few steps, <code>ppo_rec</code> fills a fixed-horizon <strong>on-policy
+    rollout</strong> with the current policy, computes <strong>per-episode, segment-aware
+    GAE</strong> (with the bootstrap chosen correctly per segment: zero at a true terminal, a critic
+    estimate at a horizon cut or a non-terminal timeout), runs several epochs of minibatch updates
+    over <strong>truncated-BPTT sequence chunks</strong> (24 steps, each unrolled from its stored
+    hidden state), and optimizes the PPO <strong>clipped surrogate</strong>
+    (&epsilon;&nbsp;=&nbsp;0.2) together with the PopArt value loss, an entropy bonus, and the masked
+    future-depth loss &mdash; then discards the rollout. A KL early-stop guards the high-variance
+    regime: if the policy drifts past a target KL it <em>freezes the actor</em> while it keeps
+    fitting the value and auxiliary heads, because a starved critic re-creates the very collapse it
+    is meant to prevent. Since the recurrent agent subclasses the base PPO agent and reuses the TD3
+    state and goal construction <em>verbatim</em>, both learners see byte-identical observations and
+    plug into the same ROS&nbsp;2 coordinator and Gazebo environment &mdash; switching is a single
+    <code>agent_type:=ppo_rec</code> flag, with the replay step swapped for a rollout and nothing
+    else touched. It trains on a dedicated, harder <em>detour</em> world
+    (<code>gen_room_detour</code>, 34&times;26&nbsp;m, ~20 static occluders plus 8 moving
+    obstacles) under a decoupled distance&ndash;occlusion curriculum and a stronger &minus;100
+    collision terminal.
+  </p>
+  <figure>
+    <img src="../assets/img/collision-ppo-architecture.png" alt="Architecture diagram of the recurrent predictive PPO second learner: the shared ConvEncoder and goal MLP feed a concatenated 320-d feature into a single-layer GRU whose hidden state is carried across the episode; three heads branch off &mdash; a Gaussian actor, a PopArt-normalized value head, and a training-only future-depth prediction head; below, the on-policy learning path shows the rollout, per-episode GAE, PopArt stats with truncated BPTT, and the clipped-surrogate update with a KL actor-freeze; a contrast ribbon lists how the data path differs from the deployed TD3 baseline">
+    <figcaption>The second learner, <code>ppo_rec</code>, laid out beside the TD3 anatomy above.
+      Top: the recurrent acting path &mdash; the shared depth+goal front end, a GRU carrying memory
+      across the episode, and the Gaussian actor / PopArt value / training-only future-depth heads.
+      Bottom: the on-policy learning path &mdash; a rollout (not a replay buffer), per-episode GAE,
+      PopArt normalization with truncated BPTT, and the clipped-surrogate update with a KL
+      actor-freeze. The ribbon contrasts the two data paths point-for-point; the inputs, encoder,
+      and environment interface are shared.</figcaption>
+  </figure>
+
   <h2 id="challenges">Critical challenges</h2>
 
   <h3>Injecting the goal into vision</h3>
@@ -290,12 +357,26 @@
     strictly better than its own behaviour policy. Those two gaps &mdash; detours and moving
     obstacles &mdash; are exactly what the in-progress recurrent extension targets.
   </p>
+  <p>
+    Every success rate on this page is the <strong>TD3 baseline's</strong>, and those are the only
+    numbers the project claims. The <strong>second learner is reported honestly as
+    in&#8209;progress</strong>: on the dedicated detour world its resumed run has logged on the order
+    of 4,000 episodes and is self-limiting near the 8.6&nbsp;m distance tier (a recent retreat from
+    8.8&nbsp;m after a success collapse), and its deterministic detour and moving-obstacle
+    evaluation is deliberately <em>reserved until it exists</em> rather than reported early. No
+    detour or dynamic success figure is asserted for <code>ppo_rec</code> here &mdash; the point of
+    the extension is architectural (memory, value normalization, and prediction, laid out above),
+    and its quantitative payoff, if any, is future work run through the same harness-aware protocol
+    that made the TD3 numbers trustworthy.
+  </p>
 
   <h2 id="future">Future work</h2>
   <ul>
-    <li><strong>Finish the recurrent detour agent</strong> &mdash; complete the in-progress
-      recurrent, predictive PPO training and run the same deterministic, harness-aware evaluation
-      battery on the detour world for quantitative detour and moving-obstacle success rates.</li>
+    <li><strong>Finish and evaluate the second learner</strong> &mdash; carry the recurrent,
+      predictive PPO agent (<code>ppo_rec</code>, described above) to a stable curriculum frontier
+      and run the same deterministic, harness-aware evaluation battery on the detour world &mdash;
+      ideally as the ablation ladder <code>ppo</code>&nbsp;&rarr;&nbsp;+&nbsp;PopArt&nbsp;&rarr;&nbsp;+&nbsp;GRU&nbsp;&rarr;&nbsp;+&nbsp;future-depth
+      aux &mdash; for quantitative detour and moving-obstacle success rates.</li>
     <li><strong>Widen the observation</strong> &mdash; fold the existing laser ring into the
       policy input to cover the lateral and rearward blind zones implicated in the residual
       strafing collisions.</li>

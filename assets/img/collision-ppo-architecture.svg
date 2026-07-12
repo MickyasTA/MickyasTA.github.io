@@ -1,0 +1,234 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 992" width="1480" height="992" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7a88"/>
+    </marker>
+    <marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0b3d66"/>
+    </marker>
+    <marker id="arrT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1a7f6e"/>
+    </marker>
+    <marker id="arrO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d97a1e"/>
+    </marker>
+    <linearGradient id="depthp" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b3d66"/>
+      <stop offset="1" stop-color="#9db4c8"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1480" height="992" fill="#ffffff"/>
+
+  <!-- ============================ ACTING BAND ============================ -->
+  <text x="40" y="38" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">ACTING — RECURRENT POLICY, ON-POLICY SAMPLING (every ~3.3 Hz control step)</text>
+
+  <!-- Shared state box -->
+  <rect x="40" y="64" width="250" height="162" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="40" y="64" width="250" height="40" rx="10" fill="#0b3d66"/>
+  <rect x="40" y="86" width="250" height="18" fill="#0b3d66"/>
+  <text x="165" y="91" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Shared state s</text>
+  <g>
+    <rect x="72" y="150" width="40" height="40" fill="url(#depthp)" stroke="#0b3d66" stroke-width="0.8"/>
+    <rect x="65" y="143" width="40" height="40" fill="url(#depthp)" stroke="#0b3d66" stroke-width="0.8"/>
+    <rect x="58" y="136" width="40" height="40" fill="url(#depthp)" stroke="#0b3d66" stroke-width="0.8"/>
+  </g>
+  <text x="120" y="136" font-size="15" fill="#0b3d66">identical inputs</text>
+  <text x="120" y="159" font-size="15" fill="#0b3d66">to TD3: 6 depth</text>
+  <text x="120" y="182" font-size="15" fill="#0b3d66">frames + goal ch.</text>
+  <text x="58" y="212" font-size="15" fill="#0b3d66">7 &#215; 128 &#215; 160</text>
+
+  <!-- Goal vector box -->
+  <rect x="40" y="256" width="250" height="104" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="40" y="256" width="250" height="38" rx="10" fill="#1a7f6e"/>
+  <rect x="40" y="277" width="250" height="17" fill="#1a7f6e"/>
+  <text x="165" y="281" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Goal vector g</text>
+  <text x="165" y="322" font-size="16" fill="#0b3d66" text-anchor="middle">[ sin&#952;, cos&#952;, 1 &#8722; d/10 ]</text>
+  <text x="165" y="346" font-size="15" fill="#6b7a88" text-anchor="middle">recomputed every step</text>
+
+  <!-- ConvEncoder box -->
+  <rect x="340" y="80" width="205" height="122" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="340" y="80" width="205" height="40" rx="10" fill="#0b3d66"/>
+  <rect x="340" y="102" width="205" height="18" fill="#0b3d66"/>
+  <text x="442" y="107" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">ConvEncoder</text>
+  <text x="358" y="148" font-size="15" fill="#0b3d66">reused from TD3</text>
+  <text x="358" y="171" font-size="15" fill="#0b3d66">3 conv + FC</text>
+  <text x="358" y="194" font-size="15" fill="#0b3d66">&#8594; 256-d feature</text>
+
+  <!-- goal MLP box -->
+  <rect x="340" y="256" width="205" height="96" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="340" y="256" width="205" height="38" rx="10" fill="#1a7f6e"/>
+  <rect x="340" y="277" width="205" height="17" fill="#1a7f6e"/>
+  <text x="442" y="281" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">goal MLP</text>
+  <text x="358" y="320" font-size="15" fill="#0b3d66">3 &#8594; 64 &#8594; 64 (ReLU)</text>
+  <text x="358" y="343" font-size="15" fill="#0b3d66">&#8594; 64-d</text>
+
+  <!-- concat node -->
+  <circle cx="605" cy="210" r="26" fill="#ffffff" stroke="#0b3d66" stroke-width="2"/>
+  <text x="605" y="218" font-size="22" fill="#0b3d66" text-anchor="middle" font-weight="700">&#8853;</text>
+  <text x="605" y="266" font-size="15" fill="#6b7a88" text-anchor="middle">320-d</text>
+
+  <!-- GRU box -->
+  <rect x="668" y="146" width="212" height="128" rx="10" fill="#ffffff" stroke="#0b3d66" stroke-width="2.2"/>
+  <rect x="668" y="146" width="212" height="40" rx="10" fill="#0b3d66"/>
+  <rect x="668" y="168" width="212" height="18" fill="#0b3d66"/>
+  <text x="774" y="173" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">GRU (hidden 256)</text>
+  <text x="686" y="216" font-size="15" fill="#0b3d66">single layer, 1 step / tick</text>
+  <text x="686" y="240" font-size="15" fill="#0b3d66">output z<tspan dy="4" font-size="12">t</tspan> &#8594; three heads</text>
+  <text x="686" y="264" font-size="15" fill="#1a7f6e" font-weight="600">the memory TD3 lacks</text>
+  <!-- recurrence self loop -->
+  <path d="M700,146 C700,106 848,106 848,146" fill="none" stroke="#0b3d66" stroke-width="2" marker-end="url(#arrB)"/>
+  <text x="774" y="96" font-size="15" fill="#0b3d66" text-anchor="middle" font-weight="600">recurrent memory h<tspan dy="4" font-size="12">t</tspan><tspan dy="-4">, reset each episode</tspan></text>
+
+  <!-- Actor head -->
+  <rect x="946" y="62" width="262" height="124" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="946" y="62" width="262" height="40" rx="10" fill="#d97a1e"/>
+  <rect x="946" y="84" width="262" height="18" fill="#d97a1e"/>
+  <text x="1077" y="89" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Gaussian actor &#960;(a|s)</text>
+  <text x="964" y="128" font-size="15" fill="#0b3d66">mean &#956; = W&#956; &#183; z<tspan dy="4" font-size="12">t</tspan></text>
+  <text x="964" y="152" font-size="15" fill="#0b3d66">learnable log-std (init &#8722;0.5)</text>
+  <text x="964" y="176" font-size="15" fill="#0b3d66">sample 4-d a (train) / &#956; (eval)</text>
+
+  <!-- Value head -->
+  <rect x="946" y="200" width="262" height="92" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="946" y="200" width="262" height="38" rx="10" fill="#0b3d66"/>
+  <rect x="946" y="221" width="262" height="17" fill="#0b3d66"/>
+  <text x="1077" y="225" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Value head V(z)</text>
+  <text x="964" y="262" font-size="15" fill="#0b3d66">PopArt-normalized target</text>
+  <text x="964" y="285" font-size="15" fill="#0b3d66">keeps value loss O(1)</text>
+
+  <!-- Aux head (training only, dashed) -->
+  <rect x="946" y="306" width="262" height="128" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.6" stroke-dasharray="7,5"/>
+  <rect x="946" y="306" width="262" height="38" rx="10" fill="#6b7a88"/>
+  <rect x="946" y="327" width="262" height="17" fill="#6b7a88"/>
+  <text x="1077" y="331" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Future-depth aux</text>
+  <text x="964" y="368" font-size="15" fill="#d97a1e" font-weight="600">TRAIN ONLY &#183; dropped at deploy</text>
+  <text x="964" y="391" font-size="15" fill="#0b3d66">predict next k = 3 depth</text>
+  <text x="964" y="414" font-size="15" fill="#0b3d66">frames, low-res 16 &#215; 20</text>
+
+  <!-- Action cells -->
+  <text x="1330" y="82" font-size="15" fill="#6b7a88" text-anchor="middle">action a</text>
+  <rect x="1252" y="95" width="42" height="44" fill="#ffffff" stroke="#0b3d66" stroke-width="1.5"/>
+  <text x="1273" y="123" font-size="15" fill="#0b3d66" text-anchor="middle">vx</text>
+  <rect x="1294" y="95" width="42" height="44" fill="#ffffff" stroke="#0b3d66" stroke-width="1.5"/>
+  <text x="1315" y="123" font-size="15" fill="#0b3d66" text-anchor="middle">vy</text>
+  <rect x="1336" y="95" width="42" height="44" fill="#ffffff" stroke="#0b3d66" stroke-width="1.5"/>
+  <text x="1357" y="123" font-size="15" fill="#0b3d66" text-anchor="middle">vz</text>
+  <rect x="1378" y="95" width="42" height="44" fill="#ffffff" stroke="#0b3d66" stroke-width="1.5"/>
+  <text x="1399" y="123" font-size="15" fill="#0b3d66" text-anchor="middle">&#969;</text>
+  <!-- cmd box -->
+  <rect x="1250" y="164" width="172" height="66" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <text x="1336" y="192" font-size="15.5" fill="#0b3d66" text-anchor="middle" font-weight="600">/cmd_vel</text>
+  <text x="1336" y="214" font-size="15" fill="#0b3d66" text-anchor="middle">+ altitude hold</text>
+
+  <!-- acting arrows -->
+  <path d="M290,150 L336,140" fill="none" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M290,300 L336,300" fill="none" stroke="#1a7f6e" stroke-width="2" marker-end="url(#arrT)"/>
+  <path d="M545,150 L595,192" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M545,300 L595,228" fill="none" stroke="#1a7f6e" stroke-width="2.5" marker-end="url(#arrT)"/>
+  <path d="M631,210 L662,210" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M880,200 L940,140" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M880,220 L940,244" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M880,250 L940,360" fill="none" stroke="#6b7a88" stroke-width="2" stroke-dasharray="6,5" marker-end="url(#arr)"/>
+  <path d="M1208,120 L1248,117" fill="none" stroke="#d97a1e" stroke-width="2.5" marker-end="url(#arrO)"/>
+  <path d="M1336,139 L1336,160" fill="none" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- ============================ divider ============================ -->
+  <line x1="30" y1="470" x2="1450" y2="470" stroke="#6b7a88" stroke-width="1" stroke-dasharray="8,7"/>
+  <text x="40" y="506" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">LEARNING — ON-POLICY, ONCE PER ROLLOUT (no replay buffer: collected, used, then discarded)</text>
+
+  <!-- transitions arrow acting -> rollout -->
+  <path d="M1336,230 L1336,452 L190,452 L190,530" fill="none" stroke="#6b7a88" stroke-width="2" stroke-dasharray="7,6" marker-end="url(#arr)"/>
+  <text x="740" y="446" font-size="15" fill="#6b7a88" text-anchor="middle">one rollout of on-policy steps &#183; timeouts stored as truncation (done = 0)</text>
+
+  <!-- Rollout box -->
+  <rect x="40" y="534" width="300" height="172" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="40" y="534" width="300" height="40" rx="10" fill="#0b3d66"/>
+  <rect x="40" y="556" width="300" height="18" fill="#0b3d66"/>
+  <text x="190" y="561" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">On-policy rollout (H &#8776; 512)</text>
+  <text x="58" y="602" font-size="15" fill="#0b3d66">store per step:</text>
+  <text x="58" y="626" font-size="15" fill="#0b3d66">(s, g, a, log&#960;, V, r, done, h)</text>
+  <text x="58" y="650" font-size="15" fill="#0b3d66">mark episode boundaries</text>
+  <text x="58" y="674" font-size="15" fill="#0b3d66">gathered by the CURRENT</text>
+  <text x="58" y="696" font-size="15" fill="#0b3d66">policy, then thrown away</text>
+
+  <!-- GAE box -->
+  <rect x="390" y="534" width="300" height="172" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="390" y="534" width="300" height="40" rx="10" fill="#0b3d66"/>
+  <rect x="390" y="556" width="300" height="18" fill="#0b3d66"/>
+  <text x="540" y="561" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Per-episode GAE (&#955; = 0.95)</text>
+  <text x="408" y="602" font-size="15" fill="#0b3d66">segment the flat rollout</text>
+  <text x="408" y="626" font-size="15" fill="#0b3d66">terminal &#8594; 0 bootstrap</text>
+  <text x="408" y="650" font-size="15" fill="#0b3d66">truncation &#8594; V(s) bootstrap</text>
+  <text x="408" y="674" font-size="15" fill="#0b3d66">normalize advantages</text>
+
+  <!-- PopArt / BPTT box -->
+  <rect x="740" y="534" width="300" height="172" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="740" y="534" width="300" height="40" rx="10" fill="#0b3d66"/>
+  <rect x="740" y="556" width="300" height="18" fill="#0b3d66"/>
+  <text x="890" y="561" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">PopArt stats &#183; truncated BPTT</text>
+  <text x="758" y="602" font-size="15" fill="#0b3d66">update &#956;<tspan dy="3" font-size="12">v</tspan><tspan dy="-3">, &#963;</tspan><tspan dy="3" font-size="12">v</tspan><tspan dy="-3"> (value stays O(1))</tspan></text>
+  <text x="758" y="626" font-size="15" fill="#0b3d66">24-step sequence chunks</text>
+  <text x="758" y="650" font-size="15" fill="#0b3d66">unroll GRU from stored h&#8320;</text>
+  <text x="758" y="674" font-size="15" fill="#0b3d66">grads don&#8217;t cross chunks</text>
+
+  <!-- Objective box -->
+  <rect x="1090" y="534" width="332" height="172" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="1090" y="534" width="332" height="40" rx="10" fill="#d97a1e"/>
+  <rect x="1090" y="556" width="332" height="18" fill="#d97a1e"/>
+  <text x="1256" y="561" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Update: clipped surrogate + heads</text>
+  <text x="1108" y="600" font-size="15" fill="#0b3d66">L = L&#960; (clip &#949; = 0.2) + &#189; L<tspan dy="3" font-size="11">V</tspan></text>
+  <text x="1108" y="624" font-size="15" fill="#0b3d66">&#8722; 0.01 &#183; entropy + &#189; L<tspan dy="3" font-size="11">aux</tspan></text>
+  <text x="1108" y="648" font-size="15" fill="#0b3d66">KL &gt; 0.03 &#8594; freeze actor,</text>
+  <text x="1108" y="670" font-size="15" fill="#0b3d66">keep training value + aux</text>
+  <text x="1108" y="694" font-size="15" fill="#0b3d66">Adam &#183; grad-norm clip 0.5</text>
+
+  <!-- learning arrows -->
+  <path d="M340,620 L386,620" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M690,620 L736,620" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M1040,620 L1086,620" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <!-- updates psi back to network -->
+  <path d="M1224,534 L1224,300 L884,300 L884,268" fill="none" stroke="#d97a1e" stroke-width="2" stroke-dasharray="7,6" marker-end="url(#arrO)"/>
+  <text x="1234" y="486" font-size="15" fill="#d97a1e">updates &#968; (conv + GRU + heads)</text>
+
+  <!-- ============================ CONTRAST RIBBON ============================ -->
+  <text x="40" y="756" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">SAME PROBLEM, DIFFERENT LEARNER — how the ppo_rec data path differs from the deployed TD3 baseline</text>
+
+  <!-- chip 1 -->
+  <rect x="40" y="776" width="335" height="150" rx="10" fill="#fbf4ec" stroke="#d97a1e" stroke-width="1.4"/>
+  <text x="58" y="806" font-size="16" fill="#d97a1e" font-weight="700">On-policy rollout</text>
+  <text x="58" y="830" font-size="15" fill="#0b3d66">collected &#8594; updated &#8594; discarded</text>
+  <line x1="58" y1="850" x2="357" y2="850" stroke="#6b7a88" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="58" y="878" font-size="15" fill="#6b7a88" font-weight="700">TD3 baseline</text>
+  <text x="58" y="901" font-size="15" fill="#6b7a88">off-policy replay buffer (4&#215;10&#8308;),</text>
+  <text x="58" y="920" font-size="15" fill="#6b7a88">sampled every 4 steps</text>
+
+  <!-- chip 2 -->
+  <rect x="395" y="776" width="335" height="150" rx="10" fill="#fbf4ec" stroke="#d97a1e" stroke-width="1.4"/>
+  <text x="413" y="806" font-size="16" fill="#d97a1e" font-weight="700">Recurrent hidden state h<tspan dy="3" font-size="12">t</tspan></text>
+  <text x="413" y="830" font-size="15" fill="#0b3d66">memory across the whole episode</text>
+  <line x1="413" y1="850" x2="712" y2="850" stroke="#6b7a88" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="413" y="878" font-size="15" fill="#6b7a88" font-weight="700">TD3 baseline</text>
+  <text x="413" y="901" font-size="15" fill="#6b7a88">6-frame depth stack only</text>
+  <text x="413" y="920" font-size="15" fill="#6b7a88">(&#8776; 1.8 s of memory)</text>
+
+  <!-- chip 3 -->
+  <rect x="750" y="776" width="335" height="150" rx="10" fill="#fbf4ec" stroke="#d97a1e" stroke-width="1.4"/>
+  <text x="768" y="806" font-size="16" fill="#d97a1e" font-weight="700">Gaussian actor + clip + PopArt</text>
+  <text x="768" y="830" font-size="15" fill="#0b3d66">stochastic policy, KL-freeze guard</text>
+  <line x1="768" y1="850" x2="1067" y2="850" stroke="#6b7a88" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="768" y="878" font-size="15" fill="#6b7a88" font-weight="700">TD3 baseline</text>
+  <text x="768" y="901" font-size="15" fill="#6b7a88">deterministic actor + twin</text>
+  <text x="768" y="920" font-size="15" fill="#6b7a88">double-Q critics</text>
+
+  <!-- chip 4 -->
+  <rect x="1105" y="776" width="335" height="150" rx="10" fill="#fbf4ec" stroke="#d97a1e" stroke-width="1.4"/>
+  <text x="1123" y="806" font-size="16" fill="#d97a1e" font-weight="700">Predictive aux head</text>
+  <text x="1123" y="830" font-size="15" fill="#0b3d66">forecasts future depth (train only)</text>
+  <line x1="1123" y1="850" x2="1422" y2="850" stroke="#6b7a88" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="1123" y="878" font-size="15" fill="#6b7a88" font-weight="700">TD3 baseline</text>
+  <text x="1123" y="901" font-size="15" fill="#6b7a88">no prediction &#8212; purely</text>
+  <text x="1123" y="920" font-size="15" fill="#6b7a88">reactive to current frame</text>
+
+  <!-- shared footer -->
+  <text x="740" y="962" font-size="15" fill="#1a7f6e" text-anchor="middle" font-weight="600">Shared with TD3: the same 7-channel depth + goal inputs, the ConvEncoder front end, and the identical environment / observation interface.</text>
+</svg>
