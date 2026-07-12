@@ -64,7 +64,7 @@
 
     <div class="featured reveal">
       <div class="featured-media">
-        <video controls muted loop playsinline preload="none" poster="assets/img/aether1-sim-frame.png" src="assets/video/aether1_sim_v2.mp4"></video>
+        <video autoplay controls muted loop playsinline preload="metadata" poster="assets/img/aether1-sim-frame.png" src="assets/video/aether1_sim_v2.mp4"></video>
       </div>
       <div class="featured-body">
         <div class="featured-tag">SIMULATION-VALIDATED &middot; HARDWARE PROTOTYPE IN DEVELOPMENT</div>
@@ -101,7 +101,7 @@
 
       <article class="card reveal">
         <div class="card-media">
-          <video controls muted loop playsinline preload="none" poster="assets/img/mybot-render.png" src="assets/video/mujoco_balance_stable.mp4"></video>
+          <video autoplay controls muted loop playsinline preload="metadata" poster="assets/img/mybot-render.png" src="assets/video/mujoco_balance_stable.mp4"></video>
         </div>
         <div class="card-body">
           <h4>mybot — two-wheeled bipedal robot</h4>
@@ -123,17 +123,18 @@
 
       <article class="card reveal">
         <div class="card-media">
-          <video controls muted loop playsinline preload="none" poster="assets/img/collision-poster.png" src="assets/video/collision_avoidance_eval.mp4"></video>
+          <video autoplay controls muted loop playsinline preload="metadata" poster="assets/img/collision-ppo-detour-poster.png" src="assets/video/collision-ppo-detour-gazebo.mp4"></video>
         </div>
         <div class="card-body">
           <h4>DRL collision-avoidance system</h4>
           <p>
-            Vision-based quadrotor navigation in Gazebo: a <strong>from-scratch TD3</strong> reads
-            stacked depth frames plus a goal direction and flies to a goal while dodging obstacles —
-            ~80% deterministic success on near-optimal paths.
+            Vision-based quadrotor collision avoidance in Gazebo, learned from scratch: a
+            <strong>TD3</strong> baseline reads stacked depth frames plus a goal direction, and a
+            <strong>recurrent-PPO</strong> extension flies genuine detours around occluders —
+            80% deterministic success on the detour task.
           </p>
           <div class="tags">
-            <span class="tag">ROS 2</span><span class="tag">Gazebo</span><span class="tag">TD3 from scratch</span>
+            <span class="tag">ROS 2</span><span class="tag">Gazebo</span><span class="tag">TD3 + recurrent PPO</span>
             <span class="tag">Depth vision</span>
           </div>
           <div class="card-foot">
@@ -145,7 +146,7 @@
 
       <article class="card reveal">
         <div class="card-media">
-          <video controls muted loop playsinline preload="none" poster="assets/img/mybot-nav-poster.png" src="assets/video/nav_goal_reach.mp4"></video>
+          <video autoplay controls muted loop playsinline preload="metadata" poster="assets/img/mybot-nav-poster.png" src="assets/video/nav_goal_reach.mp4"></video>
         </div>
         <div class="card-body">
           <h4>Goal navigation with learned balance</h4>

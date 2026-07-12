@@ -262,7 +262,7 @@ footer a { color: var(--text-dim); }
 
 /* ---------- project detail page ---------- */
 .detail-hero { position: relative; }
-.detail-hero img { width: 100%; max-height: 520px; object-fit: cover; border-radius: 0 0 18px 18px; }
+.detail-hero img, .detail-hero video { width: 100%; max-height: 520px; object-fit: cover; border-radius: 0 0 18px 18px; display: block; }
 .detail-body { max-width: 860px; margin: 0 auto; padding: 46px 24px 80px; }
 .detail-body h1 { font-size: clamp(30px, 4vw, 44px); letter-spacing: -0.8px; }
 .detail-body .lede { margin-top: 14px; font-size: 18.5px; color: var(--text-dim); }
