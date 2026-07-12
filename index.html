@@ -165,18 +165,23 @@
       </article>
 
       <article class="card reveal">
-        <div class="card-media pattern"><span>TD3</span></div>
+        <div class="card-media">
+          <iframe src="https://www.youtube-nocookie.com/embed/IRASuKMiOvw" title="TD3 robot navigation with live SLAM mapping — demo" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
         <div class="card-body">
-          <h4>DRL robot navigation (TD3)</h4>
+          <h4>DRL robot navigation + live SLAM (TD3)</h4>
           <p>
-            TD3-based deep-RL navigation and collision avoidance for a mobile robot in ROS 2 —
-            continuous-action policy learning with laser scans, tested across randomized worlds.
+            A TD3 agent drives a Pioneer 3-DX through cluttered rooms in ROS 2 + Gazebo — reaching
+            random goals collision-free from 3D-LiDAR input while <strong>slam_toolbox maps the room
+            live</strong>, turning a goal-reaching policy into autonomous exploration. GIPSA-Lab
+            project (Grenoble INP), documented in a published paper.
           </p>
           <div class="tags">
-            <span class="tag">TD3</span><span class="tag">ROS 2</span><span class="tag">PyTorch</span>
+            <span class="tag">TD3</span><span class="tag">ROS 2</span><span class="tag">3D LiDAR</span><span class="tag">SLAM</span>
           </div>
           <div class="card-foot">
             <a href="https://github.com/MickyasTA/DRL_robot_navigation_ros2" target="_blank" rel="noopener">Code &#8599;</a>
+            <a href="https://www.researchgate.net/publication/380875371_Controlling_a_Mobile_Robot_Using_ROS2_and_Machine_Learning" target="_blank" rel="noopener">Paper &#8599;</a>
           </div>
         </div>
       </article>
