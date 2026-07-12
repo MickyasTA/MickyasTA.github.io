@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 700" width="1500" height="700" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7a88"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1500" height="700" fill="#ffffff"/>
+
+  <text x="30" y="46" font-size="26" font-weight="700" fill="#0b3d66">mybot &#8212; training system architecture</text>
+  <text x="30" y="74" font-size="16" fill="#6b7a88">simulation, ROS 2 transport, environment wrapper and learner are separate processes glued by topics and services</text>
+
+  <!-- parallel stack hints behind sim + wrapper -->
+  <rect x="46" y="126" width="330" height="240" rx="10" fill="none" stroke="#c3ccd3" stroke-width="1.5"/>
+  <rect x="38" y="118" width="330" height="240" rx="10" fill="none" stroke="#9fb0bc" stroke-width="1.5"/>
+  <rect x="796" y="126" width="330" height="240" rx="10" fill="none" stroke="#c3ccd3" stroke-width="1.5"/>
+  <rect x="788" y="118" width="330" height="240" rx="10" fill="none" stroke="#9fb0bc" stroke-width="1.5"/>
+
+  <!-- box 1: simulator -->
+  <g>
+    <rect x="30" y="110" width="330" height="240" rx="10" fill="#ffffff" stroke="#1a7f6e" stroke-width="2.5"/>
+    <text x="195" y="146" font-size="18" font-weight="700" fill="#1a7f6e" text-anchor="middle">Gazebo Classic simulation</text>
+    <text x="195" y="182" font-size="15.5" fill="#444f58" text-anchor="middle">URDF robot in a training world</text>
+    <text x="195" y="208" font-size="15.5" fill="#444f58" text-anchor="middle">physics paced by sim time</text>
+    <text x="195" y="234" font-size="15.5" fill="#444f58" text-anchor="middle">IMU + wheel odometry</text>
+    <text x="195" y="260" font-size="15.5" fill="#444f58" text-anchor="middle">ros2_control controllers:</text>
+    <text x="195" y="286" font-size="15.5" fill="#444f58" text-anchor="middle">wheels = effort &#183; legs = position</text>
+  </g>
+
+  <!-- box 2: ROS 2 -->
+  <g>
+    <rect x="405" y="110" width="330" height="240" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="2.5"/>
+    <text x="570" y="146" font-size="18" font-weight="700" fill="#6b7a88" text-anchor="middle">ROS 2 topics &amp; services</text>
+    <text x="570" y="182" font-size="15.5" fill="#444f58" text-anchor="middle">/imu &#183; odometry &#183; joint states</text>
+    <text x="570" y="208" font-size="15.5" fill="#444f58" text-anchor="middle">wheel effort commands</text>
+    <text x="570" y="234" font-size="15.5" fill="#444f58" text-anchor="middle">leg position targets</text>
+    <text x="570" y="260" font-size="15.5" fill="#444f58" text-anchor="middle">/clock (simulation time)</text>
+    <text x="570" y="286" font-size="15.5" fill="#444f58" text-anchor="middle">pause &#183; reset services</text>
+  </g>
+
+  <!-- box 3: env wrapper -->
+  <g>
+    <rect x="780" y="110" width="330" height="240" rx="10" fill="#ffffff" stroke="#0b3d66" stroke-width="2.5"/>
+    <text x="945" y="146" font-size="18" font-weight="700" fill="#0b3d66" text-anchor="middle">RL environment wrapper</text>
+    <text x="945" y="182" font-size="15.5" fill="#444f58" text-anchor="middle">Gymnasium step() / reset()</text>
+    <text x="945" y="208" font-size="15.5" fill="#444f58" text-anchor="middle">history-stacked proprioception</text>
+    <text x="945" y="234" font-size="15.5" fill="#444f58" text-anchor="middle">/clock-paced stepping</text>
+    <text x="945" y="260" font-size="15.5" fill="#444f58" text-anchor="middle">shaped reward + termination</text>
+    <text x="945" y="286" font-size="15.5" fill="#444f58" text-anchor="middle">deterministic service resets</text>
+  </g>
+
+  <!-- box 4: learner -->
+  <g>
+    <rect x="1155" y="110" width="330" height="240" rx="10" fill="#ffffff" stroke="#d97a1e" stroke-width="2.5"/>
+    <text x="1320" y="146" font-size="18" font-weight="700" fill="#d97a1e" text-anchor="middle">PPO learner (PyTorch)</text>
+    <text x="1320" y="182" font-size="15.5" fill="#444f58" text-anchor="middle">actor-critic MLP + log-std</text>
+    <text x="1320" y="208" font-size="15.5" fill="#444f58" text-anchor="middle">GAE + clipped surrogate</text>
+    <text x="1320" y="234" font-size="15.5" fill="#444f58" text-anchor="middle">obs / reward normalization</text>
+    <text x="1320" y="260" font-size="15.5" fill="#444f58" text-anchor="middle">KL cap (target-kl 0.02)</text>
+    <text x="1320" y="286" font-size="15.5" fill="#444f58" text-anchor="middle">no RL libraries</text>
+  </g>
+
+  <!-- arrows between boxes -->
+  <line x1="364" y1="205" x2="401" y2="205" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="401" y1="255" x2="364" y2="255" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="739" y1="205" x2="776" y2="205" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="776" y1="255" x2="739" y2="255" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="1114" y1="205" x2="1151" y2="205" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="1151" y1="255" x2="1114" y2="255" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <!-- parallel workers note -->
+  <path d="M 30 388 L 30 400 L 1126 400 L 1126 388" fill="none" stroke="#6b7a88" stroke-width="1.5"/>
+  <text x="578" y="428" font-size="15.5" fill="#6b7a88" text-anchor="middle">&#215; N parallel environment workers (plain multiprocessing, no RL library) &#8212; rollout collection ~5&#8211;10&#215; faster wall-clock than a single environment</text>
+
+  <!-- curriculum strip -->
+  <text x="30" y="490" font-size="17" font-weight="700" fill="#0b3d66">Skill curriculum &#8212; one policy, each stage warm-starts from the previous best checkpoint</text>
+
+  <g>
+    <rect x="30" y="510" width="165" height="64" rx="8" fill="#ffffff" stroke="#1a7f6e" stroke-width="2"/>
+    <text x="112" y="536" font-size="15" font-weight="700" fill="#d97a1e" text-anchor="middle">S1</text>
+    <text x="112" y="559" font-size="15" fill="#444f58" text-anchor="middle">balance</text>
+
+    <rect x="212" y="510" width="165" height="64" rx="8" fill="#ffffff" stroke="#1a7f6e" stroke-width="2"/>
+    <text x="294" y="536" font-size="15" font-weight="700" fill="#d97a1e" text-anchor="middle">S2a</text>
+    <text x="294" y="559" font-size="15" fill="#444f58" text-anchor="middle">balance + legs</text>
+
+    <rect x="394" y="510" width="165" height="64" rx="8" fill="#ffffff" stroke="#1a7f6e" stroke-width="2"/>
+    <text x="476" y="536" font-size="15" font-weight="700" fill="#d97a1e" text-anchor="middle">S2b</text>
+    <text x="476" y="559" font-size="15" fill="#444f58" text-anchor="middle">goal navigation</text>
+
+    <rect x="576" y="510" width="165" height="64" rx="8" fill="#ffffff" stroke="#1a7f6e" stroke-width="2"/>
+    <text x="658" y="536" font-size="15" font-weight="700" fill="#d97a1e" text-anchor="middle">S3a</text>
+    <text x="658" y="559" font-size="15" fill="#444f58" text-anchor="middle">wide-squat range</text>
+
+    <rect x="758" y="510" width="165" height="64" rx="8" fill="#ffffff" stroke="#1a7f6e" stroke-width="2"/>
+    <text x="840" y="536" font-size="15" font-weight="700" fill="#d97a1e" text-anchor="middle">S3b</text>
+    <text x="840" y="559" font-size="15" fill="#444f58" text-anchor="middle">obstacles + duck</text>
+
+    <rect x="940" y="510" width="165" height="64" rx="8" fill="#ffffff" stroke="#1a7f6e" stroke-width="2"/>
+    <text x="1022" y="536" font-size="15" font-weight="700" fill="#d97a1e" text-anchor="middle">S3c</text>
+    <text x="1022" y="559" font-size="15" fill="#444f58" text-anchor="middle">step-up</text>
+
+    <rect x="1122" y="510" width="165" height="64" rx="8" fill="#ffffff" stroke="#1a7f6e" stroke-width="2"/>
+    <text x="1204" y="536" font-size="15" font-weight="700" fill="#d97a1e" text-anchor="middle">S4</text>
+    <text x="1204" y="559" font-size="15" fill="#444f58" text-anchor="middle">stairs &#183; terrain</text>
+
+    <rect x="1304" y="510" width="165" height="64" rx="8" fill="#ffffff" stroke="#1a7f6e" stroke-width="2"/>
+    <text x="1386" y="536" font-size="15" font-weight="700" fill="#d97a1e" text-anchor="middle">S5</text>
+    <text x="1386" y="559" font-size="15" fill="#444f58" text-anchor="middle">settle (HOLD)</text>
+  </g>
+  <path d="M 197 542 l 12 0" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 379 542 l 12 0" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 561 542 l 12 0" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 743 542 l 12 0" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 925 542 l 12 0" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 1107 542 l 12 0" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 1289 542 l 12 0" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+
+  <text x="30" y="620" font-size="15.5" font-style="italic" fill="#6b7a88">stages advance automatically on rolling reward / episode-length thresholds; when the observation grows between stages, the warm-start is done by weight surgery on the first layer</text>
+  <text x="30" y="646" font-size="15.5" font-style="italic" fill="#6b7a88">all stages log into one continuous run (shared CSV, graphs and checkpoints), so the curriculum reads as a single learning curve</text>
+</svg>

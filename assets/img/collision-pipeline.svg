@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1460 630" width="1460" height="630" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7a88"/>
+    </marker>
+    <marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0b3d66"/>
+    </marker>
+    <marker id="arrO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d97a1e"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1460" height="630" fill="#ffffff"/>
+
+  <!-- closed loop (top) -->
+  <path d="M1342,140 L1342,95 L570,95 L570,132" fill="none" stroke="#d97a1e" stroke-width="2.5" marker-end="url(#arrO)"/>
+  <text x="956" y="82" font-size="15" fill="#d97a1e" text-anchor="middle" font-weight="600">closed loop — control &amp; learning at ~3.3 Hz</text>
+
+  <!-- Box A: platform model -->
+  <rect x="30" y="40" width="340" height="180" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="30" y="40" width="340" height="44" rx="10" fill="#1a7f6e"/>
+  <rect x="30" y="66" width="340" height="18" fill="#1a7f6e"/>
+  <text x="200" y="69" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Platform model — URDF / xacro</text>
+  <text x="48" y="114" font-size="15" fill="#0b3d66">hector-quadrotor base link, 1.477 kg</text>
+  <text x="48" y="140" font-size="15" fill="#0b3d66">mass-property inertia tensor + mesh</text>
+  <text x="48" y="166" font-size="15" fill="#0b3d66">depth camera, laser, IMU declared</text>
+  <text x="48" y="192" font-size="15" fill="#0b3d66">planar-move actuation plugin</text>
+
+  <!-- Box B: worlds -->
+  <rect x="30" y="270" width="340" height="180" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="30" y="270" width="340" height="44" rx="10" fill="#1a7f6e"/>
+  <rect x="30" y="296" width="340" height="18" fill="#1a7f6e"/>
+  <text x="200" y="299" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">World &amp; scenario design — SDF</text>
+  <text x="48" y="344" font-size="15" fill="#0b3d66">9 training worlds, trivial &#8594; expert</text>
+  <text x="48" y="370" font-size="15" fill="#0b3d66">5 hand-built + 4 procedural rooms</text>
+  <text x="48" y="396" font-size="15" fill="#0b3d66">SDF parsed &#8594; occupancy grid for</text>
+  <text x="48" y="422" font-size="15" fill="#0b3d66">spawn / goal feasibility checks</text>
+
+  <!-- Gazebo box -->
+  <rect x="440" y="140" width="260" height="210" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="440" y="140" width="260" height="44" rx="10" fill="#0b3d66"/>
+  <rect x="440" y="166" width="260" height="18" fill="#0b3d66"/>
+  <text x="570" y="169" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Gazebo Classic 11</text>
+  <text x="458" y="214" font-size="15" fill="#0b3d66">ROS 2 Humble stack</text>
+  <text x="458" y="240" font-size="15" fill="#0b3d66">depth 128&#215;160 @ 30 Hz</text>
+  <text x="458" y="266" font-size="15" fill="#0b3d66">laser /scan @ 10 Hz</text>
+  <text x="458" y="292" font-size="15" fill="#0b3d66">/odom + model states</text>
+  <text x="458" y="318" font-size="15" fill="#0b3d66">physics + rendering</text>
+
+  <!-- Preprocess box -->
+  <rect x="760" y="140" width="270" height="210" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="760" y="140" width="270" height="44" rx="10" fill="#0b3d66"/>
+  <rect x="760" y="166" width="270" height="18" fill="#0b3d66"/>
+  <text x="895" y="169" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Preprocess &amp; stack</text>
+  <text x="778" y="214" font-size="15" fill="#0b3d66">clip 0&#8211;10 m &#183; normalize &#247;10</text>
+  <text x="778" y="240" font-size="15" fill="#0b3d66">stack last 6 depth frames</text>
+  <text x="778" y="266" font-size="15" fill="#0b3d66">+ goal-direction channel</text>
+  <text x="778" y="292" font-size="15" fill="#0b3d66">+ goal vector [sin&#945;, cos&#945;,</text>
+  <text x="778" y="318" font-size="15" fill="#0b3d66">1 &#8722; d/10] &#8594; 7&#215;128&#215;160 state</text>
+
+  <!-- TD3 box -->
+  <rect x="1030" y="140" width="200" height="210" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="1030" y="140" width="200" height="44" rx="10" fill="#d97a1e"/>
+  <rect x="1030" y="166" width="200" height="18" fill="#d97a1e"/>
+  <text x="1130" y="169" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">TD3 actor&#8211;critic</text>
+  <text x="1048" y="214" font-size="15" fill="#0b3d66">from-scratch PyTorch</text>
+  <text x="1048" y="240" font-size="15" fill="#0b3d66">actor + twin critics</text>
+  <text x="1048" y="266" font-size="15" fill="#0b3d66">replay + target nets</text>
+  <text x="1048" y="292" font-size="15" fill="#0b3d66">train step every 4</text>
+  <text x="1048" y="318" font-size="15" fill="#0b3d66">control steps</text>
+
+  <!-- Commands box -->
+  <rect x="1255" y="140" width="175" height="210" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="1255" y="140" width="175" height="44" rx="10" fill="#1a7f6e"/>
+  <rect x="1255" y="166" width="175" height="18" fill="#1a7f6e"/>
+  <text x="1342" y="169" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Commands</text>
+  <text x="1273" y="214" font-size="15" fill="#0b3d66">/cmd_vel:</text>
+  <text x="1273" y="240" font-size="15" fill="#0b3d66">vx &#183; vy &#183; yaw rate</text>
+  <text x="1273" y="266" font-size="15" fill="#0b3d66">+ kinematic</text>
+  <text x="1273" y="292" font-size="15" fill="#0b3d66">altitude hold</text>
+
+  <!-- flow arrows -->
+  <path d="M370,130 L432,195" fill="none" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M370,360 L432,295" fill="none" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M700,245 L752,245" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M1000,245 L1022,245" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M1230,245 L1247,245" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+
+  <!-- eval branch -->
+  <path d="M1130,350 L1130,510 L1113,510" fill="none" stroke="#6b7a88" stroke-width="2" stroke-dasharray="7,6" marker-end="url(#arr)"/>
+  <text x="1145" y="425" font-size="15" fill="#6b7a88">frozen policy</text>
+  <text x="1145" y="446" font-size="15" fill="#6b7a88">checkpoints</text>
+
+  <!-- eval box -->
+  <rect x="430" y="430" width="670" height="160" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="430" y="430" width="670" height="44" rx="10" fill="#6b7a88"/>
+  <rect x="430" y="456" width="670" height="18" fill="#6b7a88"/>
+  <text x="765" y="459" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Deterministic evaluation battery</text>
+  <text x="448" y="504" font-size="15" fill="#0b3d66">greedy policy — exploration noise off, no training, no curriculum advance, no weight writes</text>
+  <text x="448" y="530" font-size="15" fill="#0b3d66">trajectory map &#183; statistics panel &#183; failure analysis &#183; animated 2D playback</text>
+  <text x="448" y="556" font-size="15" fill="#0b3d66">third-person Gazebo video &#183; written report — no_goal harness failures excluded</text>
+</svg>

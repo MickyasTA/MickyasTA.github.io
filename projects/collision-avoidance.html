@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DRL collision avoidance — vision-based quadrotor navigation · Mickyas Tamiru Asfaw</title>
-<meta name="description" content="Vision-based, goal-directed quadrotor collision avoidance learned end-to-end with a from-scratch TD3 from stacked depth frames, trained in Gazebo Classic on ROS 2 Humble — no RL libraries.">
+<title>DRL collision avoidance &#8212; vision-based quadrotor navigation &#183; Mickyas Tamiru Asfaw</title>
+<meta name="description" content="Vision-based, goal-directed quadrotor collision avoidance learned end-to-end with a from-scratch TD3 from stacked depth frames, trained in Gazebo Classic on ROS 2 Humble &#8212; no RL libraries.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
 </nav>
 
 <div class="detail-hero">
-  <img src="../assets/img/collision-poster.png" alt="Deep-RL collision avoidance — a quadrotor navigating a cluttered Gazebo room">
+  <img src="../assets/img/collision-poster.png" alt="Deep-RL collision avoidance &#8212; a quadrotor navigating a cluttered Gazebo room">
 </div>
 
 <main class="detail-body">
@@ -43,62 +43,228 @@
     <a href="mailto:mickyastamiru92@gmail.com">get in touch</a>.
   </div>
 
-  <h2>What it is</h2>
+  <h2 id="goal">Project goal</h2>
   <p>
-    A quadrotor has to reach a goal point in a cluttered room &mdash; red boxes, grey pillars,
-    L-shaped walls &mdash; without hitting anything, using only what it can see. There is no map and
-    no planner: a single neural-network policy reads depth vision and a goal direction and outputs
-    continuous velocity and yaw commands, learning to route around obstacles on its way to the goal.
+    Fly a quadrotor to an arbitrary goal point in an unknown, cluttered indoor space using only a
+    forward-facing depth camera &mdash; no map, no planner, no privileged state. Formally this is
+    <strong>goal-conditioned continuous control under partial observability</strong>: a single
+    forward depth image is not a Markov state (it reveals nothing beside or behind the vehicle, and
+    nothing about the vehicle's own motion), the action is a continuous body-frame command
+    <code>[vx, vy, vz, yaw-rate]</code>, and the one signal that matters &mdash; reaching the goal
+    &mdash; is far too sparse on its own to optimize a continuous-action policy.
+  </p>
+  <p>
+    The project builds the entire system from first principles: a <strong>TD3 actor&ndash;critic
+    written directly in PyTorch</strong> (a discrete D3QN agent is included as an alternative), the
+    Gazebo training environment, the reward and curriculum machinery, and a deterministic
+    evaluation harness. Four practical difficulties shaped every design decision: partial
+    observability, credit assignment (dense reward shaping without degenerate optima), curriculum
+    feasibility (harder tasks the world can actually instantiate), and evaluation honesty.
   </p>
 
+  <h2 id="pipeline">From idea to simulation</h2>
+  <p>
+    The platform is defined as a URDF/xacro robot description adapted from the hector-quadrotor
+    model: a 1.477&nbsp;kg base link carrying the airframe's mass-property inertia tensor and mesh
+    visual. One deliberate modeling choice: the collision geometry is reduced to a tiny sphere,
+    because crash detection is done by a sensor-range threshold (0.15&nbsp;m) rather than physics
+    contacts &mdash; a larger collision body would be self-detected by the drone's own laser.
+  </p>
+  <p>
+    Sensors and actuation are declared in the same description as Gazebo plugins: a depth camera
+    streaming 128&times;160 metric depth at 30&nbsp;Hz, a ray laser publishing <code>/scan</code>
+    at 10&nbsp;Hz, and an IMU at 200&nbsp;Hz. Actuation goes through the <code>planar_move</code>
+    plugin, which realizes <code>vx, vy, yaw</code> &mdash; and ignores vertical velocity, so
+    altitude is held by a kinematic set-point each step with gravity disabled for the airframe.
+    The pipeline also absorbed simulator reality: the GPU lidar returned only invalid ranges on
+    this stack and was replaced with a CPU ray sensor.
+  </p>
+  <p>
+    On the environment side, nine SDF training worlds span trivial open space to expert clutter
+    &mdash; five hand-built (an L-shaped obstacle room, a maze, multi-room layouts) and four
+    procedurally generated rooms that reuse the proven physics and marker scaffolding of the
+    hand-built ones. Every world's SDF is parsed into an occupancy grid &mdash; composing model,
+    link, and collision poses for box and cylinder geometry &mdash; which validates spawn points
+    and goal placements before an episode ever runs. Because Gazebo Classic cannot hot-swap its
+    world, multi-world training is orchestrated <em>across runs</em>: each world gets its own
+    Gazebo session and the model checkpoint carries over.
+  </p>
+  <figure>
+    <img src="../assets/img/collision-pipeline.png" alt="Pipeline diagram: URDF platform model and SDF world design feed Gazebo Classic; depth stream is preprocessed and stacked into a 7-channel state; a from-scratch TD3 outputs velocity commands closed back through the simulator; a deterministic evaluation battery branches off frozen checkpoints">
+    <figcaption>The pipeline: platform model (URDF/xacro) and worlds (SDF) feed Gazebo Classic 11 on ROS&nbsp;2 Humble; the depth stream is clipped, stacked, and goal-augmented; the from-scratch TD3 closes the loop at ~3.3&nbsp;Hz; frozen checkpoints feed a deterministic evaluation battery.</figcaption>
+  </figure>
+
+  <h2 id="architecture">Implementation &amp; architecture</h2>
+  <p>
+    The whole training loop lives in a single ROS&nbsp;2 coordinator node: it subscribes to depth,
+    laser, and odometry, builds the observation, queries the agent, publishes velocity commands,
+    computes the shaped reward, stores the transition, and runs a gradient step every four control
+    steps &mdash; a synchronous control&ndash;learn loop at roughly 3.3&nbsp;Hz.
+  </p>
+  <p>
+    The observation is a 7-channel 128&times;160 tensor: six stacked depth frames (clipped to
+    0&ndash;10&nbsp;m and normalized) to recover short-horizon dynamics, plus a goal-direction
+    image channel. The goal is encoded <em>twice</em>, deliberately: an explicit vector
+    <code>[sin&theta;, cos&theta;, 1 &minus; d/10]</code> &mdash; the sine/cosine pair avoids the
+    discontinuity when the bearing wraps past &plusmn;180&deg; &mdash; feeds the actor and critic
+    heads through a small MLP, while a Gaussian stripe painted into the seventh channel puts the
+    same information in the <em>pixel frame</em>, spatially aligned with the obstacles.
+  </p>
+  <p>
+    The learner is textbook TD3, implemented from scratch: a shared-architecture convolutional
+    encoder (three conv layers plus a linear map to a 256-d feature), an actor that maps the
+    concatenated 320-d feature through a 256-unit layer to four tanh-bounded actions, and twin
+    critics &mdash; each with its <em>own</em> encoder and goal embedding to avoid
+    representational interference. Learning uses clipped double-Q targets, target-policy
+    smoothing, delayed actor updates (every second critic update), and slow Polyak-averaged target
+    networks. The replay buffer holds 4&times;10&#8308; transitions with uint8-quantized states
+    (4&times; memory reduction) and per-state goal vectors; exploration noise anneals from 40% to
+    10% of each action's range, with the update counter persisted so a resumed run continues at
+    the right noise level.
+  </p>
+  <p>
+    The reward philosophy is <strong>progress-dominated shaping</strong>: a potential-based
+    progress term (24 reward per metre of approach) does almost all the work, alongside a small
+    proximity bonus near the goal, an obstacle penalty that is exactly zero in open space, a
+    +100 goal terminal and a collision penalty. A success-gated curriculum grows the goal distance
+    whenever the recent success rate clears a threshold, a per-room feasibility probe caps that
+    distance at what the world can actually place, and adaptive tiers keep early episodes short
+    and early goal radii lenient while the replay buffer fills.
+  </p>
+  <figure>
+    <img src="../assets/img/collision-architecture.png" alt="Architecture diagram: depth stack and Gaussian goal channel form a 7-channel state through a convolutional encoder; an explicit goal vector passes through an MLP; both concatenate into the actor producing four velocity actions; below, the replay buffer, twin critics, target networks and delayed actor update form the TD3 learning loop">
+    <figcaption>TD3 anatomy applied to this problem. Top: the acting path &mdash; dual goal encoding (image channel + explicit vector) fused with the depth features, deterministic actor, exploration noise. Bottom: the learning path &mdash; replay, twin critics with separate encoders, smoothed targets with clipped double-Q, delayed actor updates.</figcaption>
+  </figure>
+
+  <h2 id="challenges">Critical challenges</h2>
+
+  <h3>Injecting the goal into vision</h3>
+  <p>
+    Bare depth tells the policy where it <em>can</em> go, not where it <em>should</em> go, and a
+    flat 3-vector goal encoding is not spatially aligned with the depth pixels &mdash; the network
+    has to learn the correspondence between &ldquo;goal 30&deg; left&rdquo; and image columns on
+    its own. The fix was to paint the goal directly onto an image channel: a soft Gaussian stripe
+    centred on the column that points at the goal, its brightness fading with distance. The very
+    first convolution then sees the goal and the obstacles in the same spatial frame. This
+    redundant dual encoding measurably sped up learning.
+  </p>
+  <figure>
+    <img src="../assets/img/collision-goal-channel.png" alt="The goal-direction channel: a gaussian stripe encoding the bearing to the goal, added to the stacked depth frames">
+    <figcaption>The goal-direction channel &mdash; a Gaussian stripe that slides with the goal bearing and dims with distance, giving the CNN a dense, spatially aligned navigation gradient.</figcaption>
+  </figure>
+
+  <h3>Reward local optima: safe circling and goal parking</h3>
+  <p>
+    Reward design was the single most consequential part of this work, and it failed twice in
+    instructive ways. First, an early per-step survival bonus made harmless loitering worth about
+    85 discounted reward against roughly 50 for a risky goal approach &mdash; the critic
+    <em>correctly</em> preferred circling near spawn forever. Second, a proximity bonus at
+    10&times; its final scale created a policy that flew to the goal and then hovered just outside
+    the goal radius, harvesting proximity income indefinitely (timeouts are non-terminal, so the
+    value bootstraps forever) rather than collecting the one-time +100. Both optima were removed
+    structurally: survival income set to zero so open space pays nothing, the progress term made
+    potential-based (which provably preserves the optimal policy) and dominant at 24 per metre,
+    and the non-potential proximity bonus kept small enough that finishing strictly dominates any
+    stalling behaviour.
+  </p>
+  <figure>
+    <img src="../assets/img/collision-reward-traps.png" alt="Challenge diagram: three panels showing the safe-circling optimum where loitering income beats a risky goal run, the goal-parking optimum where hovering outside the goal radius beats finishing, and the fixed reward landscape where a dominant potential-based progress term makes finishing strictly dominate">
+    <figcaption>The two degenerate optima the shaped reward fell into, and the landscape that removed them: zero survival income, a dominant potential-based progress pull, and a deliberately small proximity bonus.</figcaption>
+  </figure>
+
+  <h3>A curriculum that outran the room</h3>
+  <p>
+    The distance curriculum advances whenever the agent succeeds &mdash; but a cluttered room
+    cannot place arbitrarily long, reachable, clear goals. Pushed past that point, the goal
+    sampler simply failed: at a 12&nbsp;m target roughly 40% of episodes had <em>no goal at
+    all</em>, and the drone flew with a null target. Two mechanisms fixed it: a per-room
+    feasibility probe run at environment load, which caps the curriculum at the largest distance
+    whose goal yield clears a threshold (12&nbsp;&rarr;&nbsp;11&nbsp;m in the hardest room), and a
+    relaxed-band fallback sampler that retries progressively shorter distance bands instead of
+    giving up. Degenerate no-goal episodes were eliminated.
+  </p>
+
+  <h3>The 30-point measurement artifact</h3>
+  <p>
+    A naive success counter reported 50% on an early evaluation. Inspection showed that 8 of 20
+    episodes were the no-goal harness failures above, silently counted as policy collisions.
+    Separating harness failures from policy failures recovered the true rate of about 80% &mdash;
+    a 30-point swing from a measurement artifact, not a better policy. The evaluation protocol now
+    runs the deterministic policy with no exploration noise, no training, no curriculum advance,
+    and no weight writes, labels goal-generation failures explicitly, and excludes them from the
+    success rate.
+  </p>
+
+  <h3>Simulator constraints as design forces</h3>
+  <p>
+    Several load-bearing design choices are downstream of simulator quirks. The laser self-detects
+    the drone's own body at close range, so two different distances are used: the raw minimum for
+    collision detection and a filtered minimum for reward shaping. The <code>planar_move</code>
+    plugin ignores vertical velocity, so altitude is a kinematic hold rather than a learned
+    degree of freedom. Timeouts are stored as <em>non-terminal</em> with zero reward &mdash; the
+    agent cannot observe the step counter, so a time-triggered penalty would be non-Markov label
+    noise. And because Gazebo Classic cannot swap worlds inside a run, the nine-world curriculum
+    runs as an orchestrated sequence of separate Gazebo sessions with the model resumed between
+    them.
+  </p>
+
+  <h3>What a reactive policy still cannot do</h3>
+  <p>
+    The remaining failures are structural, not tuning. A feed-forward policy with a forward depth
+    cone cannot remember what it has passed, so it flies near-straight and clips mid-room
+    obstacles rather than planning a detour around a large occluder &mdash; and it has no
+    mechanism at all for moving obstacles. A related diagnostic: the deterministic policy is not
+    systematically better than the noisy behaviour policy on every run, meaning the controller
+    still relies partly on action jitter for incidental clearance in tight gaps. This is being
+    addressed now with a from-scratch recurrent, predictive PPO extension: a GRU memory carried
+    across the episode, a training-only auxiliary head that predicts the next three
+    low-resolution depth frames, PopArt value normalization for the high-variance returns that
+    moving obstacles induce, detour-specific reward terms (a clearance-gated heading reward, a
+    time-to-collision penalty, and a progress gate that stops paying for charging at occluders),
+    and a decoupled distance&ndash;occlusion curriculum on a dedicated 34&times;26&nbsp;m world
+    with 20 large occluders and 8 moving obstacles. Training is in progress &mdash; 4135 episodes
+    logged, with the curriculum frontier oscillating near the 8.6&nbsp;m tier &mdash; and its
+    deterministic evaluation is deliberately not reported until it exists.
+  </p>
+
+  <h2 id="results">Results &amp; analysis</h2>
   <figure class="media16">
     <video controls muted loop playsinline preload="none" poster="../assets/img/collision-poster.png" src="../assets/video/collision_avoidance_eval.mp4"></video>
   </figure>
   <figcaption>Deterministic evaluation in <code>gen_room_mixed</code> (20&times;16&nbsp;m, 16 obstacles), exploration noise off &mdash; green sphere is the goal, red boxes and grey pillars are obstacles.</figcaption>
-
-  <h2>How it works</h2>
   <p>
-    The observation is a 7-channel 128&times;160 tensor &mdash; six stacked depth frames (clipped to
-    0&ndash;10&nbsp;m) plus a goal-direction channel &mdash; alongside an explicit goal vector
-    <code>[sin&theta;, cos&theta;, 1 &minus; d/10]</code> fed to the actor and critic heads. The
-    policy commands continuous velocity and yaw-rate. Reward is dominated by
-    <strong>progress toward the goal</strong>, plus a heading-alignment term and a small survival
-    bonus, minus a collision penalty; collision, goal, and stuck are terminal while timeout is
-    deliberately non-terminal, since the agent cannot observe time.
+    The clip above is the deployed greedy policy &mdash; no exploration noise &mdash; recorded
+    directly from the Gazebo viewer in the hardest static world. What to watch for: the drone
+    turns onto a goal-directed heading almost immediately and holds a committed, near-straight
+    line, threading between the boxes and pillars rather than wandering or hesitating.
   </p>
   <figure>
-    <img src="../assets/img/collision-goal-channel.png" alt="The goal-direction channel: a gaussian stripe encoding the bearing to the goal, added to the stacked depth frames">
-    <figcaption>The goal is injected into vision as a separate channel &mdash; a soft stripe encoding the bearing to the target &mdash; so a single convolutional policy fuses &ldquo;where can I go&rdquo; with &ldquo;where do I want to go.&rdquo;</figcaption>
+    <img src="../assets/img/collision-learning.png" alt="Learning curves: episode score and rolling success rate over 1713 training episodes, with the success rate oscillating as the curriculum advances goal distance">
+    <figcaption>Training on <code>gen_room_mixed</code>: episode score (smoothed over the raw trace) and rolling goal-success rate across 1713 episodes.</figcaption>
   </figure>
   <p>
-    The learner is a <strong>TD3 written from scratch in PyTorch</strong> &mdash; twin critics,
-    target-policy smoothing, and delayed actor updates &mdash; with exploration noise annealed from
-    40% down to 10% over training. A discrete D3QN agent is included as an alternative.
-  </p>
-
-  <h2>Curriculum that respects the room</h2>
-  <p>
-    Goal distance grows with the agent's success rate, and a per-room feasibility probe caps it so
-    the curriculum never asks for a goal the world cannot actually place. Training spans nine worlds,
-    from trivial to expert, orchestrated across runs because Gazebo Classic cannot hot-swap worlds.
-  </p>
-  <figure>
-    <img src="../assets/img/collision-learning.png" alt="Learning curves: success rate and score rising as the curriculum advances goal distance">
-    <figcaption>Learning curves &mdash; success rate and score rise as the curriculum advances the goal distance.</figcaption>
-  </figure>
-
-  <h2>Results</h2>
-  <p>
-    On the hardest goal tier of <code>gen_room_mixed</code>, the deterministic (noise-off) policy
-    reaches <strong>~80% success</strong> with <strong>near-optimal paths (1.05&times;</strong> the
-    straight-line distance) and <strong>0% timeouts</strong> &mdash; it commits to the goal rather
-    than stalling. Goal-generation failures are detected and excluded from the success rate, so the
-    reported numbers are honest.
+    The learning curves need reading with the curriculum in mind. The mean episode score climbs
+    and then stabilizes, but the rolling success rate <em>oscillates</em> between roughly 40% and
+    85% &mdash; and that oscillation is the curriculum working, not instability. Every time the
+    success rate clears the advancement gate, the goal distance increases and success temporarily
+    drops: the agent is continually re-challenged at its competence frontier, so a flat
+    high success rate would actually indicate a stalled curriculum. The final 50-episode success
+    rate settles at 80%.
   </p>
   <figure>
     <img src="../assets/img/collision-trajectory-map.png" alt="Bird's-eye view of evaluation trajectories over the real obstacle map, coloured by outcome">
     <figcaption>Every evaluation run drawn over the real occupancy grid &mdash; green reaches the goal, red is a collision with the crash point marked, stars are goal positions.</figcaption>
   </figure>
+  <p>
+    The trajectory map is the most informative single figure. Successful runs (green) travel
+    almost straight from spawn to their goal stars &mdash; the measured path efficiency is
+    1.05&times; the straight-line distance, within 5% of optimal. The failures (red) are not
+    scattered randomly: they cluster where a path cuts a corner past a mid-room obstacle, and they
+    happen <em>early and fast</em> &mdash; failed episodes average 46 steps against 100 for
+    successes. That asymmetry is the signature of a policy that commits to a route and
+    occasionally clips an obstacle, rather than one that stalls: the timeout rate across the
+    evaluation is exactly zero.
+  </p>
   <figure>
     <img src="../assets/img/trajectories.gif" alt="Animated 2D trajectory playback over the obstacle map">
     <figcaption>Animated 2D playback of the same evaluation set over the occupancy grid.</figcaption>
@@ -107,15 +273,40 @@
     <img src="../assets/img/collision-stats.png" alt="Outcome breakdown and step-count, path-efficiency and score distributions">
     <figcaption>Outcome breakdown with step-count, path-efficiency, and score distributions across the evaluation run.</figcaption>
   </figure>
-
-  <h2>Honest evaluation</h2>
   <p>
-    Every number comes from a deterministic harness &mdash; greedy policy, no exploration noise, no
-    training, no curriculum advance, no weight writes &mdash; that logs trajectories and turns them
-    into a trajectory map, statistics panel, failure analysis, animated playback, a third-person
-    Gazebo render, and a written report. The point is a success rate you can trust, not a
-    best-case cherry-pick.
+    The statistics panel above comes from the recorded 10-episode run: 7 of 10 goals reached,
+    every failure a collision, no timeouts, and zero goal-generation failures. The step-count
+    histogram splits into short failed runs and longer completed ones; the path-efficiency
+    distribution sits tightly above 1.0; and the score distribution separates cleanly between
+    goal episodes and collision episodes. The headline 20-episode deterministic evaluation at the
+    11&nbsp;m feasibility cap lands at 16 of 20 &mdash; 80% &mdash; with the same zero-timeout
+    signature. Goal-generation failures are detected and excluded throughout, so these numbers
+    measure the policy, not the harness.
   </p>
+  <p>
+    What remains weak is equally visible in these figures: the 20% collision tail is concentrated
+    at mid-room occluders the reactive policy will not route around, and the policy's residual
+    dependence on action jitter near tight gaps means the deterministic controller is not yet
+    strictly better than its own behaviour policy. Those two gaps &mdash; detours and moving
+    obstacles &mdash; are exactly what the in-progress recurrent extension targets.
+  </p>
+
+  <h2 id="future">Future work</h2>
+  <ul>
+    <li><strong>Finish the recurrent detour agent</strong> &mdash; complete the in-progress
+      recurrent, predictive PPO training and run the same deterministic, harness-aware evaluation
+      battery on the detour world for quantitative detour and moving-obstacle success rates.</li>
+    <li><strong>Widen the observation</strong> &mdash; fold the existing laser ring into the
+      policy input to cover the lateral and rearward blind zones implicated in the residual
+      strafing collisions.</li>
+    <li><strong>Sim-to-real depth</strong> &mdash; replace simulator depth with monocular metric
+      depth (a Depth-Anything-V2 node already exists in the stack) and train against the
+      noise-augmented camera stream with domain randomization before any hardware trial.</li>
+    <li><strong>Learn altitude</strong> &mdash; retire the kinematic altitude hold and give the
+      policy genuine vertical control.</li>
+    <li><strong>Decouple learning from control</strong> &mdash; move gradient updates off the
+      synchronous loop to lift the ~3.3&nbsp;Hz control rate.</li>
+  </ul>
 
   <p style="margin-top:34px;">
     <a class="btn btn-primary" href="mailto:mickyastamiru92@gmail.com">Talk to me about this project</a>

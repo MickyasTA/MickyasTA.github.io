@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 410" width="1500" height="410" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7a88"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1500" height="410" fill="#ffffff"/>
+
+  <text x="30" y="46" font-size="26" font-weight="700" fill="#0b3d66">mybot &#8212; CAD-to-policy pipeline</text>
+  <text x="30" y="74" font-size="16" fill="#6b7a88">from a SolidWorks assembly to a verified balance-and-navigation policy &#8212; every stage feeds the next</text>
+
+  <!-- stage numbers -->
+  <text x="25"   y="106" font-size="15" font-weight="700" fill="#d97a1e">01</text>
+  <text x="273"  y="106" font-size="15" font-weight="700" fill="#d97a1e">02</text>
+  <text x="521"  y="106" font-size="15" font-weight="700" fill="#d97a1e">03</text>
+  <text x="769"  y="106" font-size="15" font-weight="700" fill="#d97a1e">04</text>
+  <text x="1017" y="106" font-size="15" font-weight="700" fill="#d97a1e">05</text>
+  <text x="1265" y="106" font-size="15" font-weight="700" fill="#d97a1e">06</text>
+
+  <!-- boxes -->
+  <g>
+    <rect x="25" y="115" width="210" height="185" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="2"/>
+    <text x="130" y="149" font-size="18" font-weight="700" fill="#6b7a88" text-anchor="middle">Concept</text>
+    <text x="130" y="182" font-size="15.5" fill="#444f58" text-anchor="middle">wheel-legged biped</text>
+    <text x="130" y="208" font-size="15.5" fill="#444f58" text-anchor="middle">wheels for efficiency</text>
+    <text x="130" y="234" font-size="15.5" fill="#444f58" text-anchor="middle">legs for terrain</text>
+  </g>
+  <g>
+    <rect x="273" y="115" width="210" height="185" rx="10" fill="#ffffff" stroke="#0b3d66" stroke-width="2"/>
+    <text x="378" y="149" font-size="18" font-weight="700" fill="#0b3d66" text-anchor="middle">SolidWorks CAD</text>
+    <text x="378" y="182" font-size="15.5" fill="#444f58" text-anchor="middle">full 3D assembly</text>
+    <text x="378" y="208" font-size="15.5" fill="#444f58" text-anchor="middle">mass + inertia props</text>
+    <text x="378" y="234" font-size="15.5" fill="#444f58" text-anchor="middle">STL visual meshes</text>
+  </g>
+  <g>
+    <rect x="521" y="115" width="210" height="185" rx="10" fill="#ffffff" stroke="#0b3d66" stroke-width="2"/>
+    <text x="626" y="149" font-size="18" font-weight="700" fill="#0b3d66" text-anchor="middle">URDF / Xacro</text>
+    <text x="626" y="182" font-size="15.5" fill="#444f58" text-anchor="middle">links, joints, limits</text>
+    <text x="626" y="208" font-size="15.5" fill="#444f58" text-anchor="middle">inertials from CAD</text>
+    <text x="626" y="234" font-size="15.5" fill="#444f58" text-anchor="middle">3-DOF hips + knees</text>
+  </g>
+  <g>
+    <rect x="769" y="115" width="210" height="185" rx="10" fill="#ffffff" stroke="#1a7f6e" stroke-width="2"/>
+    <text x="874" y="149" font-size="18" font-weight="700" fill="#1a7f6e" text-anchor="middle">Gazebo Classic</text>
+    <text x="874" y="182" font-size="15.5" fill="#444f58" text-anchor="middle">ROS 2 Humble &#183; WSL2</text>
+    <text x="874" y="208" font-size="15.5" fill="#444f58" text-anchor="middle">ros2_control: wheels</text>
+    <text x="874" y="234" font-size="15.5" fill="#444f58" text-anchor="middle">effort, legs position</text>
+    <text x="874" y="260" font-size="15.5" fill="#444f58" text-anchor="middle">IMU + odometry</text>
+  </g>
+  <g>
+    <rect x="1017" y="115" width="210" height="185" rx="10" fill="#ffffff" stroke="#d97a1e" stroke-width="2"/>
+    <text x="1122" y="149" font-size="18" font-weight="700" fill="#d97a1e" text-anchor="middle">From-scratch PPO</text>
+    <text x="1122" y="182" font-size="15.5" fill="#444f58" text-anchor="middle">PyTorch, no RL libs</text>
+    <text x="1122" y="208" font-size="15.5" fill="#444f58" text-anchor="middle">actor-critic + GAE</text>
+    <text x="1122" y="234" font-size="15.5" fill="#444f58" text-anchor="middle">staged curriculum</text>
+    <text x="1122" y="260" font-size="15.5" fill="#444f58" text-anchor="middle">parallel envs</text>
+  </g>
+  <g>
+    <rect x="1265" y="115" width="210" height="185" rx="10" fill="#ffffff" stroke="#1a7f6e" stroke-width="2"/>
+    <text x="1370" y="149" font-size="18" font-weight="700" fill="#1a7f6e" text-anchor="middle">MuJoCo verification</text>
+    <text x="1370" y="182" font-size="15.5" fill="#444f58" text-anchor="middle">URDF-converted model</text>
+    <text x="1370" y="208" font-size="15.5" fill="#444f58" text-anchor="middle">policy playback</text>
+    <text x="1370" y="234" font-size="15.5" fill="#444f58" text-anchor="middle">rendered videos</text>
+  </g>
+
+  <!-- arrows -->
+  <line x1="237" y1="207" x2="269" y2="207" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <line x1="485" y1="207" x2="517" y2="207" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <line x1="733" y1="207" x2="765" y2="207" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <line x1="981" y1="207" x2="1013" y2="207" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <line x1="1229" y1="207" x2="1261" y2="207" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- bottom note -->
+  <line x1="626" y1="300" x2="626" y2="340" stroke="#6b7a88" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="1370" y1="300" x2="1370" y2="340" stroke="#6b7a88" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="626" y1="340" x2="1370" y2="340" stroke="#6b7a88" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="998" y="372" font-size="15.5" font-style="italic" fill="#6b7a88" text-anchor="middle">one description, two simulators: the same URDF drives Gazebo Classic training and the converted MuJoCo model used for verification renders</text>
+</svg>

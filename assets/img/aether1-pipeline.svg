@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 400" width="1480" height="400" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7a88"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1480" height="400" fill="#ffffff"/>
+
+  <text x="740" y="42" text-anchor="middle" font-size="19" font-weight="700" fill="#0b3d66">From CAD to a deployable controller — the AETHER-1 pipeline</text>
+
+  <!-- step numbers -->
+  <text x="37" y="100" font-size="15" fill="#6b7a88" font-weight="600">01</text>
+  <text x="279" y="100" font-size="15" fill="#6b7a88" font-weight="600">02</text>
+  <text x="521" y="100" font-size="15" fill="#6b7a88" font-weight="600">03</text>
+  <text x="763" y="100" font-size="15" fill="#6b7a88" font-weight="600">04</text>
+  <text x="1005" y="100" font-size="15" fill="#6b7a88" font-weight="600">05</text>
+  <text x="1247" y="100" font-size="15" fill="#6b7a88" font-weight="600">06</text>
+
+  <!-- box 1: CAD -->
+  <rect x="35" y="110" width="200" height="210" rx="12" fill="#ffffff" stroke="#0b3d66" stroke-width="2.5"/>
+  <text x="135" y="145" text-anchor="middle" font-size="16" font-weight="700" fill="#0b3d66">CAD design</text>
+  <text x="135" y="176" text-anchor="middle" font-size="15" fill="#6b7a88">SolidWorks workflow;</text>
+  <text x="135" y="200" text-anchor="middle" font-size="15" fill="#6b7a88">parametric model:</text>
+  <text x="135" y="224" text-anchor="middle" font-size="15" fill="#6b7a88">one parameter file</text>
+  <text x="135" y="248" text-anchor="middle" font-size="15" fill="#6b7a88">regenerates STEP</text>
+  <text x="135" y="272" text-anchor="middle" font-size="15" fill="#6b7a88">parts and assemblies</text>
+
+  <line x1="235" y1="215" x2="275" y2="215" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- box 2: URDF+MJCF -->
+  <rect x="277" y="110" width="200" height="210" rx="12" fill="#ffffff" stroke="#1a7f6e" stroke-width="2.5"/>
+  <text x="377" y="145" text-anchor="middle" font-size="16" font-weight="700" fill="#1a7f6e">URDF + MJCF export</text>
+  <text x="377" y="176" text-anchor="middle" font-size="15" fill="#6b7a88">aether1_description:</text>
+  <text x="377" y="200" text-anchor="middle" font-size="15" fill="#6b7a88">links, joints, meshes,</text>
+  <text x="377" y="224" text-anchor="middle" font-size="15" fill="#6b7a88">inertial tensors from</text>
+  <text x="377" y="248" text-anchor="middle" font-size="15" fill="#6b7a88">CAD mass properties</text>
+
+  <line x1="477" y1="215" x2="517" y2="215" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- box 3: MuJoCo -->
+  <rect x="519" y="110" width="200" height="210" rx="12" fill="#ffffff" stroke="#0b3d66" stroke-width="2.5"/>
+  <text x="619" y="145" text-anchor="middle" font-size="16" font-weight="700" fill="#0b3d66">MuJoCo environment</text>
+  <text x="619" y="176" text-anchor="middle" font-size="15" fill="#6b7a88">loads aether1_rl.xml;</text>
+  <text x="619" y="200" text-anchor="middle" font-size="15" fill="#6b7a88">thrust, PD &amp; torque</text>
+  <text x="619" y="224" text-anchor="middle" font-size="15" fill="#6b7a88">actuators; sensors;</text>
+  <text x="619" y="248" text-anchor="middle" font-size="15" fill="#6b7a88">500 Hz physics,</text>
+  <text x="619" y="272" text-anchor="middle" font-size="15" fill="#6b7a88">100 Hz control</text>
+
+  <line x1="719" y1="215" x2="759" y2="215" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- box 4: RL training -->
+  <rect x="761" y="110" width="200" height="210" rx="12" fill="#ffffff" stroke="#d97a1e" stroke-width="2.5"/>
+  <text x="861" y="145" text-anchor="middle" font-size="16" font-weight="700" fill="#d97a1e">Curriculum RL</text>
+  <text x="861" y="176" text-anchor="middle" font-size="15" fill="#6b7a88">hand-written PPO;</text>
+  <text x="861" y="200" text-anchor="middle" font-size="15" fill="#6b7a88">performance-gated</text>
+  <text x="861" y="224" text-anchor="middle" font-size="15" fill="#6b7a88">stages; domain</text>
+  <text x="861" y="248" text-anchor="middle" font-size="15" fill="#6b7a88">randomization;</text>
+  <text x="861" y="272" text-anchor="middle" font-size="15" fill="#6b7a88">24 parallel envs</text>
+
+  <line x1="961" y1="215" x2="1001" y2="215" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- box 5: verification -->
+  <rect x="1003" y="110" width="200" height="210" rx="12" fill="#ffffff" stroke="#1a7f6e" stroke-width="2.5"/>
+  <text x="1103" y="145" text-anchor="middle" font-size="16" font-weight="700" fill="#1a7f6e">Verification battery</text>
+  <text x="1103" y="176" text-anchor="middle" font-size="15" fill="#6b7a88">18 seeded scenarios,</text>
+  <text x="1103" y="200" text-anchor="middle" font-size="15" fill="#6b7a88">deterministic policy,</text>
+  <text x="1103" y="224" text-anchor="middle" font-size="15" fill="#6b7a88">5 episodes each;</text>
+  <text x="1103" y="248" text-anchor="middle" font-size="15" fill="#6b7a88">PASS / WARN / FAIL</text>
+
+  <line x1="1203" y1="215" x2="1243" y2="215" stroke="#6b7a88" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- box 6: deployment -->
+  <rect x="1245" y="110" width="200" height="210" rx="12" fill="#ffffff" stroke="#0b3d66" stroke-width="2.5"/>
+  <text x="1345" y="145" text-anchor="middle" font-size="16" font-weight="700" fill="#0b3d66">Deployment package</text>
+  <text x="1345" y="176" text-anchor="middle" font-size="15" fill="#6b7a88">the exact controller</text>
+  <text x="1345" y="200" text-anchor="middle" font-size="15" fill="#6b7a88">build that must pass</text>
+  <text x="1345" y="224" text-anchor="middle" font-size="15" fill="#6b7a88">verification before</text>
+  <text x="1345" y="248" text-anchor="middle" font-size="15" fill="#6b7a88">hardware bring-up</text>
+
+  <text x="740" y="365" text-anchor="middle" font-size="15" fill="#6b7a88">Validation at every hop: URDF mass &amp; forward-kinematics ground-contact checks &#183; action-to-force calibration probes &#183; physics sanity gates before training</text>
+</svg>

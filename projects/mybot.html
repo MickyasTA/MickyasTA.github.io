@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mybot — two-wheeled wheel-legged bipedal robot · Mickyas Tamiru Asfaw</title>
-<meta name="description" content="mybot: a two-wheeled wheel-legged bipedal robot that learns to self-balance and drive to a goal with a from-scratch PPO (no RL libraries), trained in MuJoCo with a ROS 2 + Gazebo reference stack.">
+<meta name="description" content="mybot: a two-wheeled wheel-legged bipedal robot that learns to self-balance, drive, and reach goals with a from-scratch PPO (no RL libraries), trained in a ROS 2 Humble + Gazebo Classic environment and verified in MuJoCo.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -42,92 +42,230 @@
     <a href="mailto:mickyastamiru92@gmail.com">get in touch</a>.
   </div>
 
-  <h2>What it is</h2>
+  <h2>Project goal</h2>
   <p>
     mybot has two independent legs (a 3-DOF hip plus knee each) ending in driven wheels. With its
-    centre of mass above the wheel axle it is <strong>statically unstable</strong> &mdash; standing
-    still is already a control problem, exactly like a Segway. The legs are individually actuated
-    revolute joints, so once balance is solved they can be added to the policy for squatting,
-    stepping, and climbing.
+    centre of mass above the wheel axle the base is <strong>underactuated and statically
+    unstable</strong> &mdash; standing still is already a control problem, exactly like a Segway.
+    The learning problem is <strong>continuous-action policy optimization under partial
+    observability</strong>: the controller sees only proprioception (IMU tilt and angular rates,
+    wheel and joint positions and velocities, and its own previous action), not privileged simulator
+    state, and must produce torque and joint-target commands that keep the robot upright while it
+    drives, reaches goals, and eventually handles obstacles and terrain.
+  </p>
+  <p>
+    The second, deliberate goal is to build the whole learning stack from first principles: the PPO
+    algorithm is <strong>hand-written in PyTorch</strong> &mdash; actor-critic, advantage estimation,
+    surrogate objective, normalization, parallel rollout collection, all of it &mdash; with no RL
+    library anywhere in the loop. The long-term target is <strong>sim-to-real transfer</strong>:
+    a staged curriculum in simulation that ends with a policy conditioned only on observations a
+    real robot can measure.
+  </p>
+
+  <h2>From idea to simulation</h2>
+  <p>
+    The concept trades between two locomotion modes: wheels are efficient and fast on flat ground,
+    while individually actuated legs allow squatting, stepping, and climbing once balance is solved.
+    The mechanical design was done as a full <strong>SolidWorks assembly</strong>, and the
+    simulation model is exported from it rather than hand-tuned: links, joints, and joint limits
+    come out as a <strong>URDF/Xacro description</strong>, with <strong>inertial parameters taken
+    from the CAD mass properties</strong> and STL meshes for geometry. Each hip is built up to
+    3&nbsp;DOF (yaw, roll, pitch) plus a knee, so the legs are real articulated chains, not props.
+  </p>
+  <p>
+    That URDF is imported into <strong>Gazebo Classic under ROS&nbsp;2 Humble</strong> (running on
+    WSL2). Actuation and sensing are defined through <strong>ros2_control</strong>: the two wheels
+    expose an <em>effort</em> interface (torque commands), the hip and knee joints a
+    <em>position</em> interface, and the robot carries an IMU plus wheel odometry &mdash;
+    deliberately the sensor set a physical robot could carry. The training world is flat and runs
+    faster than real time, with a state plugin for deterministic resets. Finally, the same URDF is
+    converted into a <strong>MuJoCo model</strong> that is used to verify and render the learned
+    behaviour independently of the training stack.
+  </p>
+  <figure>
+    <img src="../assets/img/mybot-pipeline.png" alt="mybot pipeline: concept, SolidWorks CAD, URDF export, Gazebo Classic with ros2_control, from-scratch PPO training, MuJoCo verification">
+    <figcaption>The pipeline from concept to verified policy. One description drives everything: CAD mass properties feed the URDF, the URDF feeds both the Gazebo Classic training environment and the MuJoCo verification model.</figcaption>
+  </figure>
+
+  <h2>Implementation &amp; architecture</h2>
+  <p>
+    The system is a chain of separate processes glued by ROS&nbsp;2 topics and services. Gazebo
+    simulates the robot and publishes sensor data; a <strong>Gymnasium-style environment
+    wrapper</strong> turns that stream into an RL interface &mdash; it stacks a short history of
+    proprioceptive frames into the observation, paces <code>step()</code> on the simulation
+    <code>/clock</code>, computes the shaped reward and termination, and resets deterministically
+    through pause/reset services. Actions flow back down as wheel torque commands (up to the
+    &plusmn;20&nbsp;Nm actuator limit in the URDF) and, in later stages, leg position targets.
+  </p>
+  <p>
+    The control architecture is a <strong>classical + RL split</strong>. The eight leg joints are
+    held at a stance posture by position servos &mdash; a conventional control layer that turns the
+    body into a clean inverted pendulum &mdash; while the learned policy commands the wheel torques.
+    As the curriculum advances, the leg targets are handed to the policy too, in a deliberately
+    small range around the stance so that exploration jitter cannot topple the robot.
+  </p>
+  <p>
+    The learner is a <strong>hand-written PPO</strong>: an actor-critic MLP with a learnable
+    log-std, generalized advantage estimation, a clipped surrogate objective, and running mean/std
+    normalization on both observations and rewards. The single most important stabilizer was a
+    <strong>KL cap</strong> (<code>--target-kl 0.02</code>): without it the KL divergence blew up
+    to 0.3&ndash;1.0 between updates, the policy over-updated and <em>degraded</em>; with it (plus
+    a small entropy bonus against entropy collapse) training converges smoothly. Rollouts are
+    collected by <strong>N parallel environment workers</strong> using plain multiprocessing
+    &mdash; still no RL library &mdash; which trains roughly 5&ndash;10&times; faster in wall-clock
+    than a single environment.
+  </p>
+  <p>
+    On top sits a <strong>skill curriculum</strong>: balance, then balance with actuated legs, then
+    goal navigation, then wide-squat rebalancing, obstacles and ducking, step-up, stairs and
+    terrain, and finally a settle stage. Each stage warm-starts from the previous best checkpoint
+    (with weight surgery on the input layer when the observation grows), advances automatically on
+    rolling reward and episode-length thresholds, and logs into one continuous run so the whole
+    curriculum reads as a single learning curve. The reward philosophy is consistent throughout: a
+    dense alive bonus minus penalties on tilt, drift, yaw rate, and effort, extended per stage
+    &mdash; the yaw-rate term alone is what stops the balancer spinning in place (~230&deg;/s
+    without it, a few degrees of heading error with it), and the goal stages add potential-based
+    progress, face-the-goal, arrival, and station-keeping terms.
+  </p>
+  <figure>
+    <img src="../assets/img/mybot-architecture.png" alt="mybot training architecture: Gazebo Classic simulation, ROS 2 topics and services, RL environment wrapper, PPO learner, with the skill curriculum strip">
+    <figcaption>Training architecture and the curriculum strip. Simulation, transport, environment wrapper, and learner are separate processes; parallel workers feed one PPO learner, and one policy is carried through every stage.</figcaption>
+  </figure>
+
+  <h2>Critical challenges</h2>
+
+  <h3>Episodes that ended after one step</h3>
+  <p>
+    The first training runs never learned anything: episodes terminated after roughly
+    <strong>one step</strong>. The environment paces itself on the simulation <code>/clock</code>,
+    and a mismatch between the clock rate and the real-time factor meant each environment step
+    covered so much simulated time that the unstabilized robot had already fallen before the policy
+    ever saw a second observation &mdash; PPO had no gradient signal to climb. Fixing the
+    <code>/clock</code> rate configuration was the breakthrough: episode length jumped from 1 to
+    100+ steps and balance learning finally started. The lesson generalizes &mdash; in a
+    sim-in-the-loop RL stack, the time plumbing is part of the algorithm.
+  </p>
+
+  <h3>Reward hacking, and the leg unlock that toppled everything</h3>
+  <p>
+    The very first goal-navigation policy solved balance by <strong>splaying its legs into a wide
+    static split</strong> &mdash; free lateral stability, but exactly not the point of actuating the
+    legs. A <strong>posture penalty</strong> keeping the legs near their stance removed that
+    shortcut. But unlocking the legs as a real 8-D action, adding a goal, and banning the shortcut
+    all at once made the robot fall within a few steps every time: fresh exploration noise on eight
+    joints is too destabilizing to layer onto a brand-new task. The fix was to split the stage
+    &mdash; first re-learn balance with actuated legs and no goal, then warm-start that policy and
+    add the goal &mdash; after which navigation is learned while keeping balance from step one.
+  </p>
+
+  <h3>Orbiting the goal instead of settling</h3>
+  <p>
+    Much later in the curriculum, the trained navigator developed a subtle failure: it would reach
+    its goal region and then <strong>circle it indefinitely</strong> instead of stopping. The cause
+    is geometric: the proximity reward is a rotationally symmetric well, so a robot circling inside
+    it collects reward forever without ever closing the remaining distance. Several rounds of
+    reward shaping &mdash; penalizing the orbiting motion in various ways &mdash; failed to remove
+    the behaviour. What worked was changing the <em>data</em> instead of the reward:
+    <strong>spawn-at-goal HOLD episodes</strong> were mixed into the curriculum, where the robot
+    starts already at the goal and is rewarded only for staying genuinely stopped. Stopping became
+    a skill the policy practices directly rather than a corner case of navigation, and the orbit
+    disappeared.
+  </p>
+  <figure>
+    <img src="../assets/img/mybot-challenge.png" alt="Diagram of the orbiting failure mode: rotationally symmetric proximity reward lets the robot circle the goal forever; spawn-at-goal HOLD episodes teach stopping as a skill">
+    <figcaption>The most instructive failure mode: a rotationally symmetric proximity reward makes orbiting profitable (left); spawn-at-goal HOLD episodes make being stopped at the goal the best-paid behaviour (right).</figcaption>
+  </figure>
+
+  <h3>Terrain generalization and out-of-distribution obstacles</h3>
+  <p>
+    The obstacle and terrain stages exposed two distinct problems that at first looked like one.
+    Rough-terrain driving was a <strong>real generalization failure</strong> of the policy, while
+    the ducking failures traced back to test obstacles that were simply
+    <strong>out-of-distribution</strong> for the curriculum the policy had seen &mdash; compounded
+    by a coverage gap in the ray sensor. Both are being addressed together:
+    <strong>rehearsal episodes</strong> mix earlier-stage scenarios into later training so old
+    skills are not forgotten while new ones are learned, and the exteroceptive input was widened to
+    a <strong>24-ray configuration</strong> so obstacles are sensed before they are hit. This round
+    is implemented and smoke-tested; the terrain stage is being retrained with it.
+  </p>
+
+  <h2>Results &amp; analysis</h2>
+  <p>
+    The balance run below tells the whole convergence story. Mean episode length and mean episode
+    reward move together (the reward is dominated by the alive bonus): both sit near zero for the
+    first ~0.15&nbsp;M steps while exploration is still random and the robot falls almost
+    immediately, climb steeply between ~0.2 and 0.3&nbsp;M steps once the policy discovers active
+    stabilization, and then grind upward through a noisy band toward the 1000-step episode cap.
+    The dips in that band &mdash; around 0.5&ndash;0.7&nbsp;M and again near 1.15&nbsp;M steps
+    &mdash; are the visible cost of on-policy exploration: updates that trade away some stability
+    are pulled back by the KL early-stop before they can destroy the policy, and the curve recovers
+    each time. The deterministic evaluation return is the curve to trust: it rises smoothly and
+    saturates near the maximum, which is why checkpoint selection is driven by evaluation rather
+    than the noisy training episodes.
+  </p>
+  <figure>
+    <img src="../assets/img/mybot-training-metrics.png" alt="mybot training metrics overview: episode length, reward, evaluation return, throughput, and losses over training">
+    <figcaption>Training overview for the balance run. Top row: mean episode length, mean reward, and the smooth deterministic evaluation return. Bottom rows: per-episode score/steps and the PPO loss diagnostics.</figcaption>
+  </figure>
+  <p>
+    The loss panels explain <em>why</em> it converges. Policy entropy decays steadily from ~1.75 to
+    ~&minus;1.6 as the controller sharpens from exploratory to confident &mdash; a controlled decline,
+    not a collapse, thanks to the small entropy bonus. The approximate KL hovers around
+    0.02&ndash;0.03 for the entire run: that is the <code>target-kl</code> early-stop doing its job,
+    holding every update near the trust-region cap instead of letting KL run to the 0.3&ndash;1.0
+    range that degraded early experiments. The value loss collapses quickly and stays flat, which is
+    what reward normalization buys. In the per-episode panels (~5,000 episodes) the breakthrough is
+    abrupt: scores are flat until roughly episode 3,000, then explode into a wide band mixing full
+    1000-step successes with early falls, and the band narrows as the policy consolidates.
   </p>
 
   <figure class="media16">
     <video controls muted loop playsinline preload="none" poster="../assets/img/mybot-balance-poster.png" src="../assets/video/mujoco_balance_stable.mp4"></video>
   </figure>
-  <figcaption>Stage&nbsp;1 &mdash; a full 20-second balance in MuJoCo (ep_len 1000): upright on its wheels, legs held at stance, realistic contacts and friction.</figcaption>
-
-  <h2>How it learns</h2>
+  <figcaption>Balance, verified in MuJoCo: a full 20-second episode (1000 control steps) upright on the wheels, legs held at stance, with realistic contacts and friction.</figcaption>
   <p>
-    The controller is a <strong>hand-written PPO</strong>: an actor-critic MLP with a learnable
-    log-std, generalized advantage estimation, a clipped surrogate objective, and running
-    mean/std normalization on both observations and rewards &mdash; all in PyTorch, no RL library.
-    Control runs at 50&nbsp;Hz. The single most important stabilizer was a <strong>KL cap</strong>
-    (<code>--target-kl 0.02</code>): without it KL blew up to 0.3&ndash;1.0, the policy over-updated
-    and <em>degraded</em>; with it, training converges smoothly to a full 1000-step balance.
-  </p>
-  <ul>
-    <li><strong>Observation</strong> &mdash; base roll/pitch and angular rate, wheel velocities, base
-      velocity, leg positions/velocities and the previous action (69-d with a 3-frame history at
-      Stage&nbsp;1; 117-d at Stage&nbsp;2 once all eight leg joints are exposed).</li>
-    <li><strong>Action</strong> &mdash; two wheel torques (&plusmn;20&nbsp;Nm) at Stage&nbsp;1; a 10-D
-      action adding eight leg position targets at Stage&nbsp;2.</li>
-    <li><strong>Reward</strong> &mdash; an alive bonus minus penalties on tilt, x-y drift, yaw-rate
-      and effort. The yaw-rate term matters: without it the robot balances but <em>spins</em> in
-      place (~230&deg;/s); with it, it holds heading to within a few degrees.</li>
-  </ul>
-
-  <h2>One policy, a curriculum</h2>
-  <p>
-    Each stage warm-starts from the previous policy. <strong>Stage&nbsp;1 (balance)</strong> reaches
-    a full 20-second balance. <strong>Stage&nbsp;2 (goal navigation)</strong> unlocks the legs as a
-    real 8-D action and adds a base-frame goal vector to the observation, with reward terms for
-    progress toward the goal, facing it, arriving, and station-keeping there. A first attempt
-    exploited a loophole &mdash; splaying the legs into a wide static split for free lateral
-    stability &mdash; so a <strong>posture penalty</strong> was added to keep the legs near their
-    stance. Actuating the legs, adding a goal, and banning the shortcut all at once made the robot
-    fall in a few steps, so the stage was split into <em>2a</em> (balance with actuated legs, no
-    goal) then <em>2b</em> (warm-start 2a, add the goal), which learns navigation while keeping its
-    balance from step one.
+    The videos show what the curves cannot. The balance clip is a <strong>MuJoCo verification
+    render</strong> of the learned policy &mdash; an independent physics model converted from the
+    same URDF &mdash; holding the full 20-second episode without drifting or spinning: the yaw-rate
+    reward term shows up here as a steady heading rather than the ~230&deg;/s pirouette earlier
+    policies produced.
   </p>
 
   <figure class="media16">
     <video controls muted loop playsinline preload="none" poster="../assets/img/mybot-nav-poster.png" src="../assets/video/nav_goal_reach.mp4"></video>
   </figure>
-  <figcaption>Stage&nbsp;2 &mdash; the robot drives to a randomized goal marker and stops there, balancing throughout.</figcaption>
-
-  <h2>Results</h2>
-  <ul>
-    <li><strong>Balance</strong> &mdash; holds the full 1000-step (20&nbsp;s) episode upright on its wheels.</li>
-    <li><strong>Goal navigation</strong> &mdash; <strong>9/10</strong> held-out episodes arrive and
-      station-keep, mean end-distance <strong>0.16&nbsp;m</strong> from a mean start of
-      <strong>1.47&nbsp;m</strong>, still balancing the full episode.</li>
-  </ul>
-  <figure>
-    <img src="../assets/img/mybot-training-metrics.png" alt="mybot training metrics overview: episode length, reward, and losses over training">
-    <figcaption>Training overview for the balance run &mdash; episode length climbs to the full 1000 steps as the policy converges.</figcaption>
-  </figure>
-
-  <h2>Two simulators, one hard lesson</h2>
+  <figcaption>Goal navigation with settle: the robot drives to a randomized goal marker, decelerates, and holds position there &mdash; balancing throughout.</figcaption>
   <p>
-    Training runs primarily in <strong>MuJoCo</strong>, with a <strong>ROS&nbsp;2 Humble +
-    Gazebo Classic</strong> stack kept for integration and reference. The split was forced by
-    physics: Gazebo Classic could not hold this robot's load-bearing, chained revolute leg joints
-    &mdash; they buckle to a collapsed pose the instant physics runs and then kinematically lock
-    (confirmed across every actuator, gain, and damping setting). MuJoCo's constrained dynamics hold
-    the same joints at 0.007&nbsp;rad under full body load, so training moved there. On this machine
-    a <strong>parallel-CPU PPO</strong> (N MuJoCo envs across cores, plain multiprocessing, still no
-    RL library) trained the goal-nav result ~5&ndash;10&times; faster than a single env, while a
-    JAX/MJX GPU path is kept as a flag for larger machines.
+    The navigation clip shows the full stack: the robot accelerates toward a randomized goal
+    marker, faces it, decelerates on approach, and holds station inside the goal region while still
+    balancing. On held-out evaluation episodes, <strong>9 of 10</strong> runs arrive and
+    station-keep, with a mean end-distance of <strong>0.16&nbsp;m</strong> from a mean starting
+    distance of <strong>1.47&nbsp;m</strong> &mdash; while balancing through the full episode.
   </p>
+
   <figure class="media16">
     <video controls muted loop playsinline preload="none" poster="../assets/img/mybot-gazebo-poster.png" src="../assets/video/mybot_gazebo_demo.mp4"></video>
   </figure>
-  <figcaption>The ROS&nbsp;2 + Gazebo Classic reference stack &mdash; kept for integration alongside the primary MuJoCo training path.</figcaption>
+  <figcaption>The ROS&nbsp;2 Humble + Gazebo Classic training stack driving the robot &mdash; the environment the policy actually trains in.</figcaption>
+  <p>
+    What remains weak is honest to state: sequential wheel-lifting onto steps (the step-up stage) is
+    only partially learned, terrain generalization is mid-retraining with the rehearsal and 24-ray
+    changes, and every number on this page is simulation-only &mdash; no hardware has run this
+    policy yet.
+  </p>
 
-  <h2>Status</h2>
+  <h2>Future work</h2>
   <ul>
-    <li><strong>Done</strong> &mdash; Stage&nbsp;1 balance and Stage&nbsp;2 goal navigation, verified on held-out episodes.</li>
-    <li><strong>Next</strong> &mdash; obstacle avoidance, ducking and terrain (squat under obstacles, stairs, rough ground), then sim-to-real with IMU-only observations and domain randomization.</li>
+    <li><strong>Finish the terrain/stairs retraining</strong> with rehearsal episodes and the 24-ray
+      sensor, tracking per-mode metrics (flat, duck, step, terrain) instead of a single average.</li>
+    <li><strong>Consolidate step-up</strong> &mdash; make sequential wheel-lifting onto ledges
+      reliable enough to chain into stair climbing.</li>
+    <li><strong>Rebalance the drive/hold episode mix</strong> in the settle stage so that learning to
+      stop does not cost navigation performance.</li>
+    <li><strong>Domain randomization</strong> over mass, friction, and actuator latency to prepare
+      the policy for transfer.</li>
+    <li><strong>Switch to IMU-only observations</strong> &mdash; drop the remaining privileged state
+      terms (the IMU sensors are already defined in the model) as the last step before sim-to-real.</li>
   </ul>
 
   <p style="margin-top:34px;">

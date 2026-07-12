@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 640" width="1500" height="640" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="ca" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0b3d66"/>
+    </marker>
+    <marker id="cg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7a88"/>
+    </marker>
+    <marker id="ct" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1a7f6e"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1500" height="640" fill="#ffffff"/>
+
+  <text x="30" y="46" font-size="26" font-weight="700" fill="#0b3d66">Failure mode &#8212; orbiting the goal instead of stopping</text>
+  <text x="30" y="74" font-size="16" fill="#6b7a88">the trained navigator reached its goal region, then circled it indefinitely &#8212; and reward shaping alone would not make it stop</text>
+
+  <!-- LEFT PANEL: problem -->
+  <g>
+    <rect x="30" y="100" width="700" height="490" rx="12" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+    <text x="60" y="140" font-size="17" font-weight="700" fill="#d97a1e">PROBLEM &#8212; reward-farming by orbiting</text>
+
+    <!-- reward well rings -->
+    <circle cx="270" cy="320" r="150" fill="none" stroke="#e3e8ec" stroke-width="24"/>
+    <circle cx="270" cy="320" r="93" fill="none" stroke="#eef1f4" stroke-width="24"/>
+    <!-- arrival ring -->
+    <circle cx="270" cy="320" r="55" fill="none" stroke="#6b7a88" stroke-width="1.8" stroke-dasharray="6 5"/>
+    <text x="270" y="402" font-size="15" fill="#6b7a88" text-anchor="middle">arrival ring</text>
+    <!-- goal -->
+    <circle cx="270" cy="320" r="9" fill="#d97a1e"/>
+    <text x="270" y="301" font-size="15" font-weight="700" fill="#d97a1e" text-anchor="middle">goal</text>
+
+    <!-- orbit path -->
+    <circle cx="270" cy="320" r="120" fill="none" stroke="#0b3d66" stroke-width="2.5" stroke-dasharray="9 7"/>
+    <path d="M 264 200 l 8 0" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#ca)"/>
+    <path d="M 276 440 l -8 0" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#ca)"/>
+    <path d="M 150 326 l 0 -8" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#ca)"/>
+
+    <!-- robot on orbit -->
+    <g transform="translate(390,320) rotate(90)">
+      <rect x="-16" y="-11" width="32" height="22" rx="5" fill="#0b3d66"/>
+      <line x1="16" y1="0" x2="46" y2="0" stroke="#0b3d66" stroke-width="3" marker-end="url(#ca)"/>
+    </g>
+    <text x="440" y="300" font-size="15" fill="#0b3d66">tangential velocity &#8212;</text>
+    <text x="440" y="321" font-size="15" fill="#0b3d66">distance never closes</text>
+
+    <!-- explanation -->
+    <text x="60" y="510" font-size="15.5" fill="#444f58">The proximity reward is a rotationally symmetric well: every point on the</text>
+    <text x="60" y="534" font-size="15.5" fill="#444f58">circle pays the same, so circling collects reward forever without stopping.</text>
+    <text x="60" y="558" font-size="15.5" fill="#444f58">Several reward-shaping penalties on the orbit failed to remove it.</text>
+  </g>
+
+  <!-- divider arrow -->
+  <line x1="738" y1="345" x2="762" y2="345" stroke="#6b7a88" stroke-width="3" marker-end="url(#cg)"/>
+
+  <!-- RIGHT PANEL: fix -->
+  <g>
+    <rect x="770" y="100" width="700" height="490" rx="12" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+    <text x="800" y="140" font-size="17" font-weight="700" fill="#1a7f6e">FIX &#8212; spawn-at-goal HOLD episodes</text>
+
+    <!-- drive episode strip -->
+    <rect x="800" y="170" width="640" height="120" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+    <text x="820" y="200" font-size="15" font-weight="700" fill="#6b7a88">DRIVE episode &#8212; spawn away, reach the goal</text>
+    <g transform="translate(860,248)">
+      <rect x="-16" y="-11" width="32" height="22" rx="5" fill="#6b7a88"/>
+    </g>
+    <line x1="892" y1="248" x2="1256" y2="248" stroke="#6b7a88" stroke-width="2.5" stroke-dasharray="8 6" marker-end="url(#cg)"/>
+    <circle cx="1330" cy="248" r="34" fill="none" stroke="#6b7a88" stroke-width="1.8" stroke-dasharray="6 5"/>
+    <circle cx="1330" cy="248" r="7" fill="#d97a1e"/>
+
+    <!-- hold episode strip -->
+    <rect x="800" y="310" width="640" height="150" rx="10" fill="#ffffff" stroke="#1a7f6e" stroke-width="2.5"/>
+    <text x="820" y="340" font-size="15" font-weight="700" fill="#1a7f6e">HOLD episode &#8212; spawn AT the goal, reward only for staying stopped</text>
+    <circle cx="1000" cy="405" r="42" fill="none" stroke="#1a7f6e" stroke-width="2" stroke-dasharray="6 5"/>
+    <circle cx="1000" cy="405" r="7" fill="#d97a1e"/>
+    <g transform="translate(1000,405)">
+      <rect x="-16" y="-27" width="32" height="22" rx="5" fill="#1a7f6e"/>
+    </g>
+    <text x="1064" y="398" font-size="15" fill="#1a7f6e">v = 0 &#183; yaw rate = 0</text>
+    <text x="1064" y="420" font-size="15" fill="#1a7f6e">&#8220;settled&#8221; bonus only when genuinely stopped</text>
+
+    <!-- explanation -->
+    <text x="800" y="510" font-size="15.5" fill="#444f58">Mixing HOLD episodes into the curriculum makes stopping a skill the policy</text>
+    <text x="800" y="534" font-size="15.5" fill="#444f58">practices directly, instead of a corner case of navigation &#8212; the orbit</text>
+    <text x="800" y="558" font-size="15.5" fill="#444f58">disappears because standing still at the goal is now the best-paid behavior.</text>
+  </g>
+</svg>

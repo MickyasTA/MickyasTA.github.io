@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1460 900" width="1460" height="900" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7a88"/>
+    </marker>
+    <marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0b3d66"/>
+    </marker>
+    <marker id="arrT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1a7f6e"/>
+    </marker>
+    <marker id="arrO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d97a1e"/>
+    </marker>
+    <linearGradient id="stripe" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e8f4f1"/>
+      <stop offset="0.5" stop-color="#1a7f6e"/>
+      <stop offset="1" stop-color="#e8f4f1"/>
+    </linearGradient>
+    <linearGradient id="depthg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b3d66"/>
+      <stop offset="1" stop-color="#9db4c8"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1460" height="900" fill="#ffffff"/>
+
+  <text x="40" y="36" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">ACTING — EVERY CONTROL STEP</text>
+
+  <!-- Depth stream box -->
+  <rect x="40" y="60" width="280" height="170" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="40" y="60" width="280" height="40" rx="10" fill="#0b3d66"/>
+  <rect x="40" y="82" width="280" height="18" fill="#0b3d66"/>
+  <text x="180" y="87" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Depth stream</text>
+  <g>
+    <rect x="87" y="142" width="54" height="54" fill="url(#depthg)" stroke="#0b3d66" stroke-width="0.8"/>
+    <rect x="78" y="133" width="54" height="54" fill="url(#depthg)" stroke="#0b3d66" stroke-width="0.8"/>
+    <rect x="69" y="124" width="54" height="54" fill="url(#depthg)" stroke="#0b3d66" stroke-width="0.8"/>
+    <rect x="60" y="115" width="54" height="54" fill="url(#depthg)" stroke="#0b3d66" stroke-width="0.8"/>
+  </g>
+  <text x="162" y="132" font-size="15" fill="#0b3d66">6 stacked frames</text>
+  <text x="162" y="157" font-size="15" fill="#0b3d66">clip 0&#8211;10 m &#183; &#247;10</text>
+  <text x="162" y="182" font-size="15" fill="#0b3d66">128 &#215; 160 px</text>
+
+  <!-- Goal channel box -->
+  <rect x="40" y="270" width="280" height="150" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="40" y="270" width="280" height="40" rx="10" fill="#1a7f6e"/>
+  <rect x="40" y="292" width="280" height="18" fill="#1a7f6e"/>
+  <text x="180" y="297" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Goal channel I<tspan dy="4" font-size="13">g</tspan></text>
+  <rect x="60" y="330" width="100" height="70" fill="url(#stripe)" stroke="#1a7f6e" stroke-width="1"/>
+  <text x="175" y="347" font-size="15" fill="#0b3d66">Gaussian stripe</text>
+  <text x="175" y="370" font-size="15" fill="#0b3d66">at goal bearing,</text>
+  <text x="175" y="393" font-size="15" fill="#0b3d66">fades with dist.</text>
+
+  <!-- State box -->
+  <rect x="380" y="140" width="180" height="180" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="380" y="140" width="180" height="40" rx="10" fill="#0b3d66"/>
+  <rect x="380" y="162" width="180" height="18" fill="#0b3d66"/>
+  <text x="470" y="167" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">State s</text>
+  <text x="398" y="212" font-size="15" fill="#0b3d66">7 channels:</text>
+  <text x="398" y="237" font-size="15" fill="#0b3d66">6 depth + I<tspan dy="4" font-size="12">g</tspan></text>
+  <text x="398" y="262" font-size="15" fill="#0b3d66">128 &#215; 160</text>
+  <text x="398" y="287" font-size="15" fill="#0b3d66">uint8 in replay</text>
+
+  <!-- ConvEncoder box -->
+  <rect x="620" y="140" width="230" height="180" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="620" y="140" width="230" height="40" rx="10" fill="#0b3d66"/>
+  <rect x="620" y="162" width="230" height="18" fill="#0b3d66"/>
+  <text x="735" y="167" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">ConvEncoder</text>
+  <text x="638" y="212" font-size="15" fill="#0b3d66">8&#215;8 s8 &#8594; 4&#215;4 s2</text>
+  <text x="638" y="237" font-size="15" fill="#0b3d66">&#8594; 3&#215;3 s1 (ReLU)</text>
+  <text x="638" y="262" font-size="15" fill="#0b3d66">channels 32 &#183; 64 &#183; 64</text>
+  <text x="638" y="287" font-size="15" fill="#0b3d66">FC &#8594; 256-d feature</text>
+
+  <!-- Goal vector cells -->
+  <text x="510" y="336" font-size="15" fill="#1a7f6e" text-anchor="middle" font-weight="600">explicit goal vector g — recomputed every step</text>
+  <rect x="380" y="352" width="90" height="52" fill="#ffffff" stroke="#1a7f6e" stroke-width="1.5"/>
+  <text x="425" y="384" font-size="16" fill="#0b3d66" text-anchor="middle">sin &#945;</text>
+  <rect x="470" y="352" width="90" height="52" fill="#ffffff" stroke="#1a7f6e" stroke-width="1.5"/>
+  <text x="515" y="384" font-size="16" fill="#0b3d66" text-anchor="middle">cos &#945;</text>
+  <rect x="560" y="352" width="90" height="52" fill="#e8f4f1" stroke="#1a7f6e" stroke-width="1.5"/>
+  <text x="605" y="384" font-size="16" fill="#0b3d66" text-anchor="middle">1 &#8722; d/10</text>
+  <!-- MLP box -->
+  <rect x="710" y="342" width="150" height="72" rx="10" fill="#e8f4f1" stroke="#1a7f6e" stroke-width="1.5"/>
+  <text x="785" y="385" font-size="16" fill="#0b3d66" text-anchor="middle" font-weight="600">MLP &#8594; 64-d</text>
+
+  <!-- Concat node -->
+  <circle cx="915" cy="230" r="28" fill="#ffffff" stroke="#0b3d66" stroke-width="2"/>
+  <text x="915" y="238" font-size="22" fill="#0b3d66" text-anchor="middle" font-weight="700">&#8853;</text>
+  <text x="903" y="298" font-size="15" fill="#6b7a88" text-anchor="end">320-d</text>
+
+  <!-- Actor box -->
+  <rect x="995" y="120" width="250" height="180" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="995" y="120" width="250" height="40" rx="10" fill="#d97a1e"/>
+  <rect x="995" y="142" width="250" height="18" fill="#d97a1e"/>
+  <text x="1120" y="147" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Actor &#956;(s, g)</text>
+  <text x="1013" y="192" font-size="15" fill="#0b3d66">FC 320 &#8594; 256 ReLU</text>
+  <text x="1013" y="217" font-size="15" fill="#0b3d66">tanh &#8594; 4 actions, scaled</text>
+  <text x="1013" y="242" font-size="15" fill="#0b3d66">training: + noise &#951;,</text>
+  <text x="1013" y="267" font-size="15" fill="#0b3d66">annealed 40% &#8594; 10%</text>
+
+  <!-- Action cells -->
+  <text x="1354" y="140" font-size="15" fill="#6b7a88" text-anchor="middle">action a</text>
+  <rect x="1270" y="153" width="42" height="44" fill="#ffffff" stroke="#0b3d66" stroke-width="1.5"/>
+  <text x="1291" y="181" font-size="15" fill="#0b3d66" text-anchor="middle">vx</text>
+  <rect x="1312" y="153" width="42" height="44" fill="#ffffff" stroke="#0b3d66" stroke-width="1.5"/>
+  <text x="1333" y="181" font-size="15" fill="#0b3d66" text-anchor="middle">vy</text>
+  <rect x="1354" y="153" width="42" height="44" fill="#ffffff" stroke="#0b3d66" stroke-width="1.5"/>
+  <text x="1375" y="181" font-size="15" fill="#0b3d66" text-anchor="middle">vz</text>
+  <rect x="1396" y="153" width="42" height="44" fill="#ffffff" stroke="#0b3d66" stroke-width="1.5"/>
+  <text x="1417" y="181" font-size="15" fill="#0b3d66" text-anchor="middle">&#969;</text>
+
+  <!-- cmd box -->
+  <rect x="1260" y="250" width="180" height="70" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <text x="1350" y="280" font-size="15.5" fill="#0b3d66" text-anchor="middle" font-weight="600">/cmd_vel</text>
+  <text x="1350" y="303" font-size="15" fill="#0b3d66" text-anchor="middle">+ altitude hold</text>
+
+  <!-- acting arrows -->
+  <path d="M320,150 L372,205" fill="none" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M320,345 L372,268" fill="none" stroke="#1a7f6e" stroke-width="2" marker-end="url(#arrT)"/>
+  <path d="M560,230 L612,230" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M850,230 L879,230" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M660,378 L702,378" fill="none" stroke="#1a7f6e" stroke-width="2" marker-end="url(#arrT)"/>
+  <path d="M860,378 L915,378 L915,266" fill="none" stroke="#1a7f6e" stroke-width="2" marker-end="url(#arrT)"/>
+  <path d="M943,230 L987,230" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M1245,192 L1262,180" fill="none" stroke="#d97a1e" stroke-width="2.5" marker-end="url(#arrO)"/>
+  <path d="M1354,197 L1354,222 L1350,222 L1350,242" fill="none" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- divider -->
+  <line x1="30" y1="545" x2="1430" y2="545" stroke="#6b7a88" stroke-width="1" stroke-dasharray="8,7"/>
+  <text x="40" y="585" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">LEARNING — EVERY 4 CONTROL STEPS, OFF-POLICY FROM REPLAY</text>
+
+  <!-- transitions arrow -->
+  <path d="M1350,320 L1350,470 L190,470 L190,612" fill="none" stroke="#6b7a88" stroke-width="2" stroke-dasharray="7,6" marker-end="url(#arr)"/>
+  <text x="740" y="460" font-size="15" fill="#6b7a88" text-anchor="middle">transitions (s, a, r, s&#8242;, done, g, g&#8242;) — timeout stored as NOT done</text>
+
+  <!-- Replay box -->
+  <rect x="40" y="620" width="300" height="170" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="40" y="620" width="300" height="40" rx="10" fill="#0b3d66"/>
+  <rect x="40" y="642" width="300" height="18" fill="#0b3d66"/>
+  <text x="190" y="647" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Replay buffer</text>
+  <text x="58" y="692" font-size="15" fill="#0b3d66">4 &#215; 10&#8308; transitions</text>
+  <text x="58" y="717" font-size="15" fill="#0b3d66">uint8 states (4&#215; smaller)</text>
+  <text x="58" y="742" font-size="15" fill="#0b3d66">per-state goal vectors</text>
+  <text x="58" y="767" font-size="15" fill="#0b3d66">minibatch 128</text>
+
+  <!-- Critics box -->
+  <rect x="400" y="620" width="320" height="170" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="400" y="620" width="320" height="40" rx="10" fill="#d97a1e"/>
+  <rect x="400" y="642" width="320" height="18" fill="#d97a1e"/>
+  <text x="560" y="647" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Twin critics Q&#8321; , Q&#8322;</text>
+  <text x="418" y="692" font-size="15" fill="#0b3d66">each: own encoder + goal MLP</text>
+  <text x="418" y="717" font-size="15" fill="#0b3d66">inputs: features &#8853; g &#8853; action</text>
+  <text x="418" y="742" font-size="15" fill="#0b3d66">regress to Bellman target y</text>
+  <text x="418" y="767" font-size="15" fill="#0b3d66">gradients clipped to unit norm</text>
+
+  <!-- Targets box -->
+  <rect x="780" y="620" width="330" height="170" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="780" y="620" width="330" height="40" rx="10" fill="#0b3d66"/>
+  <rect x="780" y="642" width="330" height="18" fill="#0b3d66"/>
+  <text x="945" y="647" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Target nets &#956;&#8242;, Q&#8321;&#8242;, Q&#8322;&#8242;</text>
+  <text x="798" y="692" font-size="15" fill="#0b3d66">target-policy smoothing (clipped &#949;)</text>
+  <text x="798" y="717" font-size="15" fill="#0b3d66">y = r + &#947; &#183; min( Q&#8321;&#8242;, Q&#8322;&#8242; )</text>
+  <text x="798" y="742" font-size="15" fill="#0b3d66">clipped double-Q vs overestimation</text>
+  <text x="798" y="767" font-size="15" fill="#0b3d66">Polyak &#964; = 0.005</text>
+
+  <!-- Actor update box -->
+  <rect x="1170" y="620" width="260" height="170" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="1170" y="620" width="260" height="40" rx="10" fill="#d97a1e"/>
+  <rect x="1170" y="642" width="260" height="18" fill="#d97a1e"/>
+  <text x="1300" y="647" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Delayed actor step</text>
+  <text x="1188" y="692" font-size="15" fill="#0b3d66">every 2 critic updates</text>
+  <text x="1188" y="717" font-size="15" fill="#0b3d66">ascend Q&#8321;(s, &#956;(s,g), g)</text>
+  <text x="1188" y="742" font-size="15" fill="#0b3d66">then Polyak-average all</text>
+  <text x="1188" y="767" font-size="15" fill="#0b3d66">target networks</text>
+
+  <!-- learning arrows -->
+  <path d="M340,705 L392,705" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M780,705 L728,705" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <text x="754" y="694" font-size="15" fill="#6b7a88" text-anchor="middle">y</text>
+  <path d="M560,790 L560,835 L1300,835 L1300,798" fill="none" stroke="#d97a1e" stroke-width="2" marker-end="url(#arrO)"/>
+  <text x="930" y="826" font-size="15" fill="#d97a1e" text-anchor="middle">deterministic policy gradient through Q&#8321;</text>
+  <path d="M1220,620 L1220,308" fill="none" stroke="#d97a1e" stroke-width="2" stroke-dasharray="7,6" marker-end="url(#arrO)"/>
+  <text x="1228" y="500" font-size="15" fill="#d97a1e">updates &#952;</text>
+</svg>

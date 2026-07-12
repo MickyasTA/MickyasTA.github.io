@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1460 660" width="1460" height="660" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d97a1e"/>
+    </marker>
+    <marker id="arrT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1a7f6e"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1460" height="660" fill="#ffffff"/>
+
+  <!-- ============ PANEL 1: safe circling ============ -->
+  <g transform="translate(30,0)">
+    <rect x="0" y="30" width="440" height="600" rx="12" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+    <rect x="0" y="30" width="440" height="50" rx="12" fill="#d97a1e"/>
+    <rect x="0" y="58" width="440" height="22" fill="#d97a1e"/>
+    <text x="220" y="63" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Failure mode 1 — safe circling</text>
+
+    <!-- room sketch -->
+    <rect x="25" y="105" width="390" height="235" fill="#fbfcfd" stroke="#9daebc" stroke-width="1.2"/>
+    <!-- obstacles -->
+    <rect x="200" y="150" width="34" height="34" fill="#c3ccd4"/>
+    <rect x="255" y="255" width="34" height="34" fill="#c3ccd4"/>
+    <circle cx="185" cy="265" r="15" fill="#c3ccd4"/>
+    <!-- spawn -->
+    <circle cx="120" cy="225" r="9" fill="#0b3d66"/>
+    <text x="120" y="330" font-size="15" fill="#0b3d66" text-anchor="middle">spawn</text>
+    <!-- circling loop -->
+    <path d="M120,180 A45,45 0 1 1 78,240" fill="none" stroke="#d97a1e" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrO)"/>
+    <text x="120" y="152" font-size="15.5" fill="#d97a1e" text-anchor="middle" font-weight="600">loiter &#8776; 85 discounted</text>
+    <!-- risky run -->
+    <path d="M133,218 L345,172" fill="none" stroke="#6b7a88" stroke-width="2" stroke-dasharray="4,5"/>
+    <text x="290" y="166" font-size="15" fill="#6b7a88" text-anchor="middle">risky run &#8776; 50</text>
+    <!-- goal star -->
+    <g transform="translate(365,168)">
+      <polygon points="0,-16 4,-5.5 15.2,-4.9 6.5,2.1 9.4,12.9 0,6.8 -9.4,12.9 -6.5,2.1 -15.2,-4.9 -4,-5.5" fill="#1a7f6e"/>
+    </g>
+    <text x="365" y="207" font-size="15" fill="#1a7f6e" text-anchor="middle">goal +100</text>
+
+    <!-- text -->
+    <text x="28" y="382" font-size="15.5" fill="#0b3d66">A +0.5 / step survival bonus made harmless</text>
+    <text x="28" y="410" font-size="15.5" fill="#0b3d66">loitering worth &#8776; 85 discounted reward —</text>
+    <text x="28" y="438" font-size="15.5" fill="#0b3d66">more than the &#8776; 50 available from a risky</text>
+    <text x="28" y="466" font-size="15.5" fill="#0b3d66">goal approach.</text>
+    <text x="28" y="506" font-size="15.5" fill="#6b7a88">The critic was right: circling near spawn</text>
+    <text x="28" y="534" font-size="15.5" fill="#6b7a88">really was the higher-value policy under</text>
+    <text x="28" y="562" font-size="15.5" fill="#6b7a88">that reward. The reward was wrong.</text>
+  </g>
+
+  <!-- ============ PANEL 2: goal parking ============ -->
+  <g transform="translate(505,0)">
+    <rect x="0" y="30" width="440" height="600" rx="12" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+    <rect x="0" y="30" width="440" height="50" rx="12" fill="#d97a1e"/>
+    <rect x="0" y="58" width="440" height="22" fill="#d97a1e"/>
+    <text x="220" y="63" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Failure mode 2 — goal parking</text>
+
+    <!-- room sketch -->
+    <rect x="25" y="105" width="390" height="235" fill="#fbfcfd" stroke="#9daebc" stroke-width="1.2"/>
+    <!-- goal + radius -->
+    <circle cx="290" cy="222" r="52" fill="none" stroke="#1a7f6e" stroke-width="1.5" stroke-dasharray="5,5"/>
+    <g transform="translate(290,222)">
+      <polygon points="0,-16 4,-5.5 15.2,-4.9 6.5,2.1 9.4,12.9 0,6.8 -9.4,12.9 -6.5,2.1 -15.2,-4.9 -4,-5.5" fill="#1a7f6e"/>
+    </g>
+    <text x="315" y="327" font-size="15" fill="#1a7f6e" text-anchor="middle">goal radius &#961;</text>
+    <!-- spawn -->
+    <circle cx="75" cy="160" r="9" fill="#0b3d66"/>
+    <!-- approach + parking orbit -->
+    <path d="M85,166 C150,190 185,205 218,218" fill="none" stroke="#d97a1e" stroke-width="3"/>
+    <path d="M218,218 A66,66 0 1 1 262,285" fill="none" stroke="#d97a1e" stroke-width="3" stroke-dasharray="8,6" marker-end="url(#arrO)"/>
+    <text x="130" y="255" font-size="15.5" fill="#d97a1e" font-weight="600">parks just</text>
+    <text x="130" y="277" font-size="15.5" fill="#d97a1e" font-weight="600">outside &#961;</text>
+
+    <!-- text -->
+    <text x="28" y="382" font-size="15.5" fill="#0b3d66">At 10&#215; scale, the proximity bonus paid an</text>
+    <text x="28" y="410" font-size="15.5" fill="#0b3d66">income for hovering just outside the goal</text>
+    <text x="28" y="438" font-size="15.5" fill="#0b3d66">radius. Timeouts are non-terminal, so it</text>
+    <text x="28" y="466" font-size="15.5" fill="#0b3d66">bootstraps forever — beating the +100.</text>
+    <text x="28" y="506" font-size="15.5" fill="#6b7a88">The agent flew to the goal, then refused</text>
+    <text x="28" y="534" font-size="15.5" fill="#6b7a88">to finish: the shaping term is not</text>
+    <text x="28" y="562" font-size="15.5" fill="#6b7a88">potential-based, so its scale matters.</text>
+  </g>
+
+  <!-- ============ PANEL 3: fix ============ -->
+  <g transform="translate(980,0)">
+    <rect x="0" y="30" width="440" height="600" rx="12" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+    <rect x="0" y="30" width="440" height="50" rx="12" fill="#1a7f6e"/>
+    <rect x="0" y="58" width="440" height="22" fill="#1a7f6e"/>
+    <text x="220" y="63" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Fix — finishing strictly dominates</text>
+
+    <!-- room sketch -->
+    <rect x="25" y="105" width="390" height="235" fill="#fbfcfd" stroke="#9daebc" stroke-width="1.2"/>
+    <!-- gravity well rings -->
+    <circle cx="320" cy="200" r="38" fill="none" stroke="#1a7f6e" stroke-width="1.2" stroke-dasharray="4,5" opacity="0.8"/>
+    <circle cx="320" cy="200" r="72" fill="none" stroke="#1a7f6e" stroke-width="1.2" stroke-dasharray="4,5" opacity="0.55"/>
+    <circle cx="320" cy="200" r="106" fill="none" stroke="#1a7f6e" stroke-width="1.2" stroke-dasharray="4,5" opacity="0.35"/>
+    <g transform="translate(320,200)">
+      <polygon points="0,-16 4,-5.5 15.2,-4.9 6.5,2.1 9.4,12.9 0,6.8 -9.4,12.9 -6.5,2.1 -15.2,-4.9 -4,-5.5" fill="#1a7f6e"/>
+    </g>
+    <!-- spawn + straight path -->
+    <circle cx="75" cy="278" r="9" fill="#0b3d66"/>
+    <path d="M88,274 L296,208" fill="none" stroke="#1a7f6e" stroke-width="3.5" marker-end="url(#arrT)"/>
+    <text x="100" y="312" font-size="15.5" fill="#1a7f6e" font-weight="600">24 / m progress pull</text>
+
+    <!-- text -->
+    <text x="28" y="382" font-size="15.5" fill="#0b3d66">Survival income set to zero — open space</text>
+    <text x="28" y="410" font-size="15.5" fill="#0b3d66">pays nothing, so only progress earns.</text>
+    <text x="28" y="438" font-size="15.5" fill="#0b3d66">Potential-based progress term &#215;8 gives a</text>
+    <text x="28" y="466" font-size="15.5" fill="#0b3d66">dominant 24 / metre pull toward the goal.</text>
+    <text x="28" y="506" font-size="15.5" fill="#6b7a88">Proximity bonus kept small (0.15&#183;e&#8315;&#178;&#7496;), so</text>
+    <text x="28" y="534" font-size="15.5" fill="#6b7a88">parked income stays far below the +100</text>
+    <text x="28" y="562" font-size="15.5" fill="#6b7a88">terminal — reaching the goal always wins.</text>
+  </g>
+</svg>

@@ -314,3 +314,13 @@ footer a { color: var(--text-dim); }
   section { padding: 54px 0; }
   .hero { padding: 64px 0 50px; }
 }
+
+/* ---------- additive: engineering-narrative detail pages (subsection headings) ---------- */
+.detail-body h3 { margin-top: 30px; font-size: 19px; font-weight: 700; letter-spacing: -0.2px; }
+
+/* ---------- additive: inline code on detail pages (aether-1 narrative) ---------- */
+.detail-body code {
+  font-family: var(--mono); font-size: 0.86em; color: var(--teal);
+  background: var(--bg-soft); border: 1px solid var(--card-edge);
+  border-radius: 6px; padding: 1px 6px; white-space: nowrap;
+}
