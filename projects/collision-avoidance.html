@@ -24,7 +24,7 @@
 </nav>
 
 <div class="detail-hero">
-  <img src="../assets/img/collision-poster.png" alt="Deep-RL collision avoidance &#8212; a quadrotor navigating a cluttered Gazebo room">
+  <img src="../assets/img/collision-ppo-detour-poster.png" alt="The recurrent ppo_rec policy flying a detour course in Gazebo &#8212; the quadrotor curving around blue box occluders and orange pillars toward the green goal">
 </div>
 
 <main class="detail-body">
@@ -89,7 +89,7 @@
     world, multi-world training is orchestrated <em>across runs</em>: each world gets its own
     Gazebo session and the model checkpoint carries over.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/collision-pipeline.png" alt="Pipeline diagram: URDF platform model and SDF world design feed Gazebo Classic; depth stream is preprocessed and stacked into a 7-channel state; a from-scratch TD3 outputs velocity commands closed back through the simulator; a deterministic evaluation battery branches off frozen checkpoints">
     <figcaption>The pipeline: platform model (URDF/xacro) and worlds (SDF) feed Gazebo Classic 11 on ROS&nbsp;2 Humble; the depth stream is clipped, stacked, and goal-augmented; the from-scratch TD3 closes the loop at ~3.3&nbsp;Hz; frozen checkpoints feed a deterministic evaluation battery.</figcaption>
   </figure>
@@ -131,7 +131,7 @@
     distance at what the world can actually place, and adaptive tiers keep early episodes short
     and early goal radii lenient while the replay buffer fills.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/collision-architecture.png" alt="Architecture diagram: depth stack and Gaussian goal channel form a 7-channel state through a convolutional encoder; an explicit goal vector passes through an MLP; both concatenate into the actor producing four velocity actions; below, the replay buffer, twin critics, target networks and delayed actor update form the TD3 learning loop">
     <figcaption>TD3 anatomy applied to this problem. Top: the acting path &mdash; dual goal encoding (image channel + explicit vector) fused with the depth features, deterministic actor, exploration noise. Bottom: the learning path &mdash; replay, twin critics with separate encoders, smoothed targets with clipped double-Q, delayed actor updates.</figcaption>
   </figure>
@@ -192,7 +192,7 @@
     obstacles) under a decoupled distance&ndash;occlusion curriculum and a stronger &minus;100
     collision terminal.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/collision-ppo-architecture.png" alt="Architecture diagram of the recurrent predictive PPO second learner: the shared ConvEncoder and goal MLP feed a concatenated 320-d feature into a single-layer GRU whose hidden state is carried across the episode; three heads branch off &mdash; a Gaussian actor, a PopArt-normalized value head, and a training-only future-depth prediction head; below, the on-policy learning path shows the rollout, per-episode GAE, PopArt stats with truncated BPTT, and the clipped-surrogate update with a KL actor-freeze; a contrast ribbon lists how the data path differs from the deployed TD3 baseline">
     <figcaption>The second learner, <code>ppo_rec</code>, laid out beside the TD3 anatomy above.
       Top: the recurrent acting path &mdash; the shared depth+goal front end, a GRU carrying memory
@@ -215,7 +215,7 @@
     first convolution then sees the goal and the obstacles in the same spatial frame. This
     redundant dual encoding measurably sped up learning.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/collision-goal-channel.png" alt="The goal-direction channel: a gaussian stripe encoding the bearing to the goal, added to the stacked depth frames">
     <figcaption>The goal-direction channel &mdash; a Gaussian stripe that slides with the goal bearing and dims with distance, giving the CNN a dense, spatially aligned navigation gradient.</figcaption>
   </figure>
@@ -234,7 +234,7 @@
     and the non-potential proximity bonus kept small enough that finishing strictly dominates any
     stalling behaviour.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/collision-reward-traps.png" alt="Challenge diagram: three panels showing the safe-circling optimum where loitering income beats a risky goal run, the goal-parking optimum where hovering outside the goal radius beats finishing, and the fixed reward landscape where a dominant potential-based progress term makes finishing strictly dominate">
     <figcaption>The two degenerate optima the shaped reward fell into, and the landscape that removed them: zero survival income, a dominant potential-based progress pull, and a deliberately small proximity bonus.</figcaption>
   </figure>
@@ -295,76 +295,14 @@
   </p>
 
   <h2 id="results">Results &amp; analysis</h2>
-  <figure class="media16">
-    <video controls muted loop playsinline preload="none" poster="../assets/img/collision-poster.png" src="../assets/video/collision_avoidance_eval.mp4"></video>
-  </figure>
-  <figcaption>Deterministic evaluation in <code>gen_room_mixed</code> (20&times;16&nbsp;m, 16 obstacles), exploration noise off &mdash; green sphere is the goal, red boxes and grey pillars are obstacles.</figcaption>
   <p>
-    The clip above is the deployed greedy policy &mdash; no exploration noise &mdash; recorded
-    directly from the Gazebo viewer in the hardest static world. What to watch for: the drone
-    turns onto a goal-directed heading almost immediately and holds a committed, near-straight
-    line, threading between the boxes and pillars rather than wandering or hesitating.
-  </p>
-  <figure>
-    <img src="../assets/img/collision-learning.png" alt="Learning curves: episode score and rolling success rate over 1713 training episodes, with the success rate oscillating as the curriculum advances goal distance">
-    <figcaption>Training on <code>gen_room_mixed</code>: episode score (smoothed over the raw trace) and rolling goal-success rate across 1713 episodes.</figcaption>
-  </figure>
-  <p>
-    The learning curves need reading with the curriculum in mind. The mean episode score climbs
-    and then stabilizes, but the rolling success rate <em>oscillates</em> between roughly 40% and
-    85% &mdash; and that oscillation is the curriculum working, not instability. Every time the
-    success rate clears the advancement gate, the goal distance increases and success temporarily
-    drops: the agent is continually re-challenged at its competence frontier, so a flat
-    high success rate would actually indicate a stalled curriculum. The final 50-episode success
-    rate settles at 80%.
-  </p>
-  <figure>
-    <img src="../assets/img/collision-trajectory-map.png" alt="Bird's-eye view of evaluation trajectories over the real obstacle map, coloured by outcome">
-    <figcaption>Every evaluation run drawn over the real occupancy grid &mdash; green reaches the goal, red is a collision with the crash point marked, stars are goal positions.</figcaption>
-  </figure>
-  <p>
-    The trajectory map is the most informative single figure. Successful runs (green) travel
-    almost straight from spawn to their goal stars &mdash; the measured path efficiency is
-    1.05&times; the straight-line distance, within 5% of optimal. The failures (red) are not
-    scattered randomly: they cluster where a path cuts a corner past a mid-room obstacle, and they
-    happen <em>early and fast</em> &mdash; failed episodes average 46 steps against 100 for
-    successes. That asymmetry is the signature of a policy that commits to a route and
-    occasionally clips an obstacle, rather than one that stalls: the timeout rate across the
-    evaluation is exactly zero.
-  </p>
-  <figure>
-    <img src="../assets/img/trajectories.gif" alt="Animated 2D trajectory playback over the obstacle map">
-    <figcaption>Animated 2D playback of the same evaluation set over the occupancy grid.</figcaption>
-  </figure>
-  <figure>
-    <img src="../assets/img/collision-stats.png" alt="Outcome breakdown and step-count, path-efficiency and score distributions">
-    <figcaption>Outcome breakdown with step-count, path-efficiency, and score distributions across the evaluation run.</figcaption>
-  </figure>
-  <p>
-    The statistics panel above comes from the recorded 10-episode run: 7 of 10 goals reached,
-    every failure a collision, no timeouts, and zero goal-generation failures. The step-count
-    histogram splits into short failed runs and longer completed ones; the path-efficiency
-    distribution sits tightly above 1.0; and the score distribution separates cleanly between
-    goal episodes and collision episodes. The headline 20-episode deterministic evaluation at the
-    11&nbsp;m feasibility cap lands at 16 of 20 &mdash; 80% &mdash; with the same zero-timeout
-    signature. Goal-generation failures are detected and excluded throughout, so these numbers
-    measure the policy, not the harness.
-  </p>
-  <p>
-    What remains weak is equally visible in these figures: the 20% collision tail is concentrated
-    at mid-room occluders the reactive policy will not route around, and the policy's residual
-    dependence on action jitter near tight gaps means the deterministic controller is not yet
-    strictly better than its own behaviour policy. Those two gaps &mdash; detours and moving
-    obstacles &mdash; are exactly what the recurrent extension targets, and the detour half of that
-    is now evaluated below.
-  </p>
-  <h3>Second learner &mdash; deterministic detour evaluation</h3>
-  <p>
-    The recurrent extension now has its first deterministic evaluation, run through the same
-    harness-aware protocol that made the TD3 numbers trustworthy: <code>ppo_rec</code>'s best
-    checkpoint, exploration noise off and training off, on the dedicated <code>gen_room_detour</code>
-    world it was built for &mdash; a cluttered room whose goals genuinely cannot be reached in a
-    straight line. The clip below is that greedy policy, recorded directly from the Gazebo viewer.
+    The featured result on this page is the recurrent extension's first deterministic evaluation,
+    run through the same harness-aware protocol that makes every number here trustworthy:
+    <code>ppo_rec</code>'s best checkpoint, exploration noise off and training off, on the dedicated
+    <code>gen_room_detour</code> world it was built for &mdash; a cluttered room whose goals
+    genuinely cannot be reached in a straight line. The clip below is that greedy policy, recorded
+    directly from the Gazebo viewer, and it is the primary demonstration of this project's newest
+    work.
   </p>
   <figure class="media16">
     <video controls muted loop playsinline preload="none" poster="../assets/img/collision-ppo-detour-poster.png" src="../assets/video/collision-ppo-detour-gazebo.mp4"></video>
@@ -375,8 +313,7 @@
     &mdash; 80.0%</strong>. The most important detail is <em>how</em> it fails: all three failures
     are <strong>collisions, not timeouts</strong> (0 timeouts, 0 no-goal). The policy never stalls
     or circles &mdash; it commits to a trajectory and, when it fails, drives into an obstacle. That
-    is the same decisive-but-occasionally-wrong signature as the TD3 baseline, now carried onto a
-    much harder task.
+    is a decisive-but-occasionally-wrong signature carried onto a genuinely hard detour task.
   </p>
   <figure>
     <img src="../assets/img/collision-ppo-detour-map.png" alt="Bird's-eye plot of 15 deterministic ppo_rec detour trajectories over the gen_room_detour occupancy grid: green paths curve around grey obstacles to reach goal stars, three red paths end in crash-marked collisions">
@@ -397,7 +334,7 @@
     well below &mdash; and even the failed runs get close, coming within a mean of 3.9&nbsp;m
     (median 3.1&nbsp;m) of the goal before they crash.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/collision-ppo-detour-failures.png" alt="Two-panel failure analysis: left, goal positions coloured by outcome showing the three failed goals; right, the three collision endpoints marked where the deterministic policy crashes, clustered among the mid-room occluders on one side of the course">
     <figcaption>Failure geometry: goal positions by outcome (left) and the three collision endpoints (right). The crashes cluster among the mid-room occluders on one side of the room rather than scattering randomly.</figcaption>
   </figure>
@@ -413,8 +350,26 @@
     <video controls muted loop playsinline preload="none" poster="../assets/img/collision-ppo-detour-map.png" src="../assets/video/collision-ppo-detour-trajectories.mp4"></video>
   </figure>
   <figcaption>A lighter supporting clip &mdash; top-down animated playback of the same 15 detour runs over the occupancy grid.</figcaption>
+
+  <h3>The TD3 baseline it builds on</h3>
   <p>
-    A word on comparing the two learners: TD3's 80% and <code>ppo_rec</code>'s 80% are <strong>not
+    The featured detour policy is an extension of this project's <strong>deployed, published
+    baseline</strong>: the memoryless <code>TD3</code> controller described above, evaluated on the
+    non-detour <code>gen_room_mixed</code> world (20&times;16&nbsp;m, 16 obstacles). Under the same
+    deterministic, harness-aware protocol &mdash; exploration noise off, goal-generation failures
+    detected and excluded &mdash; TD3 reaches the goal in about <strong>80%</strong> of episodes,
+    travelling <strong>near-straight</strong> lines (measured path efficiency <strong>~1.05&times;</strong>
+    the straight-line distance, within 5% of optimal) with <strong>zero timeouts</strong>: it
+    commits to a route and occasionally clips a mid-room obstacle rather than stalling. That
+    reactive baseline is exactly what the recurrent extension is built to go beyond &mdash; it
+    cannot remember an occluder it has already passed or plan a detour around a large one.
+  </p>
+  <figure>
+    <img src="../assets/img/collision-trajectory-map.png" alt="TD3 baseline: bird's-eye view of deterministic evaluation trajectories over the real gen_room_mixed obstacle map, coloured by outcome &mdash; near-straight green paths reach the goals, a few red paths end in collisions">
+    <figcaption>TD3 baseline &mdash; every deterministic evaluation run on the non-detour <code>gen_room_mixed</code> world, drawn over its real occupancy grid: green reaches the goal, red is a collision with the crash point marked, stars are goal positions. Successful runs travel almost straight to their goals (path efficiency ~1.05&times;), with no timeouts.</figcaption>
+  </figure>
+  <p>
+    A word on comparing the two learners: TD3's ~80% and <code>ppo_rec</code>'s 80% are <strong>not
     directly comparable</strong> &mdash; they are measured on <em>different worlds</em>. The TD3
     figure is on the non-detour <code>gen_room_mixed</code> course; the <code>ppo_rec</code> figure
     is on the harder <code>gen_room_detour</code> world it was purpose-built for, where straight-line

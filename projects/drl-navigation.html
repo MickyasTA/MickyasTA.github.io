@@ -88,7 +88,7 @@
     the paper. It was carried out as an Integrator Project at GIPSA-Lab, Grenoble&nbsp;INP /
     Universit&eacute; Grenoble Alpes (2024).
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/drlnav-pipeline.png" alt="Pipeline diagram: the upstream ROS 1 project is ported to ROS 2 Foxy, which feeds a Gazebo 11 simulation of the Pioneer 3-DX and Velodyne VLP-16; TD3 training produces a policy; at runtime a pre-trained policy drives the robot while slam_toolbox maps the room live. A note marks that the shipped weights come from the upstream project because box randomization was not fixed in the port.">
     <figcaption>From upstream project to running system: the ROS&nbsp;1 TD3 project is ported to ROS&nbsp;2 Foxy, wired to a Gazebo&nbsp;11 world with the Pioneer 3-DX + VLP-16, and trained with TD3. At runtime the pre-trained policy drives the robot while <code>slam_toolbox</code> maps live. (The shipped weights come from the upstream project &mdash; see the challenges below.)</figcaption>
   </figure>
@@ -137,7 +137,7 @@
     learned controller never sees the map, and mapping never touches the policy &mdash; so exploration
     is a pure by-product of the goal-driven driving.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/drlnav-architecture.png" alt="Architecture diagram: the Gazebo simulation feeds a 24-value state (20 LiDAR sectors, distance to goal, heading error, previous action) into the TD3 actor, which outputs a continuous cmd_vel Twist back to the robot. On the training side, transitions feed a replay buffer, twin critics compute min(Q1,Q2), and delayed target-policy-smoothed updates flow back to the actor with TensorBoard logging. A parallel, independent path sends the 2D laser scan to slam_toolbox, producing a live occupancy grid in RViz.">
     <figcaption>TD3 anatomy applied to LiDAR navigation. The control loop (top) turns a 24-value state into a continuous <code>/cmd_vel</code>; the off-policy learner (middle) trains the actor from a replay buffer through twin critics with delayed, smoothed updates; the SLAM path (bottom) runs in parallel and independent of the policy.</figcaption>
   </figure>

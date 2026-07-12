@@ -82,7 +82,7 @@
     converted into a <strong>MuJoCo model</strong> that is used to verify and render the learned
     behaviour independently of the training stack.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/mybot-pipeline.png" alt="mybot pipeline: concept, SolidWorks CAD, URDF export, Gazebo Classic with ros2_control, from-scratch PPO training, MuJoCo verification">
     <figcaption>The pipeline from concept to verified policy. One description drives everything: CAD mass properties feed the URDF, the URDF feeds both the Gazebo Classic training environment and the MuJoCo verification model.</figcaption>
   </figure>
@@ -127,7 +127,7 @@
     without it, a few degrees of heading error with it), and the goal stages add potential-based
     progress, face-the-goal, arrival, and station-keeping terms.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/mybot-architecture.png" alt="mybot training architecture: Gazebo Classic simulation, ROS 2 topics and services, RL environment wrapper, PPO learner, with the skill curriculum strip">
     <figcaption>Training architecture and the curriculum strip. Simulation, transport, environment wrapper, and learner are separate processes; parallel workers feed one PPO learner, and one policy is carried through every stage.</figcaption>
   </figure>
@@ -171,7 +171,7 @@
     a skill the policy practices directly rather than a corner case of navigation, and the orbit
     disappeared.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/mybot-challenge.png" alt="Diagram of the orbiting failure mode: rotationally symmetric proximity reward lets the robot circle the goal forever; spawn-at-goal HOLD episodes teach stopping as a skill">
     <figcaption>The most instructive failure mode: a rotationally symmetric proximity reward makes orbiting profitable (left); spawn-at-goal HOLD episodes make being stopped at the goal the best-paid behaviour (right).</figcaption>
   </figure>
@@ -203,7 +203,7 @@
     saturates near the maximum, which is why checkpoint selection is driven by evaluation rather
     than the noisy training episodes.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/mybot-training-metrics.png" alt="mybot training metrics overview: episode length, reward, evaluation return, throughput, and losses over training">
     <figcaption>Training overview for the balance run. Top row: mean episode length, mean reward, and the smooth deterministic evaluation return. Bottom rows: per-episode score/steps and the PPO loss diagnostics.</figcaption>
   </figure>

@@ -87,7 +87,7 @@
     right mattered immediately: the exported model's placeholder rotor actuators turned out to be
     physically incapable of flight, a story told under <a href="#challenges">Critical challenges</a>.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/aether1-pipeline.png" alt="Pipeline diagram: CAD design to URDF and MJCF export, to MuJoCo environment, to curriculum RL training, to the seeded verification battery, to the deployment package">
     <figcaption>The pipeline from CAD to a deployable controller. Every hop has its own validation: mass and forward-kinematics checks on the description, calibration probes on the actuators, physics sanity gates before training.</figcaption>
   </figure>
@@ -95,7 +95,7 @@
     <img src="../assets/img/aether1-cad-iso.png" alt="AETHER-1 Mk1 CAD model, isometric view">
     <figcaption>The Mk1 prototype CAD — a 15 kg redesign generated parametrically (every dimension flows from one parameter file into STEP, URDF, and previews). The 26.47 kg simulation robot remains the validated dynamics reference.</figcaption>
   </figure>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/aether1-geometry.png" alt="AETHER-1 to-scale geometry drawing: side view with center of mass, top view of rotor and wheel layout">
     <figcaption>To-scale geometry, generated directly from the simulation model's constants — the documentation can never drift from the MJCF, because the drawing is regenerated from it.</figcaption>
   </figure>
@@ -138,7 +138,7 @@
     training if any stage ever makes failure more profitable than success, and a numeric run monitor
     that grades the live telemetry against explicit thresholds instead of relying on eyeballs.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/aether1-architecture.png" alt="Architecture diagram: curriculum RL training wrapped in verification gates produces gated policy checkpoints; at deployment a learned policy and a classical LQR/MPC/PID stack are composed residually behind one controller interface driving the MuJoCo plant">
     <figcaption>Two-layer control architecture. Training lives inside verification gates; deployment composes the learned policy with the classical stack behind a single controller interface.</figcaption>
   </figure>
@@ -189,7 +189,7 @@
     instead of rescaling anything already trained (a predecessor project measured ~87 % of actions
     railing at the clip limits after an innocent-looking rescale).
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/aether1-challenge.png" alt="Two conceptual panels: with sequential training only, balance and drive skill curves decay as new stages arrive; with retention rehearsal, all three skill curves rise and stay high">
     <figcaption>The forgetting failure mode and its fix, conceptually. Left: training only the newest skill lets earlier ones decay. Right: rehearsing all earlier stages keeps every skill alive in one policy.</figcaption>
   </figure>
@@ -219,7 +219,7 @@
     and an independent, seeded verification battery executed on the exact controller build that would
     ship to hardware.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/aether1-results-overview.png" alt="Training outcome overview: curriculum stage progression, episode length and return, evaluation length, return and success rate over the run">
     <figcaption>Training overview — curriculum stage index, episode length and return (top), evaluation length, return and success rate (bottom) over &#8776;150 million environment steps.</figcaption>
   </figure>

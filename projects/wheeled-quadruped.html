@@ -98,7 +98,7 @@
     template &mdash; a fitting lineage, since balancing a wheeled quadruped is a higher-dimensional
     cousin of the classic cart-pole.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/wquad-pipeline.png" alt="Pipeline diagram: a ROS 2 URDF/xacro robot description with DAE/STL meshes is exported to a USD articulation; it becomes an Isaac Lab manager-based RL environment registered as the Gymnasium task Custom-Wheeled-Quadruped-v0; that runs across 4096 parallel environments on the GPU at 200 Hz physics and 100 Hz control; PPO trains the policy with actor/critic MLP [32,32] ELU using any of four RL-library configs (rsl_rl, rl_games, SB3, skrl); the output is a balancing policy that keeps the torso upright at a target height of about 0.83 m acting on rear wheels and front thighs. Observations are proprioception only: base linear and angular velocity plus the last action.">
     <figcaption>From robot description to balancing policy: an authored URDF&nbsp;&rarr;&nbsp;USD articulation becomes a manager-based Isaac Lab task, registered with Gymnasium and stepped across 4096 GPU-parallel environments, then optimised with PPO through any of four interchangeable RL-library configs.</figcaption>
   </figure>
@@ -150,7 +150,7 @@
     <strong>four RL libraries &mdash; rsl_rl (default), rl_games, Stable-Baselines3, and skrl</strong>
     &mdash; so switching backend is just a matter of pointing at a different workflow script.
   </p>
-  <figure>
+  <figure class="wide">
     <img src="../assets/img/wquad-architecture.png" alt="Architecture diagram. Top control loop: Isaac Sim physics with 4096 GPU envs at 200 Hz feeds a 10-value observation manager (base linear velocity, base angular velocity, previous action, proprioception only); the PPO policy (actor+critic MLP [32,32] ELU) maps 10 observations to 4 actions; the action manager sends rear wheels as joint velocity and front thighs as joint position back to the robot. Bottom band: the reward manager (is_alive +1, base_height_l2 +1 at target 0.828 m, is_terminated -2) and termination manager (time-out 5 s, bad_orientation beyond pi/3, tipped over) feed a combined reward-and-done signal to the PPO update (gamma 0.99, GAE lambda 0.95, clip 0.2, entropy 0.005, adaptive LR 1e-3, KL 0.01, 150 iters x 16 steps x 4096 envs), which sends updated policy weights back up to the policy. Four RL-library configs (rsl_rl default, rl_games, Stable-Baselines3, skrl) select the backend.">
     <figcaption>The manager-based anatomy. The control loop (top) turns a 10-value proprioceptive observation into four joint commands; the env&rsquo;s reward and termination managers (bottom) score every step, and PPO learns from the combined signal streamed off all 4096&nbsp;environments &mdash; through whichever of the four RL-library configs is selected.</figcaption>
   </figure>

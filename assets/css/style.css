@@ -324,3 +324,26 @@ footer a { color: var(--text-dim); }
   background: var(--bg-soft); border: 1px solid var(--card-edge);
   border-radius: 6px; padding: 1px 6px; white-space: nowrap;
 }
+
+/* ---------- additive: breakout width for wide technical diagrams ----------
+   Wide, densely-labelled diagrams (pipeline / architecture / challenge /
+   reward-trap style) are far wider than the ~860px prose column, so in-column
+   they scale down until their labels are unreadable. `.wide` breaks them out of
+   the column and centres them on the viewport (relies on .detail-body being
+   horizontally centred, margin: 0 auto), then falls back to horizontal scroll
+   on small screens. */
+.detail-body figure.wide {
+  width: min(94vw, 1320px);
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+.detail-body figure.wide img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--card-edge);
+}
+@media (max-width: 760px) {
+  .detail-body figure.wide { width: 96vw; overflow-x: auto; }
+  .detail-body figure.wide img { min-width: 680px; }
+}
