@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1460 360" width="1460" height="360" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7a88"/>
+    </marker>
+    <marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0b3d66"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1460" height="360" fill="#ffffff"/>
+
+  <!-- top note -->
+  <text x="730" y="34" font-size="15" fill="#6b7a88" text-anchor="middle">Proprioception only &#8212; base linear &amp; angular velocity + last action (10 values); no vision, no external positioning</text>
+  <path d="M320,66 H1140" fill="none" stroke="#e2e7ec" stroke-width="1.5"/>
+
+  <!-- Box 1: Robot description -->
+  <rect x="25" y="110" width="258" height="190" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="25" y="110" width="258" height="44" rx="10" fill="#6b7a88"/>
+  <rect x="25" y="136" width="258" height="18" fill="#6b7a88"/>
+  <text x="154" y="139" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Robot description</text>
+  <text x="41" y="184" font-size="15" fill="#0b3d66">ROS 2 URDF / xacro package</text>
+  <text x="41" y="210" font-size="15" fill="#0b3d66">base, thighs, shins, wheels</text>
+  <text x="41" y="236" font-size="15" fill="#0b3d66">DAE / STL meshes</text>
+  <text x="41" y="262" font-size="15" fill="#0b3d66">exported to USD articulation</text>
+
+  <!-- Box 2: Isaac Lab env -->
+  <rect x="313" y="110" width="258" height="190" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="313" y="110" width="258" height="44" rx="10" fill="#0b3d66"/>
+  <rect x="313" y="136" width="258" height="18" fill="#0b3d66"/>
+  <text x="442" y="139" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Isaac Lab env</text>
+  <text x="329" y="184" font-size="15" fill="#0b3d66">manager-based RL env</text>
+  <text x="329" y="210" font-size="15" fill="#0b3d66">registered Gymnasium task</text>
+  <text x="329" y="236" font-size="15" fill="#0b3d66">Custom-Wheeled-Quadruped-v0</text>
+  <text x="329" y="262" font-size="15" fill="#0b3d66">obs / action / reward / term</text>
+
+  <!-- Box 3: parallel envs -->
+  <rect x="601" y="110" width="258" height="190" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="601" y="110" width="258" height="44" rx="10" fill="#0b3d66"/>
+  <rect x="601" y="136" width="258" height="18" fill="#0b3d66"/>
+  <text x="730" y="139" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">4096 parallel envs</text>
+  <text x="617" y="184" font-size="15" fill="#0b3d66">PhysX GPU simulation</text>
+  <text x="617" y="210" font-size="15" fill="#0b3d66">4 m spacing, ground + dome</text>
+  <text x="617" y="236" font-size="15" fill="#0b3d66">200 Hz physics, decimation 2</text>
+  <text x="617" y="262" font-size="15" fill="#0b3d66">&#8594; 100 Hz control rate</text>
+
+  <!-- Box 4: PPO training -->
+  <rect x="889" y="110" width="258" height="190" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="889" y="110" width="258" height="44" rx="10" fill="#d97a1e"/>
+  <rect x="889" y="136" width="258" height="18" fill="#d97a1e"/>
+  <text x="1018" y="139" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">PPO training</text>
+  <text x="905" y="180" font-size="15" fill="#0b3d66">optimize the policy (PPO)</text>
+  <text x="905" y="204" font-size="15" fill="#0b3d66">actor/critic MLP [32, 32] ELU</text>
+  <text x="905" y="228" font-size="15" fill="#0b3d66">150 iters &#215; 16 steps/env</text>
+  <text x="905" y="252" font-size="15" fill="#0b3d66">4 RL-library configs:</text>
+  <text x="905" y="276" font-size="15" fill="#0b3d66">rsl_rl &#183; rl_games &#183; SB3 &#183; skrl</text>
+
+  <!-- Box 5: balancing policy -->
+  <rect x="1177" y="110" width="258" height="190" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="1177" y="110" width="258" height="44" rx="10" fill="#1a7f6e"/>
+  <rect x="1177" y="136" width="258" height="18" fill="#1a7f6e"/>
+  <text x="1306" y="139" font-size="17" fill="#ffffff" text-anchor="middle" font-weight="700">Balancing policy</text>
+  <text x="1193" y="184" font-size="15" fill="#0b3d66">keeps the torso upright</text>
+  <text x="1193" y="210" font-size="15" fill="#0b3d66">target base height &#8776; 0.83 m</text>
+  <text x="1193" y="236" font-size="15" fill="#0b3d66">acts on rear wheels +</text>
+  <text x="1193" y="262" font-size="15" fill="#0b3d66">front thighs</text>
+
+  <!-- flow arrows -->
+  <path d="M283,205 H311" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M571,205 H599" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M859,205 H887" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M1147,205 H1175" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+
+  <!-- bottom label -->
+  <text x="730" y="338" font-size="14" fill="#6b7a88" text-anchor="middle">A custom Isaac Lab classic task &#8212; a 3D inverted-pendulum balancing problem solved with massively-parallel PPO</text>
+</svg>

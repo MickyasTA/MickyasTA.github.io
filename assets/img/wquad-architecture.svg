@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1460 590" width="1460" height="590" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7a88"/>
+    </marker>
+    <marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0b3d66"/>
+    </marker>
+    <marker id="arrO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d97a1e"/>
+    </marker>
+    <marker id="arrT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1a7f6e"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1460" height="590" fill="#ffffff"/>
+
+  <!-- closed control loop (top) -->
+  <path d="M1269,85 V45 H189 V83" fill="none" stroke="#d97a1e" stroke-width="2.5" marker-end="url(#arrO)"/>
+  <text x="729" y="37" font-size="15" fill="#d97a1e" text-anchor="middle" font-weight="600">control loop &#8212; the policy's joint commands actuate the robot; fresh proprioception returns every step</text>
+
+  <!-- TOP BAND: control loop -->
+
+  <!-- Isaac Sim physics -->
+  <rect x="25" y="85" width="328" height="185" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="25" y="85" width="328" height="44" rx="10" fill="#0b3d66"/>
+  <rect x="25" y="111" width="328" height="18" fill="#0b3d66"/>
+  <text x="189" y="114" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Isaac Sim physics</text>
+  <text x="41" y="162" font-size="15" fill="#0b3d66">4096 parallel envs on GPU (PhysX)</text>
+  <text x="41" y="190" font-size="15" fill="#0b3d66">ground plane + dome / distant light</text>
+  <text x="41" y="218" font-size="15" fill="#0b3d66">200 Hz, decimation 2 &#8594; 100 Hz ctrl</text>
+  <text x="41" y="246" font-size="15" fill="#0b3d66">wheels: velocity &#183; thighs: position</text>
+
+  <!-- Observation manager -->
+  <rect x="385" y="85" width="328" height="185" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="385" y="85" width="328" height="44" rx="10" fill="#0b3d66"/>
+  <rect x="385" y="111" width="328" height="18" fill="#0b3d66"/>
+  <text x="549" y="114" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Observation manager &#8212; 10</text>
+  <text x="401" y="162" font-size="15" fill="#0b3d66">base linear velocity (3)</text>
+  <text x="401" y="190" font-size="15" fill="#0b3d66">base angular velocity (3)</text>
+  <text x="401" y="218" font-size="15" fill="#0b3d66">previous action (4)</text>
+  <text x="401" y="246" font-size="15" fill="#0b3d66">proprioception only &#8212; no vision</text>
+
+  <!-- PPO policy -->
+  <rect x="745" y="85" width="328" height="185" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="745" y="85" width="328" height="44" rx="10" fill="#d97a1e"/>
+  <rect x="745" y="111" width="328" height="18" fill="#d97a1e"/>
+  <text x="909" y="114" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">PPO policy</text>
+  <text x="761" y="162" font-size="15" fill="#0b3d66">actor + critic MLP</text>
+  <text x="761" y="190" font-size="15" fill="#0b3d66">hidden [32, 32], ELU</text>
+  <text x="761" y="218" font-size="15" fill="#0b3d66">maps 10 obs &#8594; 4 actions</text>
+  <text x="761" y="246" font-size="15" fill="#0b3d66">shared across the 4096 envs</text>
+
+  <!-- Action manager -->
+  <rect x="1105" y="85" width="328" height="185" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="1105" y="85" width="328" height="44" rx="10" fill="#1a7f6e"/>
+  <rect x="1105" y="111" width="328" height="18" fill="#1a7f6e"/>
+  <text x="1269" y="114" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Action manager &#8212; 4</text>
+  <text x="1121" y="162" font-size="15" fill="#0b3d66">rear wheels &#8594; joint velocity</text>
+  <text x="1121" y="190" font-size="15" fill="#0b3d66">(rl_wheel, rr_wheel)</text>
+  <text x="1121" y="218" font-size="15" fill="#0b3d66">front thighs &#8594; joint position</text>
+  <text x="1121" y="246" font-size="15" fill="#0b3d66">(front_left, front_right)</text>
+
+  <!-- top flow arrows -->
+  <path d="M353,177 H383" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M713,177 H743" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+  <path d="M1073,177 H1103" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
+
+  <!-- fork: physics state -> reward + termination -->
+  <path d="M189,270 V300 H549" fill="none" stroke="#6b7a88" stroke-width="2"/>
+  <path d="M189,300 V354" fill="none" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M549,300 V354" fill="none" stroke="#6b7a88" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="369" y="292" font-size="14.5" fill="#6b7a88" text-anchor="middle">env state each step &#8594; reward &amp; termination</text>
+
+  <!-- PPO update -> policy (updated weights) -->
+  <path d="M909,356 V274" fill="none" stroke="#d97a1e" stroke-width="2.5" marker-end="url(#arrO)"/>
+  <text x="924" y="316" font-size="14.5" fill="#d97a1e">updated policy weights</text>
+
+  <!-- BOTTOM BAND label -->
+  <text x="25" y="342" font-size="15" fill="#6b7a88" font-weight="600">Manager-based env internals + PPO learner &#8212; reward &amp; termination define the balance task; PPO learns from the parallel rollouts</text>
+
+  <!-- Reward manager -->
+  <rect x="25" y="358" width="328" height="172" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="25" y="358" width="328" height="44" rx="10" fill="#0b3d66"/>
+  <rect x="25" y="384" width="328" height="18" fill="#0b3d66"/>
+  <text x="189" y="387" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Reward manager</text>
+  <text x="41" y="434" font-size="15" fill="#0b3d66">is_alive  +1.0 (every step)</text>
+  <text x="41" y="462" font-size="15" fill="#0b3d66">base_height_l2  +1.0</text>
+  <text x="41" y="490" font-size="15" fill="#0b3d66">target base height 0.828 m</text>
+  <text x="41" y="518" font-size="15" fill="#0b3d66">is_terminated  &#8722;2.0 (fall)</text>
+
+  <!-- Termination manager -->
+  <rect x="385" y="358" width="328" height="172" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="385" y="358" width="328" height="44" rx="10" fill="#6b7a88"/>
+  <rect x="385" y="384" width="328" height="18" fill="#6b7a88"/>
+  <text x="549" y="387" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Termination manager</text>
+  <text x="401" y="434" font-size="15" fill="#0b3d66">episode time-out: 5 s</text>
+  <text x="401" y="462" font-size="15" fill="#0b3d66">bad_orientation &gt; &#960;/3 (60&#176;)</text>
+  <text x="401" y="490" font-size="15" fill="#0b3d66">i.e. the torso has tipped over</text>
+  <text x="401" y="518" font-size="15" fill="#0b3d66">resets that environment</text>
+
+  <!-- PPO update -->
+  <rect x="745" y="358" width="328" height="172" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="745" y="358" width="328" height="44" rx="10" fill="#d97a1e"/>
+  <rect x="745" y="384" width="328" height="18" fill="#d97a1e"/>
+  <text x="909" y="387" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">PPO update</text>
+  <text x="761" y="434" font-size="15" fill="#0b3d66">&#947; 0.99 &#183; GAE &#955; 0.95</text>
+  <text x="761" y="462" font-size="15" fill="#0b3d66">clip 0.2 &#183; entropy 0.005</text>
+  <text x="761" y="490" font-size="15" fill="#0b3d66">adaptive LR 1e-3 &#183; KL 0.01</text>
+  <text x="761" y="518" font-size="15" fill="#0b3d66">150 iters &#215; 16 steps &#215; 4096</text>
+
+  <!-- RL-library configs -->
+  <rect x="1105" y="358" width="328" height="172" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
+  <rect x="1105" y="358" width="328" height="44" rx="10" fill="#1a7f6e"/>
+  <rect x="1105" y="384" width="328" height="18" fill="#1a7f6e"/>
+  <text x="1269" y="387" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">RL-library configs</text>
+  <text x="1121" y="434" font-size="15" fill="#0b3d66">rsl_rl  (default)</text>
+  <text x="1121" y="462" font-size="15" fill="#0b3d66">rl_games</text>
+  <text x="1121" y="490" font-size="15" fill="#0b3d66">Stable-Baselines3</text>
+  <text x="1121" y="518" font-size="15" fill="#0b3d66">skrl</text>
+
+  <!-- reward + termination -> PPO update (via bottom corridor) -->
+  <path d="M189,530 V556 H909 V532" fill="none" stroke="#0b3d66" stroke-width="2" marker-end="url(#arrB)"/>
+  <path d="M549,530 V556" fill="none" stroke="#0b3d66" stroke-width="2"/>
+  <text x="470" y="574" font-size="14.5" fill="#0b3d66" text-anchor="middle">combined reward + done signal from 4096 envs</text>
+
+  <!-- configs select PPO backend -->
+  <path d="M1103,444 H1075" fill="none" stroke="#1a7f6e" stroke-width="2" stroke-dasharray="7,6" marker-end="url(#arrT)"/>
+  <text x="1089" y="424" font-size="14" fill="#1a7f6e" text-anchor="end">selects backend</text>
+</svg>
