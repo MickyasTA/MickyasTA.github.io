@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wheeled quadruped robot &#183; Deep-RL balancing in Isaac Lab &#183; Mickyas Tamiru Asfaw</title>
-<meta name="description" content="A self-balancing wheeled quadruped learns to stand upright with PPO in NVIDIA Isaac Lab — a 3D inverted-pendulum task controlling rear wheels and front thighs from proprioception alone, across 4096 GPU-parallel environments. Registered as a Gymnasium task with configs for rsl_rl, rl_games, Stable-Baselines3, and skrl.">
+<title>Wheeled quadruped robot &#183; Self-balancing RL in Isaac Lab &#183; Mickyas Tamiru Asfaw</title>
+<meta name="description" content="A segway-style wheeled quadruped learns to balance and drive with PPO in NVIDIA Isaac Lab 2.3.2. An asymmetric actor-critic keeps the deployed policy on onboard-only sensing across 2048 GPU-parallel environments, with four trained policies (balance and velocity, on flat and rough terrain) exported to ONNX and TorchScript.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -24,28 +24,31 @@
 </nav>
 
 <div class="detail-hero">
-  <img src="../assets/img/wquad-robot.png" alt="The yellow wheeled quadruped robot balancing upright on its wheels in Isaac Sim, at its target base height of about 0.83 m" style="object-fit: contain; background: var(--bg);">
+  <video autoplay controls muted loop playsinline preload="metadata" poster="../assets/img/wquad-demo-poster.png" src="../assets/video/wquad-demo.mp4"></video>
 </div>
 
 <main class="detail-body">
   <a class="back-link" href="../index.html">&#8592; back to all projects</a>
-  <h1 style="margin-top:18px;">Wheeled quadruped robot &mdash; Deep-RL balancing in Isaac Lab</h1>
+  <h1 style="margin-top:18px;">Wheeled quadruped robot: self-balancing RL in Isaac Lab</h1>
   <p class="lede">
-    A <strong>wheeled quadruped</strong> &mdash; a four-legged robot whose feet are wheels &mdash;
-    learns to <strong>stand upright and balance</strong> with <strong>Proximal Policy Optimization
-    (PPO)</strong> in <strong>NVIDIA&nbsp;Isaac&nbsp;Lab</strong>. It is essentially a
-    <strong>3D inverted-pendulum</strong> problem: the policy actuates the robot&rsquo;s rear wheels
-    and front thighs to keep the torso near an upright target height, from
-    <strong>proprioceptive feedback alone</strong> &mdash; trained across
-    <strong>4096&nbsp;environments</strong> in parallel on the GPU.
+    A <strong>segway-style wheeled quadruped</strong> (a four-legged robot that balances pitched up on
+    its two rear wheels) learns to <strong>stand upright and drive</strong> with <strong>Proximal Policy
+    Optimization (PPO)</strong> in <strong>NVIDIA&nbsp;Isaac&nbsp;Lab</strong>. It is essentially a
+    <strong>3D inverted-pendulum</strong> problem: the policy actuates the rear wheels and front thighs
+    to hold the torso at an upright base height of <strong>0.828&nbsp;m</strong> from
+    <strong>onboard sensing alone</strong>, trained across <strong>2048&nbsp;environments</strong> in
+    parallel on a single GPU. Four policies are trained: balance and velocity tracking, each on flat
+    ground and on rough terrain.
   </p>
 
   <div class="notice">
-    &#127793; <strong>Learning project.</strong> This is the newest entry in my portfolio and I'm
-    at the start of it: I'm teaching myself <strong>NVIDIA Isaac Lab</strong> by building on an
-    online example repository and adapting it into my own custom task. It's here because I believe
-    in learning in public — the page will grow (trained checkpoint, curves, a demo video) as the
-    learning does.
+    &#127793; <strong>Learning project.</strong> I built this to teach myself <strong>NVIDIA Isaac
+    Lab</strong>, starting from an online example repository and then substantially rebuilding and
+    extending it into my own tasks. The learning has come a long way since: it now has
+    <strong>four trained policies</strong>, an <strong>asymmetric actor-critic</strong>, domain
+    randomization, and a rough-terrain curriculum. It is here because I believe in
+    <strong>learning in public</strong>, and the page has grown (trained policies, a demo video, a
+    12-chapter project wiki) as the learning has.
   </div>
 
   <p style="display:flex; gap:12px; flex-wrap:wrap; margin-top:24px;">
@@ -55,198 +58,147 @@
 
   <h2 id="goal">Project goal</h2>
   <p>
-    Teach a statically-unstable robot to <strong>keep itself standing</strong>. The wheeled quadruped
-    has four legs tipped with wheels; left to itself it tips over. The control problem is a
-    <strong>3D inverted-pendulum / self-balancing task</strong>: hold the torso near an upright
-    <strong>target base height of&nbsp;0.828&nbsp;m</strong> and don&rsquo;t fall. It is framed as a
-    <strong>Markov Decision Process</strong> and solved end-to-end with <strong>PPO</strong> &mdash;
-    no hand-tuned balancing controller in the loop.
+    Teach a statically-unstable robot to <strong>keep itself standing</strong>, then to
+    <strong>drive on command</strong>. The segway-style wheeled quadruped balances pitched up on its
+    two rear wheels; left to itself it tips over. The control problem is a <strong>3D inverted-pendulum
+    / self-balancing task</strong>: hold the torso near an upright <strong>target base height of
+    0.828&nbsp;m</strong> and don&rsquo;t fall, then track a commanded forward and yaw velocity while
+    staying up. It is framed as a <strong>Markov Decision Process</strong> and solved end-to-end with
+    <strong>PPO</strong>, with no hand-tuned balancing controller in the loop.
   </p>
   <p>
     Two things make it a genuinely hard control problem rather than a toy. First, it is
-    <strong>underactuated</strong>: the policy commands only <strong>four</strong> degrees of freedom
-    &mdash; the two rear wheels and the two front thighs &mdash; yet must stabilise the whole
-    articulated body. Second, it is <strong>proprioceptive-only continuous control</strong>: the
-    policy never sees a camera image or an external tracking system; it reads just the torso&rsquo;s
-    own linear and angular velocity and the last command it issued, and outputs continuous joint
-    targets every control step. Balance has to be inferred from the body&rsquo;s own motion and
-    corrected before the robot passes the point of no return.
+    <strong>underactuated</strong>: only <strong>four joints</strong> are actuated, the two rear wheels
+    in velocity control and the two front thighs in position control (the front wheels are fixed), yet
+    the policy must stabilise the whole articulated body. Second, the deployed policy is driven by
+    <strong>onboard sensing only</strong>: no camera, no external tracking, no privileged simulator
+    state. Balance has to be inferred from the body&rsquo;s own motion and corrected before the robot
+    passes the point of no return.
   </p>
 
-  <h2 id="pipeline">From idea to simulation</h2>
+  <h2 id="architecture">How it works &amp; architecture</h2>
   <p>
-    The robot is described in <code>src/robot_description/</code> as a <strong>ROS&nbsp;2 (ament)
-    package</strong> &mdash; <strong>URDF/xacro</strong> parts for the base, the four thighs, the leg
-    joints, the shins, and the front and rear wheels, with <strong>DAE/STL meshes</strong> for the
-    geometry. That description is exported to a <strong>USD articulation</strong>
-    (<code>quadruped_robot.usd</code>) so it can be simulated in <strong>Isaac&nbsp;Sim /
-    Omniverse</strong>; every joint is prefixed <code>robot1_*</code>, and the RL task drives the two
-    rear wheels and the two front thighs. (This is an authored URDF&nbsp;&rarr;&nbsp;USD robot
-    description &mdash; there is no CAD/SolidWorks pipeline in the project.)
+    <strong>A modern Isaac Lab external project.</strong> The task is built as a standalone
+    <strong>NVIDIA&nbsp;Isaac&nbsp;Lab&nbsp;2.3.2</strong> external project against the modern
+    <code>isaaclab</code> namespace, with an installable package under
+    <code>source/wheeled_quadruped/</code>. The stack is <strong>rsl-rl&nbsp;3.0.1</strong>,
+    <strong>Isaac&nbsp;Sim&nbsp;5.1</strong>, <strong>PyTorch&nbsp;2.7</strong>, and
+    <strong>Python&nbsp;3.11</strong>. Physics steps at <strong>200&nbsp;Hz</strong> and control at
+    <strong>50&nbsp;Hz</strong> (decimation&nbsp;4), with <strong>20-second episodes</strong>
+    (1000&nbsp;control steps).
   </p>
   <p>
-    On top of that asset the project builds a custom task using <strong>Isaac&nbsp;Lab&rsquo;s
-    manager-based RL environment API</strong> (a <code>ManagerBasedRLEnvCfg</code> that wires up the
-    scene, observations, actions, rewards, and terminations). The task is
-    <strong>registered as a Gymnasium environment</strong>,
-    <code>gym.register("Custom-Wheeled-Quadruped-v0")</code>, so it plugs straight into Isaac
-    Lab&rsquo;s standard training workflows. Training runs across <strong>4096&nbsp;parallel
-    environments</strong> on the GPU &mdash; each on a ground plane with 4&nbsp;m spacing under dome
-    and distant lighting &mdash; with physics stepping at <strong>200&nbsp;Hz</strong>
-    (<code>dt&nbsp;=&nbsp;0.005</code>) and a decimation of&nbsp;2, giving a <strong>100&nbsp;Hz</strong>
-    control rate. The task itself is adapted from Isaac Lab&rsquo;s <em>cartpole</em> classic-task
-    template &mdash; a fitting lineage, since balancing a wheeled quadruped is a higher-dimensional
-    cousin of the classic cart-pole.
-  </p>
-  <figure class="wide">
-    <img src="../assets/img/wquad-pipeline.png" alt="Pipeline diagram: a ROS 2 URDF/xacro robot description with DAE/STL meshes is exported to a USD articulation; it becomes an Isaac Lab manager-based RL environment registered as the Gymnasium task Custom-Wheeled-Quadruped-v0; that runs across 4096 parallel environments on the GPU at 200 Hz physics and 100 Hz control; PPO trains the policy with actor/critic MLP [32,32] ELU using any of four RL-library configs (rsl_rl, rl_games, SB3, skrl); the output is a balancing policy that keeps the torso upright at a target height of about 0.83 m acting on rear wheels and front thighs. Observations are proprioception only: base linear and angular velocity plus the last action.">
-    <figcaption>From robot description to balancing policy: an authored URDF&nbsp;&rarr;&nbsp;USD articulation becomes a manager-based Isaac Lab task, registered with Gymnasium and stepped across 4096 GPU-parallel environments, then optimised with PPO through any of four interchangeable RL-library configs.</figcaption>
-  </figure>
-
-  <h2 id="architecture">Implementation &amp; architecture</h2>
-  <p>
-    <strong>A manager-based environment.</strong> Isaac Lab splits the task into composable
-    <em>managers</em>, and this project uses them exactly as intended. The
-    <strong>observation manager</strong> concatenates a compact <strong>10-value</strong> proprioceptive
-    state: the torso&rsquo;s <strong>linear velocity</strong> (3), its <strong>angular velocity</strong>
-    (3), and the <strong>previous action</strong> (4) &mdash; the last term letting the policy keep its
-    commands smooth. There is deliberately no position, no orientation quaternion, and no exteroception
-    in the observation; the policy must balance from body-frame velocities alone.
+    <strong>Asymmetric actor-critic (the headline design choice).</strong> The deployed policy (the
+    <em>actor</em>) observes only signals a real robot could obtain onboard: <strong>base angular
+    velocity</strong> (IMU), <strong>projected gravity</strong> (IMU), <strong>front-thigh joint
+    positions</strong>, <strong>joint velocities</strong>, and the <strong>last action</strong>,
+    <strong>16&nbsp;values</strong> in total. The <em>critic</em> additionally sees privileged,
+    simulation-only state, <strong>base linear velocity</strong> and <strong>base height</strong>
+    (<strong>20&nbsp;values</strong>), purely to reduce training variance, and it is discarded at
+    deployment. This keeps the policy honest for eventual sim-to-real, because base linear velocity is
+    <em>not measurable onboard</em>: the actor never learns to lean on something the hardware cannot
+    give it.
   </p>
   <p>
-    <strong>Four actuated joints, two control modes.</strong> The <strong>action manager</strong>
-    emits <strong>four continuous commands</strong>. The two rear wheels
-    (<code>robot1_rl_wheel_joint</code>, <code>robot1_rr_wheel_joint</code>) are driven in
-    <strong>joint-velocity</strong> mode &mdash; velocity-mode actuators with high damping and zero
-    stiffness &mdash; while the two front thighs (<code>robot1_front_left_thigh_joint</code>,
-    <code>robot1_front_right_thigh_joint</code>) are driven in <strong>joint-position</strong> mode with
-    stiff position actuators. That split &mdash; spin the wheels to catch the base, angle the front
-    thighs to shift the centre of mass &mdash; is the mechanical vocabulary the policy learns to balance
-    with.
+    <strong>Four actuated joints, two control modes.</strong> The two rear wheels are driven in
+    <strong>joint-velocity</strong> mode, while the two front thighs are driven in
+    <strong>joint-position</strong> mode. Spin the wheels to catch the base, angle the front thighs to
+    shift the centre of mass: that split is the mechanical vocabulary the policy learns to balance and
+    drive with.
   </p>
   <p>
-    <strong>The reward and termination managers define the task.</strong> The reward is intentionally
-    minimal: a constant <strong>+1.0 <code>is_alive</code></strong> for every surviving step, a
-    <strong>+1.0 <code>base_height_l2</code></strong> term that pays out for staying at the
-    <strong>0.828&nbsp;m</strong> target height (the actual balance objective), and a
-    <strong>&minus;2.0 <code>is_terminated</code></strong> penalty for falling. The termination manager
-    ends an episode on a <strong>5&nbsp;s</strong> time-out or on <code>bad_orientation</code> &mdash;
-    when the torso tilts more than <strong>&pi;/3 (60&deg;)</strong> from upright, i.e. the robot has
-    gone past recovery. &ldquo;Balance&rdquo; is thus encoded as: <em>stay near the target height, stay
-    upright, stay alive.</em>
+    <strong>A redesigned reward suite (and a sign bug fixed while learning).</strong> The reward
+    combines a base-height term, a flat-orientation term, velocity damping, effort and smoothness
+    penalties, and a wheel-spin penalty. The most instructive fix: the base-height term is a
+    <strong>squared-error cost</strong>, so it needs a <strong>negative weight (&minus;20.0)</strong>.
+    The original prototype had it <em>positive</em>, which literally rewarded the robot for drifting
+    off its target height. Flipping the sign is a small change with a large effect, and a sharp
+    reminder that in RL the reward <em>is</em> the specification: get its sign wrong and the agent
+    optimises the wrong thing perfectly.
   </p>
   <p>
-    <strong>The learner is compact PPO.</strong> Both actor and critic are small
-    <strong>MLPs with hidden layers [32,&nbsp;32] and ELU activations</strong> &mdash; a tiny network
-    is enough because the observation is only ten numbers. Training (the <code>rsl_rl</code> config)
-    runs <strong>150&nbsp;iterations</strong>, each collecting <strong>16&nbsp;steps per
-    environment</strong> across all 4096&nbsp;envs before updating over <strong>5&nbsp;learning
-    epochs</strong> in <strong>4&nbsp;mini-batches</strong>. Returns use discount
-    <strong>&gamma;&nbsp;=&nbsp;0.99</strong> and <strong>GAE&nbsp;&lambda;&nbsp;=&nbsp;0.95</strong>;
-    the surrogate objective is clipped at <strong>0.2</strong> with an entropy bonus of
-    <strong>0.005</strong> and a value-loss coefficient of <strong>1.0</strong>; and the learning rate
-    is <strong>adaptive from 1e-3</strong>, targeting a <strong>desired KL of&nbsp;0.01</strong> so the
-    step size self-tunes to keep each update stable. The same task ships ready-made PPO configs for
-    <strong>four RL libraries &mdash; rsl_rl (default), rl_games, Stable-Baselines3, and skrl</strong>
-    &mdash; so switching backend is just a matter of pointing at a different workflow script.
+    <strong>Domain randomization.</strong> To make the policy robust (and to keep the sim-to-real story
+    credible), training randomizes <strong>per-body friction and restitution</strong>, adds
+    <strong>mass to the base</strong>, randomizes resets, and applies <strong>periodic velocity
+    pushes</strong> so the policy learns to recover from disturbances rather than memorising a single
+    trajectory.
   </p>
-  <figure class="wide">
-    <img src="../assets/img/wquad-architecture.png" alt="Architecture diagram. Top control loop: Isaac Sim physics with 4096 GPU envs at 200 Hz feeds a 10-value observation manager (base linear velocity, base angular velocity, previous action, proprioception only); the PPO policy (actor+critic MLP [32,32] ELU) maps 10 observations to 4 actions; the action manager sends rear wheels as joint velocity and front thighs as joint position back to the robot. Bottom band: the reward manager (is_alive +1, base_height_l2 +1 at target 0.828 m, is_terminated -2) and termination manager (time-out 5 s, bad_orientation beyond pi/3, tipped over) feed a combined reward-and-done signal to the PPO update (gamma 0.99, GAE lambda 0.95, clip 0.2, entropy 0.005, adaptive LR 1e-3, KL 0.01, 150 iters x 16 steps x 4096 envs), which sends updated policy weights back up to the policy. Four RL-library configs (rsl_rl default, rl_games, Stable-Baselines3, skrl) select the backend.">
-    <figcaption>The manager-based anatomy. The control loop (top) turns a 10-value proprioceptive observation into four joint commands; the env&rsquo;s reward and termination managers (bottom) score every step, and PPO learns from the combined signal streamed off all 4096&nbsp;environments &mdash; through whichever of the four RL-library configs is selected.</figcaption>
-  </figure>
-
-  <h2 id="challenges">Critical challenges</h2>
-
-  <h3>Balancing from velocities, with only four joints</h3>
   <p>
-    The core difficulty is the control problem itself. With a <strong>ten-number, proprioception-only
-    observation</strong> and <strong>four actuated joints</strong>, the policy has to stabilise an
-    articulated, top-heavy body that will tip within a fraction of a second if it does nothing. The
-    reward gives it very little to hold onto &mdash; essentially &ldquo;survive, and be near the right
-    height&rdquo; &mdash; and the episode is cut the instant the torso passes <strong>60&deg;</strong>
-    of tilt. Learning to coordinate wheel spin and thigh angle into a stable standing posture, from
-    body-frame velocities alone, is precisely what makes this a real reinforcement-learning task rather
-    than a scripted one.
+    <strong>The learner is PPO.</strong> Actor and critic are MLPs with hidden layers
+    <strong>[128,&nbsp;128]</strong> for balance and <strong>[256,&nbsp;128,&nbsp;64]</strong> for
+    velocity, with <strong>ELU</strong> activations, trained across <strong>2048&nbsp;parallel
+    environments</strong> on a single <strong>RTX&nbsp;4090 Laptop GPU (16&nbsp;GB)</strong>.
   </p>
 
-  <h3>Hard-coded, $HOME-relative asset paths</h3>
+  <h2 id="tasks">The tasks, including rough terrain</h2>
   <p>
-    The project is honest about its rough edges. The robot&rsquo;s USD is loaded by
-    <strong>absolute, <code>$HOME</code>-relative paths</strong>: the standalone demo
-    (<code>create_wheeled_quadruped_env.py</code>) loads it from
-    <code>~/wheeled_quadruped_robot/&hellip;</code>, while the registered task loads it from the
-    Isaac&nbsp;Lab install path it is copied into. In practice the repository <strong>has to be cloned
-    into <code>$HOME</code></strong> and the USD placed just so, or the <code>usd_path</code> in the
-    configs edited by hand &mdash; a portability wrinkle the roadmap explicitly targets.
-  </p>
-
-  <h3>Template lineage and a duplicated source of truth</h3>
-  <p>
-    Because the task was scaffolded from Isaac&nbsp;Lab&rsquo;s <em>cartpole</em> classic-task template,
-    some of that ancestry lingers &mdash; a <strong>leftover module docstring still reads
-    &ldquo;Cartpole balancing environment.&rdquo;</strong> More substantively, <strong>two copies of the
-    env config exist</strong>: a root-level <code>wheeled_quadruped_env_cfg.py</code> (standalone /
-    reference) and the package one that backs the registered task. They must be kept in sync by hand,
-    and de-duplicating them into a single source of truth is a named future task. None of this is hidden
-    &mdash; it is documented plainly in the README&rsquo;s <em>Notes&nbsp;&amp;&nbsp;limitations</em>.
-  </p>
-
-  <h3>Honest scope</h3>
-  <p>
-    This is a <strong>focused, single-task simulation project</strong>, not a polished product.
-    <strong>Trained checkpoints are not committed</strong> &mdash; you run the training workflow to
-    produce them &mdash; and the task, as published, <strong>stands and balances</strong> rather than
-    driving to a goal. There is no hardware, and no sim-to-real claim is made. What the repository
-    delivers is a clean, correct <strong>Isaac&nbsp;Lab task you can train yourself</strong>, with the
-    scaffolding for four different RL backends already in place.
+    <strong>Six registered tasks, four trained policies.</strong> The project registers
+    <strong>six Gymnasium tasks</strong> and ships <strong>four trained policies</strong>:
+    <strong>balance</strong> (stand upright and hold), <strong>velocity</strong> (drive to a commanded
+    forward and yaw velocity while balancing), and <strong>rough-terrain variants of both</strong>. The
+    rough tasks swap the flat ground for a <strong>wheel-traversable generated terrain</strong> (random
+    roughness of roughly <strong>1 to 6&nbsp;cm</strong> plus gentle slopes, no stairs). The
+    velocity-rough task adds a <strong>terrain-difficulty curriculum</strong> that promotes robots to
+    rougher tiles as they improve, so the policy is always training near the edge of what it can handle.
   </p>
 
   <h2 id="results">Results &amp; analysis</h2>
   <p>
-    What the repository demonstrates today are <strong>renders of the robot&rsquo;s USD asset in
-    Isaac&nbsp;Sim</strong> &mdash; the articulated platform loaded, posed, and set up for the balancing
-    task. They show the robot the policy has to keep upright, and the articulation it has to do it with.
+    The <strong>demo video at the top</strong> shows the trained <strong>velocity policy driving across
+    rough terrain</strong>. Every number below is from <strong>simulation</strong>; there is no
+    hardware yet, and no sim-to-real claim is made here.
+  </p>
+  <p>
+    <strong>Balance holds the full episode.</strong> The balance policy stays upright for the full
+    <strong>1000-step (20-second) episode</strong>. The <strong>velocity</strong> policy holds roughly
+    <strong>996 of 1000&nbsp;steps</strong> while tracking the commanded velocity closely. On
+    <strong>rough terrain</strong> both problems are harder, and the results are honestly lower: the
+    policies stay up for roughly <strong>90 to 95%</strong> of the episode while driving over bumps.
+    That gap is reported as-is, not smoothed over: uneven ground is a strictly harder problem than the
+    flat case.
   </p>
   <figure style="display:flex; gap:14px; flex-wrap:wrap;">
-    <img src="../assets/img/wquad-robot_balancing.png" alt="The wheeled quadruped standing upright on its wheels on a light grid floor in Isaac Sim, at roughly its target balance height" style="flex:1 1 300px; min-width:280px; background:var(--bg);">
+    <img src="../assets/img/wquad-robot_balancing.png" alt="The wheeled quadruped standing upright on its rear wheels on a light grid floor in Isaac Sim, at roughly its target balance height" style="flex:1 1 300px; min-width:280px; background:var(--bg);">
     <img src="../assets/img/wquad-robot_collision.png" alt="The same robot rendered with its green collision / articulation wireframe overlaid, showing the wheels, thighs, shins and body links used by the physics engine" style="flex:1 1 300px; min-width:280px; background:var(--bg);">
   </figure>
   <figcaption>
-    <b>Left:</b> the balancing pose &mdash; the quadruped standing on its wheels at close to the
+    <b>Left:</b> the balancing pose, the quadruped standing on its rear wheels at close to the
     0.828&nbsp;m target height, the upright configuration the reward pays out for. &nbsp;&middot;&nbsp;
-    <b>Right:</b> the collision / articulation view &mdash; the green wireframe reveals the link and
-    joint structure PhysX simulates: the two wheels, the thighs and shins, and the body the policy must
+    <b>Right:</b> the collision / articulation view, where the green wireframe reveals the link and
+    joint structure PhysX simulates: the wheels, the thighs and shins, and the body the policy must
     stabilise.
   </figcaption>
   <p>
-    It is worth being precise about <strong>what is and isn&rsquo;t shown</strong>. The README publishes
-    these renders but <strong>no trained checkpoint, no training curves, and no success-rate metric</strong>
-    &mdash; committing a trained policy plus a short demo clip is the first item on the roadmap. So the
-    honest headline is <strong>a correctly-built, trainable balancing task</strong>: the robot loads and
-    articulates in 4096&nbsp;parallel environments, the reward and termination managers encode the
-    upright objective, and PPO is wired up across four RL libraries &mdash; but the balanced-robot video
-    and quantitative results are future work, not claimed here.
+    <strong>A yaw-tracking tuning trade-off.</strong> A reward-tuning experiment on yaw tracking cut the
+    flat velocity policy&rsquo;s turning error by about <strong>14%</strong> (measured as physical
+    commanded-versus-achieved error), a clean win on flat ground. On rough terrain the same change
+    <strong>traded off forward-speed tracking</strong>, so the rough policy kept the balanced weights.
+    It is a small but honest illustration of a common RL reality: a reward change that helps in one
+    regime can quietly cost you in another, and the right call is sometimes to keep the more balanced
+    version.
+  </p>
+  <p>
+    <strong>Deliverables.</strong> The four policies are exported to <strong>ONNX</strong> and
+    <strong>TorchScript</strong> (the onboard-only actor, with the critic stripped) and committed in the
+    repository&rsquo;s <code>pretrained/</code> directory, so they can be loaded and run without
+    retraining. Alongside the code there is a <strong>12-chapter, textbook-style project wiki</strong>
+    that derives the MDP, the PPO and GAE math, the reward design, and the sim-to-real reasoning.
   </p>
 
   <h2 id="future">Future work</h2>
-  <p>The roadmap the repository sets out:</p>
   <ul>
-    <li><strong>Commit a trained checkpoint and a short demo GIF/video</strong> of the balanced robot, so
-      the result is reproducible and visible without training from scratch.</li>
-    <li><strong>Make the USD path configurable</strong> &mdash; a CLI argument or relative resolution
-      &mdash; instead of the current <code>$HOME</code>-hardcoded paths.</li>
-    <li><strong>Add velocity-command tracking</strong> so the robot can <strong>drive while
-      balancing</strong>, not merely stand &mdash; turning a self-balancer into a controllable wheeled
-      quadruped.</li>
-    <li><strong>Domain randomization</strong> (mass, friction, external pushes) for a more robust policy
-      and a path toward sim-to-real transfer.</li>
-    <li><strong>Deduplicate the two env-config files</strong> into a single source of truth.</li>
+    <li><strong>Recover the rough-terrain yaw gain without the trade-off:</strong> find a yaw-tracking
+      reward shaping that improves turning on rough ground without costing forward-speed tracking, so
+      the flat-ground win carries over.</li>
+    <li><strong>Sim-to-real deployment on hardware:</strong> take the onboard-only actor from
+      simulation to a physical robot, the natural next step now that the deployed policy is already
+      restricted to observations the hardware can actually measure.</li>
   </ul>
 
   <p style="margin-top:26px; font-size:14.5px; color:var(--text-faint);">
-    Built on <strong>NVIDIA Isaac Lab</strong> (BSD-3-Clause), with the task package adapted from Isaac
-    Lab&rsquo;s <em>cartpole</em> classic task; the robot&rsquo;s ROS&nbsp;2 URDF/xacro description and
-    meshes live under <code>src/robot_description/</code>. Released under the MIT License.
+    Built on <strong>NVIDIA Isaac Lab</strong> (BSD-3-Clause), started from an online example repository
+    and substantially rebuilt as a standalone Isaac&nbsp;Lab&nbsp;2.3.2 external project under the
+    <code>isaaclab</code> namespace. Released under the MIT License.
   </p>
 
   <p style="display:flex; gap:12px; flex-wrap:wrap; margin-top:34px;">

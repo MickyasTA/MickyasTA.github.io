@@ -192,19 +192,20 @@
 
       <article class="card reveal">
         <div class="card-media">
-          <img src="assets/img/wquad-robot_balancing.png" alt="Yellow wheeled quadruped robot balancing upright on its wheels in Isaac Sim" loading="lazy">
+          <video autoplay controls muted loop playsinline preload="metadata" poster="assets/img/wquad-demo-poster.png" src="assets/video/wquad-demo.mp4"></video>
         </div>
         <div class="card-body">
           <h4>Wheeled quadruped robot</h4>
           <p>
-            <strong>Learning project</strong> — my hands-on introduction to <strong>NVIDIA Isaac
-            Lab</strong>, building on an online example repository: a four-legged robot with wheels
-            for feet learns to <strong>stand upright and balance</strong> (a 3D inverted-pendulum
-            task) with <strong>PPO</strong> across <strong>4096 GPU-parallel environments</strong>,
-            from proprioception alone.
+            <strong>Learning project</strong>, grown well past the start: a segway-style wheeled
+            quadruped learns to <strong>balance and drive</strong> with <strong>PPO</strong> in
+            <strong>NVIDIA Isaac Lab</strong>. An <strong>asymmetric actor-critic</strong> keeps the
+            deployed policy on <strong>onboard-only sensing</strong> across <strong>2048 GPU-parallel
+            environments</strong>. Four trained policies (balance and velocity, on flat and rough
+            terrain), exported to ONNX and TorchScript.
           </p>
           <div class="tags">
-            <span class="tag">Isaac Lab</span><span class="tag">PPO</span><span class="tag">GPU-parallel RL</span><span class="tag">Learning in public</span>
+            <span class="tag">Isaac Lab</span><span class="tag">PPO</span><span class="tag">Sim-to-real</span><span class="tag">GPU-parallel RL</span><span class="tag">Learning in public</span>
           </div>
           <div class="card-foot">
             <a href="projects/wheeled-quadruped.html">Details &#8594;</a>
