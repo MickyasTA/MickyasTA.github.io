@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Wheeled quadruped robot &#183; Self-balancing RL in Isaac Lab &#183; Mickyas Tamiru Asfaw</title>
-<meta name="description" content="A segway-style wheeled quadruped learns to balance and drive with PPO in NVIDIA Isaac Lab 2.3.2. An asymmetric actor-critic keeps the deployed policy on onboard-only sensing across 2048 GPU-parallel environments, with four trained policies (balance and velocity, on flat and rough terrain) exported to ONNX and TorchScript.">
+<meta name="description" content="A segway-style wheeled quadruped learns to balance and drive with PPO in NVIDIA Isaac Lab 2.3.2. An asymmetric actor-critic keeps the deployed policy on onboard-only sensing across 2048 GPU-parallel environments, with four trained policies (balance and velocity, on flat and rough terrain) exported to ONNX and TorchScript, and validated sim-to-sim by running them unchanged in a second physics engine (MuJoCo).">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -185,14 +185,52 @@
     that derives the MDP, the PPO and GAE math, the reward design, and the sim-to-real reasoning.
   </p>
 
+  <h2 id="sim2sim">Sim-to-sim validation (MuJoCo)</h2>
+  <p>
+    A policy trained in one simulator can quietly overfit that simulator&rsquo;s contact solver and
+    numerics, none of which exist on real hardware. The cheapest honest check is to run the
+    <em>same</em> trained policy in a <strong>different physics engine</strong>. I took all
+    <strong>four Isaac&nbsp;Sim (PhysX) policies</strong> and ran them unchanged in
+    <strong>MuJoCo</strong>: the robot is rebuilt from its <strong>URDF</strong> (not copied from the
+    Isaac scene), the observation and action conventions are matched exactly, and the exported actor
+    runs in <strong>pure numpy</strong>, the same minimal inference path a real robot would use.
+    Different engine, different contact model, different terrain: a genuine cross-engine test rather
+    than a replay.
+  </p>
+  <figure style="margin:22px 0;">
+    <video autoplay controls muted loop playsinline preload="metadata" src="../assets/video/wquad-sim2sim.mp4" style="width:100%; border-radius:10px; background:var(--bg);"></video>
+    <figcaption>
+      The same Isaac-trained policy driving over rough terrain in <strong>MuJoCo</strong>, a physics
+      engine it never saw during training.
+    </figcaption>
+  </figure>
+  <p>
+    <strong>Three of the four policies transferred at 100%</strong>, surviving every episode in MuJoCo:
+    balance, velocity, and balance on rough terrain. The hardest task, <strong>driving while balancing
+    on rough terrain</strong>, stayed up about <strong>96% of the episode</strong> on average while
+    tracking its command closely, and it was the only policy that ever fell. That is exactly the signal
+    a sim-to-sim check exists to give: not a binary &ldquo;it works&rdquo;, but a ranking of which
+    policy sits closest to the edge of its robustness, and therefore which one most needs hardening
+    before hardware.
+  </p>
+  <p>
+    <strong>One honest lesson along the way.</strong> My first MuJoCo rough terrain was actually
+    <em>rougher</em> than Isaac&rsquo;s (high-frequency bumps instead of gentle slopes), and the hardest
+    policy fell far more often. Rebuilding the height field to be faithful to what the policy trained on
+    dropped its yaw error from <strong>0.45 to 0.15&nbsp;rad/s</strong>. The gap you measure is only as
+    trustworthy as the environment you measure it in. The full harness lives in
+    <code>sim2sim_mujoco/</code>.
+  </p>
+
   <h2 id="future">Future work</h2>
   <ul>
     <li><strong>Recover the rough-terrain yaw gain without the trade-off:</strong> find a yaw-tracking
       reward shaping that improves turning on rough ground without costing forward-speed tracking, so
       the flat-ground win carries over.</li>
     <li><strong>Sim-to-real deployment on hardware:</strong> take the onboard-only actor from
-      simulation to a physical robot, the natural next step now that the deployed policy is already
-      restricted to observations the hardware can actually measure.</li>
+      simulation, now validated across a second physics engine, to a physical robot, the natural next
+      step now that the deployed policy is already restricted to observations the hardware can actually
+      measure.</li>
   </ul>
 
   <p style="margin-top:26px; font-size:14.5px; color:var(--text-faint);">
