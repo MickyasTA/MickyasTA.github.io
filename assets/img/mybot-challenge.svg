@@ -12,13 +12,13 @@
   </defs>
   <rect x="0" y="0" width="1500" height="640" fill="#ffffff"/>
 
-  <text x="30" y="46" font-size="26" font-weight="700" fill="#0b3d66">Failure mode &#8212; orbiting the goal instead of stopping</text>
-  <text x="30" y="74" font-size="16" fill="#6b7a88">the trained navigator reached its goal region, then circled it indefinitely &#8212; and reward shaping alone would not make it stop</text>
+  <text x="30" y="46" font-size="26" font-weight="700" fill="#0b3d66">Failure mode: orbiting the goal instead of stopping</text>
+  <text x="30" y="74" font-size="16" fill="#6b7a88">the trained navigator reached its goal region, then circled it indefinitely, and reward shaping alone would not make it stop</text>
 
   <!-- LEFT PANEL: problem -->
   <g>
     <rect x="30" y="100" width="700" height="490" rx="12" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
-    <text x="60" y="140" font-size="17" font-weight="700" fill="#d97a1e">PROBLEM &#8212; reward-farming by orbiting</text>
+    <text x="60" y="140" font-size="17" font-weight="700" fill="#d97a1e">PROBLEM: reward-farming by orbiting</text>
 
     <!-- reward well rings -->
     <circle cx="270" cy="320" r="150" fill="none" stroke="#e3e8ec" stroke-width="24"/>
@@ -41,7 +41,7 @@
       <rect x="-16" y="-11" width="32" height="22" rx="5" fill="#0b3d66"/>
       <line x1="16" y1="0" x2="46" y2="0" stroke="#0b3d66" stroke-width="3" marker-end="url(#ca)"/>
     </g>
-    <text x="440" y="300" font-size="15" fill="#0b3d66">tangential velocity &#8212;</text>
+    <text x="440" y="300" font-size="15" fill="#0b3d66">tangential velocity,</text>
     <text x="440" y="321" font-size="15" fill="#0b3d66">distance never closes</text>
 
     <!-- explanation -->
@@ -56,11 +56,11 @@
   <!-- RIGHT PANEL: fix -->
   <g>
     <rect x="770" y="100" width="700" height="490" rx="12" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
-    <text x="800" y="140" font-size="17" font-weight="700" fill="#1a7f6e">FIX &#8212; spawn-at-goal HOLD episodes</text>
+    <text x="800" y="140" font-size="17" font-weight="700" fill="#1a7f6e">FIX: spawn-at-goal HOLD episodes</text>
 
     <!-- drive episode strip -->
     <rect x="800" y="170" width="640" height="120" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
-    <text x="820" y="200" font-size="15" font-weight="700" fill="#6b7a88">DRIVE episode &#8212; spawn away, reach the goal</text>
+    <text x="820" y="200" font-size="15" font-weight="700" fill="#6b7a88">DRIVE episode: spawn away, reach the goal</text>
     <g transform="translate(860,248)">
       <rect x="-16" y="-11" width="32" height="22" rx="5" fill="#6b7a88"/>
     </g>
@@ -70,7 +70,7 @@
 
     <!-- hold episode strip -->
     <rect x="800" y="310" width="640" height="150" rx="10" fill="#ffffff" stroke="#1a7f6e" stroke-width="2.5"/>
-    <text x="820" y="340" font-size="15" font-weight="700" fill="#1a7f6e">HOLD episode &#8212; spawn AT the goal, reward only for staying stopped</text>
+    <text x="820" y="340" font-size="15" font-weight="700" fill="#1a7f6e">HOLD episode: spawn AT the goal, reward only for staying stopped</text>
     <circle cx="1000" cy="405" r="42" fill="none" stroke="#1a7f6e" stroke-width="2" stroke-dasharray="6 5"/>
     <circle cx="1000" cy="405" r="7" fill="#d97a1e"/>
     <g transform="translate(1000,405)">
@@ -81,7 +81,7 @@
 
     <!-- explanation -->
     <text x="800" y="510" font-size="15.5" fill="#444f58">Mixing HOLD episodes into the curriculum makes stopping a skill the policy</text>
-    <text x="800" y="534" font-size="15.5" fill="#444f58">practices directly, instead of a corner case of navigation &#8212; the orbit</text>
+    <text x="800" y="534" font-size="15.5" fill="#444f58">practices directly, instead of a corner case of navigation, the orbit</text>
     <text x="800" y="558" font-size="15.5" fill="#444f58">disappears because standing still at the goal is now the best-paid behavior.</text>
   </g>
 </svg>

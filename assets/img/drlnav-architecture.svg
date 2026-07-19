@@ -17,7 +17,7 @@
 
   <!-- closed control loop (top) -->
   <path d="M1110,85 V45 H150 V83" fill="none" stroke="#d97a1e" stroke-width="2.5" marker-end="url(#arrO)"/>
-  <text x="630" y="37" font-size="15" fill="#d97a1e" text-anchor="middle" font-weight="600">control loop &#8212; the actor's velocity commands drive the simulated robot</text>
+  <text x="630" y="37" font-size="15" fill="#d97a1e" text-anchor="middle" font-weight="600">control loop: the actor's velocity commands drive the simulated robot</text>
 
   <!-- Gazebo -->
   <rect x="25" y="85" width="250" height="190" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
@@ -34,8 +34,8 @@
   <rect x="330" y="85" width="330" height="190" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
   <rect x="330" y="85" width="330" height="44" rx="10" fill="#0b3d66"/>
   <rect x="330" y="111" width="330" height="18" fill="#0b3d66"/>
-  <text x="495" y="114" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">State vector &#8212; 24 values</text>
-  <text x="346" y="159" font-size="15" fill="#0b3d66">20 LiDAR sectors &#8212; minimum</text>
+  <text x="495" y="114" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">State vector: 24 values</text>
+  <text x="346" y="159" font-size="15" fill="#0b3d66">20 LiDAR sectors: minimum</text>
   <text x="346" y="185" font-size="15" fill="#0b3d66">distance per bin, 180&#176; front</text>
   <text x="346" y="211" font-size="15" fill="#0b3d66">distance to goal (1)</text>
   <text x="346" y="237" font-size="15" fill="#0b3d66">heading error &#952; (1)</text>
@@ -79,7 +79,7 @@
   <text x="165" y="428" font-size="15" fill="#1a7f6e">/front_laser/scan</text>
 
   <!-- Training band label -->
-  <text x="1275" y="352" font-size="15" fill="#6b7a88" text-anchor="end" font-weight="600">Training &#8212; off-policy TD3 learner (training runs only)</text>
+  <text x="1275" y="352" font-size="15" fill="#6b7a88" text-anchor="end" font-weight="600">Training: off-policy TD3 learner (training runs only)</text>
 
   <!-- Replay buffer -->
   <rect x="330" y="360" width="200" height="150" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
@@ -123,7 +123,7 @@
   <path d="M1065,435 H1093" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
 
   <!-- SLAM band label -->
-  <text x="90" y="558" font-size="15" fill="#1a7f6e" text-anchor="start" font-weight="600">Parallel SLAM path &#8212; runs alongside the policy, independent of it</text>
+  <text x="90" y="558" font-size="15" fill="#1a7f6e" text-anchor="start" font-weight="600">Parallel SLAM path: runs alongside the policy, independent of it</text>
 
   <!-- slam_toolbox -->
   <rect x="90" y="573" width="250" height="128" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
@@ -138,7 +138,7 @@
   <rect x="430" y="573" width="290" height="128" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
   <rect x="430" y="573" width="290" height="44" rx="10" fill="#1a7f6e"/>
   <rect x="430" y="599" width="290" height="18" fill="#1a7f6e"/>
-  <text x="575" y="602" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">/map &#8212; occupancy grid</text>
+  <text x="575" y="602" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">/map: occupancy grid</text>
   <text x="446" y="647" font-size="15" fill="#0b3d66">built live while exploring</text>
   <text x="446" y="673" font-size="15" fill="#0b3d66">walls, cross &amp; triangle</text>
   <text x="446" y="699" font-size="15" fill="#0b3d66">obstacles, boxes captured</text>

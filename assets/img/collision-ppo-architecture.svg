@@ -20,7 +20,7 @@
   <rect x="0" y="0" width="1480" height="992" fill="#ffffff"/>
 
   <!-- ============================ ACTING BAND ============================ -->
-  <text x="40" y="38" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">ACTING — RECURRENT POLICY, ON-POLICY SAMPLING (every ~3.3 Hz control step)</text>
+  <text x="40" y="38" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">ACTING: RECURRENT POLICY, ON-POLICY SAMPLING (every ~3.3 Hz control step)</text>
 
   <!-- Shared state box -->
   <rect x="40" y="64" width="250" height="162" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
@@ -134,7 +134,7 @@
 
   <!-- ============================ divider ============================ -->
   <line x1="30" y1="470" x2="1450" y2="470" stroke="#6b7a88" stroke-width="1" stroke-dasharray="8,7"/>
-  <text x="40" y="506" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">LEARNING — ON-POLICY, ONCE PER ROLLOUT (no replay buffer: collected, used, then discarded)</text>
+  <text x="40" y="506" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">LEARNING: ON-POLICY, ONCE PER ROLLOUT (no replay buffer: collected, used, then discarded)</text>
 
   <!-- transitions arrow acting -> rollout -->
   <path d="M1336,230 L1336,452 L190,452 L190,530" fill="none" stroke="#6b7a88" stroke-width="2" stroke-dasharray="7,6" marker-end="url(#arr)"/>
@@ -191,7 +191,7 @@
   <text x="1234" y="486" font-size="15" fill="#d97a1e">updates &#968; (conv + GRU + heads)</text>
 
   <!-- ============================ CONTRAST RIBBON ============================ -->
-  <text x="40" y="756" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">SAME PROBLEM, DIFFERENT LEARNER — how the ppo_rec data path differs from the deployed TD3 baseline</text>
+  <text x="40" y="756" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">SAME PROBLEM, DIFFERENT LEARNER: how the ppo_rec data path differs from the deployed TD3 baseline</text>
 
   <!-- chip 1 -->
   <rect x="40" y="776" width="335" height="150" rx="10" fill="#fbf4ec" stroke="#d97a1e" stroke-width="1.4"/>
@@ -226,7 +226,7 @@
   <text x="1123" y="830" font-size="15" fill="#0b3d66">forecasts future depth (train only)</text>
   <line x1="1123" y1="850" x2="1422" y2="850" stroke="#6b7a88" stroke-width="1" stroke-dasharray="4,4"/>
   <text x="1123" y="878" font-size="15" fill="#6b7a88" font-weight="700">TD3 baseline</text>
-  <text x="1123" y="901" font-size="15" fill="#6b7a88">no prediction &#8212; purely</text>
+  <text x="1123" y="901" font-size="15" fill="#6b7a88">no prediction, purely</text>
   <text x="1123" y="920" font-size="15" fill="#6b7a88">reactive to current frame</text>
 
   <!-- shared footer -->

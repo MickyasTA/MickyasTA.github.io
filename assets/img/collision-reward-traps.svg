@@ -14,7 +14,7 @@
     <rect x="0" y="30" width="440" height="600" rx="12" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
     <rect x="0" y="30" width="440" height="50" rx="12" fill="#d97a1e"/>
     <rect x="0" y="58" width="440" height="22" fill="#d97a1e"/>
-    <text x="220" y="63" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Failure mode 1 — safe circling</text>
+    <text x="220" y="63" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Failure mode 1: safe circling</text>
 
     <!-- room sketch -->
     <rect x="25" y="105" width="390" height="235" fill="#fbfcfd" stroke="#9daebc" stroke-width="1.2"/>
@@ -39,7 +39,7 @@
 
     <!-- text -->
     <text x="28" y="382" font-size="15.5" fill="#0b3d66">A +0.5 / step survival bonus made harmless</text>
-    <text x="28" y="410" font-size="15.5" fill="#0b3d66">loitering worth &#8776; 85 discounted reward —</text>
+    <text x="28" y="410" font-size="15.5" fill="#0b3d66">loitering worth &#8776; 85 discounted reward,</text>
     <text x="28" y="438" font-size="15.5" fill="#0b3d66">more than the &#8776; 50 available from a risky</text>
     <text x="28" y="466" font-size="15.5" fill="#0b3d66">goal approach.</text>
     <text x="28" y="506" font-size="15.5" fill="#6b7a88">The critic was right: circling near spawn</text>
@@ -52,7 +52,7 @@
     <rect x="0" y="30" width="440" height="600" rx="12" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
     <rect x="0" y="30" width="440" height="50" rx="12" fill="#d97a1e"/>
     <rect x="0" y="58" width="440" height="22" fill="#d97a1e"/>
-    <text x="220" y="63" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Failure mode 2 — goal parking</text>
+    <text x="220" y="63" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Failure mode 2: goal parking</text>
 
     <!-- room sketch -->
     <rect x="25" y="105" width="390" height="235" fill="#fbfcfd" stroke="#9daebc" stroke-width="1.2"/>
@@ -74,7 +74,7 @@
     <text x="28" y="382" font-size="15.5" fill="#0b3d66">At 10&#215; scale, the proximity bonus paid an</text>
     <text x="28" y="410" font-size="15.5" fill="#0b3d66">income for hovering just outside the goal</text>
     <text x="28" y="438" font-size="15.5" fill="#0b3d66">radius. Timeouts are non-terminal, so it</text>
-    <text x="28" y="466" font-size="15.5" fill="#0b3d66">bootstraps forever — beating the +100.</text>
+    <text x="28" y="466" font-size="15.5" fill="#0b3d66">bootstraps forever, beating the +100.</text>
     <text x="28" y="506" font-size="15.5" fill="#6b7a88">The agent flew to the goal, then refused</text>
     <text x="28" y="534" font-size="15.5" fill="#6b7a88">to finish: the shaping term is not</text>
     <text x="28" y="562" font-size="15.5" fill="#6b7a88">potential-based, so its scale matters.</text>
@@ -85,7 +85,7 @@
     <rect x="0" y="30" width="440" height="600" rx="12" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
     <rect x="0" y="30" width="440" height="50" rx="12" fill="#1a7f6e"/>
     <rect x="0" y="58" width="440" height="22" fill="#1a7f6e"/>
-    <text x="220" y="63" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Fix — finishing strictly dominates</text>
+    <text x="220" y="63" font-size="19" fill="#ffffff" text-anchor="middle" font-weight="700">Fix: finishing strictly dominates</text>
 
     <!-- room sketch -->
     <rect x="25" y="105" width="390" height="235" fill="#fbfcfd" stroke="#9daebc" stroke-width="1.2"/>
@@ -102,12 +102,12 @@
     <text x="100" y="312" font-size="15.5" fill="#1a7f6e" font-weight="600">24 / m progress pull</text>
 
     <!-- text -->
-    <text x="28" y="382" font-size="15.5" fill="#0b3d66">Survival income set to zero — open space</text>
+    <text x="28" y="382" font-size="15.5" fill="#0b3d66">Survival income set to zero, open space</text>
     <text x="28" y="410" font-size="15.5" fill="#0b3d66">pays nothing, so only progress earns.</text>
     <text x="28" y="438" font-size="15.5" fill="#0b3d66">Potential-based progress term &#215;8 gives a</text>
     <text x="28" y="466" font-size="15.5" fill="#0b3d66">dominant 24 / metre pull toward the goal.</text>
     <text x="28" y="506" font-size="15.5" fill="#6b7a88">Proximity bonus kept small (0.15&#183;e&#8315;&#178;&#7496;), so</text>
     <text x="28" y="534" font-size="15.5" fill="#6b7a88">parked income stays far below the +100</text>
-    <text x="28" y="562" font-size="15.5" fill="#6b7a88">terminal — reaching the goal always wins.</text>
+    <text x="28" y="562" font-size="15.5" fill="#6b7a88">terminal, reaching the goal always wins.</text>
   </g>
 </svg>

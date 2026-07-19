@@ -24,7 +24,7 @@
 </nav>
 
 <div class="detail-hero">
-  <iframe src="https://www.youtube-nocookie.com/embed/IRASuKMiOvw?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=IRASuKMiOvw&amp;modestbranding=1&amp;playsinline=1&amp;rel=0" title="TD3 robot navigation with live SLAM mapping — demo" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+  <iframe src="https://www.youtube-nocookie.com/embed/IRASuKMiOvw?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=IRASuKMiOvw&amp;modestbranding=1&amp;playsinline=1&amp;rel=0" title="TD3 robot navigation with live SLAM mapping: demo" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
 </div>
 
 <main class="detail-body">
@@ -32,7 +32,7 @@
   <h1 style="margin-top:18px;">DRL robot navigation + live SLAM</h1>
   <p class="lede">
     A <strong>Twin-Delayed DDPG (TD3)</strong> agent drives a <strong>Pioneer 3-DX</strong> robot
-    through an unknown, cluttered room in <strong>ROS&nbsp;2 + Gazebo</strong> &mdash; reaching
+    through an unknown, cluttered room in <strong>ROS&nbsp;2 + Gazebo</strong>, reaching
     randomly spawned goals collision-free from raw <strong>3D LiDAR</strong>, while
     <strong><code>slam_toolbox</code></strong> builds a live occupancy-grid map of the room as it
     explores. Built as an Integrator Project at <strong>GIPSA-Lab, Grenoble&nbsp;INP</strong> and
@@ -48,19 +48,19 @@
   <h2 id="goal">Project goal</h2>
   <p>
     Send a mobile robot to an arbitrary goal point in an unknown, cluttered room using only its
-    onboard perception &mdash; no map handed to it in advance, no classical motion planner in the
+    onboard perception, no map handed to it in advance, no classical motion planner in the
     loop. The task is framed as a <strong>Markov Decision Process</strong> and solved end-to-end
     with <strong>TD3</strong>, an off-policy algorithm for continuous action spaces. Formally it is
     <strong>goal-conditioned continuous control</strong>: the policy maps a 24-dimensional
-    observation &mdash; what the robot senses of the world, plus where its goal is relative to it
-    &mdash; onto a continuous <code>(linear, angular)</code> velocity command, learning obstacle
+    observation, what the robot senses of the world, plus where its goal is relative to it,
+    onto a continuous <code>(linear, angular)</code> velocity command, learning obstacle
     avoidance <em>and</em> goal seeking together.
   </p>
   <p>
     The robot perceives its surroundings through a simulated <strong>Velodyne VLP-16</strong>
     3D&nbsp;LiDAR and takes its pose from odometry. On top of the goal-reaching policy the robot runs
     online <strong>SLAM</strong>: as the agent drives around chasing continuously re-sampled goals,
-    <code>slam_toolbox</code> assembles an occupancy grid of the room in real time &mdash; turning a
+    <code>slam_toolbox</code> assembles an occupancy grid of the room in real time, turning a
     point-to-point navigation policy into an <strong>autonomous exploration &amp; mapping</strong>
     system. Everything runs in simulation; the repository ships a pre-trained policy so the agent can
     be watched navigating and mapping without training from scratch.
@@ -70,8 +70,8 @@
   <p>
     This project is, honestly, a <strong>port and an extension</strong> rather than a clean-sheet
     build, and it is credited that way. The foundation is Reinis Cimurs&rsquo; ROS&nbsp;1 project
-    <a href="https://github.com/reiniscimurs/DRL-robot-navigation" target="_blank" rel="noopener"><code>reiniscimurs/DRL-robot-navigation</code></a>
-    &mdash; the original TD3 navigation agent and its pre-trained model. The work here
+    <a href="https://github.com/reiniscimurs/DRL-robot-navigation" target="_blank" rel="noopener"><code>reiniscimurs/DRL-robot-navigation</code></a>,
+    the original TD3 navigation agent and its pre-trained model. The work here
     <strong>ports that stack to ROS&nbsp;2 Foxy</strong> (building on a community conversion by
     robotmania) and <strong>adds live map generation</strong> during exploration, so the system does
     not just reach goals but produces a usable map while doing so.
@@ -80,7 +80,7 @@
     The simulated platform is a <strong>Pioneer 3-DX</strong> differential-drive base carrying a
     <strong>Velodyne VLP-16</strong>, defined as a robot description (URDF + the vendored Velodyne
     Gazebo plugin) and dropped into a hand-made <strong>Gazebo&nbsp;11</strong> world
-    (<code>td3.world</code>) &mdash; a walled room seeded with cross- and triangle-shaped obstacles
+    (<code>td3.world</code>), a walled room seeded with cross- and triangle-shaped obstacles
     and scattered cardboard boxes, with goal positions randomized on every reset to diversify
     training. The whole thing is organised as clean, <code>colcon</code>-buildable ROS&nbsp;2
     packages (robot description, world, launch files, RViz config, and the RL node), targeting the
@@ -90,7 +90,7 @@
   </p>
   <figure class="wide">
     <img src="../assets/img/drlnav-pipeline.png" alt="Pipeline diagram: the upstream ROS 1 project is ported to ROS 2 Foxy, which feeds a Gazebo 11 simulation of the Pioneer 3-DX and Velodyne VLP-16; TD3 training produces a policy; at runtime a pre-trained policy drives the robot while slam_toolbox maps the room live. A note marks that the shipped weights come from the upstream project because box randomization was not fixed in the port.">
-    <figcaption>From upstream project to running system: the ROS&nbsp;1 TD3 project is ported to ROS&nbsp;2 Foxy, wired to a Gazebo&nbsp;11 world with the Pioneer 3-DX + VLP-16, and trained with TD3. At runtime the pre-trained policy drives the robot while <code>slam_toolbox</code> maps live. (The shipped weights come from the upstream project &mdash; see the challenges below.)</figcaption>
+    <figcaption>From upstream project to running system: the ROS&nbsp;1 TD3 project is ported to ROS&nbsp;2 Foxy, wired to a Gazebo&nbsp;11 world with the Pioneer 3-DX + VLP-16, and trained with TD3. At runtime the pre-trained policy drives the robot while <code>slam_toolbox</code> maps live. (The shipped weights come from the upstream project, see the challenges below.)</figcaption>
   </figure>
 
   <h2 id="architecture">Implementation &amp; architecture</h2>
@@ -101,7 +101,7 @@
     cheap for the network to read. To that the state appends the <strong>Euclidean distance to the
     goal</strong>, the <strong>heading error&nbsp;&theta;</strong> (the angle between the robot&rsquo;s
     facing and the direction to the goal), and the <strong>previous commanded action</strong>
-    <code>(v,&nbsp;&omega;)</code> &mdash; 20 + 1 + 1 + 2 = 24 inputs in all.
+    <code>(v,&nbsp;&omega;)</code>, 20 + 1 + 1 + 2 = 24 inputs in all.
   </p>
   <p>
     <strong>The action.</strong> The actor emits two <code>tanh</code>-bounded numbers. The first is
@@ -117,9 +117,9 @@
   <p>
     <strong>The learner is textbook TD3.</strong> The actor is an MLP
     (<code>24&nbsp;&rarr;&nbsp;800&nbsp;&rarr;&nbsp;600&nbsp;&rarr;&nbsp;2</code>, ReLU hidden layers,
-    <code>tanh</code> output). The critic is <strong>twin</strong> &mdash; two independent
-    <code>Q(state,&nbsp;action)</code> heads, each <code>&rarr;&nbsp;800&nbsp;&rarr;&nbsp;600&nbsp;&rarr;&nbsp;1</code>
-    &mdash; and the <strong>minimum of the two</strong> target Q-values is used to fight the
+    <code>tanh</code> output). The critic is <strong>twin</strong>, two independent
+    <code>Q(state,&nbsp;action)</code> heads, each <code>&rarr;&nbsp;800&nbsp;&rarr;&nbsp;600&nbsp;&rarr;&nbsp;1</code>,
+    and the <strong>minimum of the two</strong> target Q-values is used to fight the
     overestimation bias that plagues single-critic actor&ndash;critics. Learning adds the two other
     TD3 ingredients: <strong>delayed policy updates</strong> (the actor and target networks refresh
     only every second critic step) and <strong>target-policy smoothing</strong> (clipped noise on the
@@ -133,8 +133,8 @@
     <strong>SLAM runs beside the policy, not inside it.</strong> The robot also publishes a 2D laser
     scan on <code>/front_laser/scan</code>; a separately launched <code>slam_toolbox</code> node
     (online-async, <code>use_sim_time</code>) consumes that scan and emits a <code>/map</code>
-    occupancy grid that fills in live in RViz. The two systems are deliberately decoupled &mdash; the
-    learned controller never sees the map, and mapping never touches the policy &mdash; so exploration
+    occupancy grid that fills in live in RViz. The two systems are deliberately decoupled, the
+    learned controller never sees the map, and mapping never touches the policy, so exploration
     is a pure by-product of the goal-driven driving.
   </p>
   <figure class="wide">
@@ -147,12 +147,12 @@
   <h3>The physics quirk that changed which weights ship</h3>
   <p>
     The training environment was meant to <strong>scatter the cardboard boxes on every reset</strong>
-    to keep episodes diverse &mdash; but in the ROS&nbsp;2 / newer-Gazebo port the boxes
+    to keep episodes diverse, but in the ROS&nbsp;2 / newer-Gazebo port the boxes
     <strong>stopped repositioning</strong>, most likely a side effect of the ROS&nbsp;1&nbsp;&rarr;&nbsp;ROS&nbsp;2
     migration. With the randomization broken, a policy trained from scratch here saw a far less varied
     world and its quality suffered. The pragmatic, honest resolution was to <strong>ship and demo the
     pre-trained policy from the upstream ROS&nbsp;1 project</strong> rather than a weaker locally-trained
-    one &mdash; a reminder that a small simulator regression during a port can quietly undermine the
+    one, a reminder that a small simulator regression during a port can quietly undermine the
     data distribution the whole method depends on.
   </p>
 
@@ -162,13 +162,13 @@
     Q-value would sometimes <strong>decrease</strong> mid-run (the agent stopped improving), and a full
     run takes roughly <strong>8&ndash;10&nbsp;hours</strong>. Converging a fresh TD3 policy to the
     quality of the upstream model needed more compute and wall-clock time than the Integrator Project
-    allowed &mdash; which, combined with the box-randomization regression above, is exactly why the
+    allowed, which, combined with the box-randomization regression above, is exactly why the
     demonstrated agent uses the upstream weights. This is stated plainly rather than papered over.
   </p>
 
   <h3>Honest scoping</h3>
   <p>
-    Three limitations are worth naming. The project is <strong>simulation-only</strong> &mdash; there
+    Three limitations are worth naming. The project is <strong>simulation-only</strong>, there
     is no physical robot, and no sim-to-real claim is made. Several scripts use
     <strong>hard-coded paths</strong> relative to the home directory (the policy loads from a fixed
     <code>./DRL_robot_navigation_ros2/&hellip;</code> location), so the workspace expects to be cloned
@@ -179,27 +179,27 @@
 
   <h2 id="results">Results &amp; analysis</h2>
   <figure class="media16">
-    <iframe src="https://www.youtube-nocookie.com/embed/IRASuKMiOvw?mute=1" title="TD3 robot navigation with live SLAM mapping &mdash; demo" style="position:absolute; inset:0; width:100%; height:100%; border:0;" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe src="https://www.youtube-nocookie.com/embed/IRASuKMiOvw?mute=1" title="TD3 robot navigation with live SLAM mapping: demo" style="position:absolute; inset:0; width:100%; height:100%; border:0;" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </figure>
   <figcaption>The trained agent explores the room and avoids obstacles while <code>slam_toolbox</code> maps it live. <b>Left:</b> the occupancy grid growing in RViz &nbsp;&middot;&nbsp; <b>Right:</b> the Gazebo simulation with the robot, obstacles, and laser scan.</figcaption>
   <p>
     The clip shows the full system running: the pre-trained TD3 policy continuously re-targets goals
     and threads the Pioneer 3-DX between the obstacles, while the parallel SLAM node turns those
     wanderings into a map. What is worth watching is that the two halves of the screen are
-    <em>independent</em> &mdash; the robot on the right is driven purely by the learned velocity
+    <em>independent</em>, the robot on the right is driven purely by the learned velocity
     controller, and the map on the left is assembled from its laser scan without ever feeding back into
     the policy.
   </p>
   <figure>
     <img src="../assets/img/drlnav-map_third.png" alt="Occupancy grid of the room built with slam_toolbox during autonomous exploration: black walls and obstacles, white free space, grey unmapped regions, with the cross- and triangle-shaped obstacles and scattered boxes clearly resolved" style="max-width:420px; margin-left:auto; margin-right:auto; display:block; background:var(--bg);">
-    <figcaption>An occupancy grid the robot built with <code>slam_toolbox</code> during exploration &mdash; black is walls/obstacles, white is free space, grey is unmapped. The walls, the cross- and triangle-shaped obstacles, and the scattered boxes are all captured. The raw <code>.pgm</code>/<code>.yaml</code> outputs (and a few more saved runs) live in the repository&rsquo;s <code>maps/</code> folder.</figcaption>
+    <figcaption>An occupancy grid the robot built with <code>slam_toolbox</code> during exploration, black is walls/obstacles, white is free space, grey is unmapped. The walls, the cross- and triangle-shaped obstacles, and the scattered boxes are all captured. The raw <code>.pgm</code>/<code>.yaml</code> outputs (and a few more saved runs) live in the repository&rsquo;s <code>maps/</code> folder.</figcaption>
   </figure>
   <p>
-    The map is the headline result: it demonstrates the end-to-end goal &mdash; a robot with no prior
+    The map is the headline result: it demonstrates the end-to-end goal, a robot with no prior
     knowledge of the room, driven by a learned policy, produces a coherent occupancy grid in which
     every structural feature of the world is recognisable. Training itself is instrumented with
     TensorBoard (loss and Q-value curves), but because the from-scratch runs were unstable and
-    compute-limited, those curves are treated as monitoring rather than as a headline claim &mdash; the
+    compute-limited, those curves are treated as monitoring rather than as a headline claim, the
     demonstrated navigation and mapping quality comes from the upstream-trained policy, and this page
     reports it as such.
   </p>
@@ -211,7 +211,7 @@
       and successfully <strong>retrain</strong> a policy from scratch, so the shipped weights are the
       project&rsquo;s own rather than inherited.</li>
     <li><strong>Add a global exploration strategy</strong> that samples goals toward <em>unmapped</em>
-      regions instead of anywhere in free space, so the room is explored &mdash; and mapped &mdash;
+      regions instead of anywhere in free space, so the room is explored, and mapped,
       faster and more completely.</li>
     <li><strong>Port to a TurtleBot and validate on real hardware</strong> (for example in the
       GIPSA-Lab), taking the system out of simulation for the first time.</li>

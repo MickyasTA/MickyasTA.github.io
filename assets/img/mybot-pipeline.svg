@@ -6,8 +6,8 @@
   </defs>
   <rect x="0" y="0" width="1500" height="410" fill="#ffffff"/>
 
-  <text x="30" y="46" font-size="26" font-weight="700" fill="#0b3d66">mybot &#8212; CAD-to-policy pipeline</text>
-  <text x="30" y="74" font-size="16" fill="#6b7a88">from a SolidWorks assembly to a verified balance-and-navigation policy &#8212; every stage feeds the next</text>
+  <text x="30" y="46" font-size="26" font-weight="700" fill="#0b3d66">mybot: CAD-to-policy pipeline</text>
+  <text x="30" y="74" font-size="16" fill="#6b7a88">from a SolidWorks assembly to a verified balance-and-navigation policy, every stage feeds the next</text>
 
   <!-- stage numbers -->
   <text x="25"   y="106" font-size="15" font-weight="700" fill="#d97a1e">01</text>

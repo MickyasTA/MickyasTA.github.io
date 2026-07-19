@@ -24,7 +24,7 @@
   </defs>
   <rect x="0" y="0" width="1460" height="900" fill="#ffffff"/>
 
-  <text x="40" y="36" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">ACTING — EVERY CONTROL STEP</text>
+  <text x="40" y="36" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">ACTING: EVERY CONTROL STEP</text>
 
   <!-- Depth stream box -->
   <rect x="40" y="60" width="280" height="170" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
@@ -72,7 +72,7 @@
   <text x="638" y="287" font-size="15" fill="#0b3d66">FC &#8594; 256-d feature</text>
 
   <!-- Goal vector cells -->
-  <text x="510" y="336" font-size="15" fill="#1a7f6e" text-anchor="middle" font-weight="600">explicit goal vector g — recomputed every step</text>
+  <text x="510" y="336" font-size="15" fill="#1a7f6e" text-anchor="middle" font-weight="600">explicit goal vector g: recomputed every step</text>
   <rect x="380" y="352" width="90" height="52" fill="#ffffff" stroke="#1a7f6e" stroke-width="1.5"/>
   <text x="425" y="384" font-size="16" fill="#0b3d66" text-anchor="middle">sin &#945;</text>
   <rect x="470" y="352" width="90" height="52" fill="#ffffff" stroke="#1a7f6e" stroke-width="1.5"/>
@@ -127,11 +127,11 @@
 
   <!-- divider -->
   <line x1="30" y1="545" x2="1430" y2="545" stroke="#6b7a88" stroke-width="1" stroke-dasharray="8,7"/>
-  <text x="40" y="585" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">LEARNING — EVERY 4 CONTROL STEPS, OFF-POLICY FROM REPLAY</text>
+  <text x="40" y="585" font-size="15" fill="#6b7a88" font-weight="700" letter-spacing="2">LEARNING: EVERY 4 CONTROL STEPS, OFF-POLICY FROM REPLAY</text>
 
   <!-- transitions arrow -->
   <path d="M1350,320 L1350,470 L190,470 L190,612" fill="none" stroke="#6b7a88" stroke-width="2" stroke-dasharray="7,6" marker-end="url(#arr)"/>
-  <text x="740" y="460" font-size="15" fill="#6b7a88" text-anchor="middle">transitions (s, a, r, s&#8242;, done, g, g&#8242;) — timeout stored as NOT done</text>
+  <text x="740" y="460" font-size="15" fill="#6b7a88" text-anchor="middle">transitions (s, a, r, s&#8242;, done, g, g&#8242;), timeout stored as NOT done</text>
 
   <!-- Replay box -->
   <rect x="40" y="620" width="300" height="170" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>

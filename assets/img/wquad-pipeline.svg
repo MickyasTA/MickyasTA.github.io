@@ -10,7 +10,7 @@
   <rect x="0" y="0" width="1460" height="360" fill="#ffffff"/>
 
   <!-- top note -->
-  <text x="730" y="34" font-size="15" fill="#6b7a88" text-anchor="middle">Proprioception only &#8212; base linear &amp; angular velocity + last action (10 values); no vision, no external positioning</text>
+  <text x="730" y="34" font-size="15" fill="#6b7a88" text-anchor="middle">Proprioception only: base linear &amp; angular velocity + last action (10 values); no vision, no external positioning</text>
   <path d="M320,66 H1140" fill="none" stroke="#e2e7ec" stroke-width="1.5"/>
 
   <!-- Box 1: Robot description -->
@@ -71,5 +71,5 @@
   <path d="M1147,205 H1175" fill="none" stroke="#0b3d66" stroke-width="2.5" marker-end="url(#arrB)"/>
 
   <!-- bottom label -->
-  <text x="730" y="338" font-size="14" fill="#6b7a88" text-anchor="middle">A custom Isaac Lab classic task &#8212; a 3D inverted-pendulum balancing problem solved with massively-parallel PPO</text>
+  <text x="730" y="338" font-size="14" fill="#6b7a88" text-anchor="middle">A custom Isaac Lab classic task, a 3D inverted-pendulum balancing problem solved with massively-parallel PPO</text>
 </svg>

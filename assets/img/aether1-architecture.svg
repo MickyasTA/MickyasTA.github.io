@@ -6,11 +6,11 @@
   </defs>
   <rect x="0" y="0" width="1480" height="640" fill="#ffffff"/>
 
-  <text x="740" y="40" text-anchor="middle" font-size="19" font-weight="700" fill="#0b3d66">Control architecture — a learned policy composed with a classical stack</text>
+  <text x="740" y="40" text-anchor="middle" font-size="19" font-weight="700" fill="#0b3d66">Control architecture: a learned policy composed with a classical stack</text>
 
   <!-- ===== left: training with gates ===== -->
   <rect x="30" y="70" width="640" height="480" rx="14" fill="none" stroke="#6b7a88" stroke-width="2" stroke-dasharray="8 6"/>
-  <text x="350" y="102" text-anchor="middle" font-size="17" font-weight="700" fill="#0b3d66">Training — wrapped in verification gates</text>
+  <text x="350" y="102" text-anchor="middle" font-size="17" font-weight="700" fill="#0b3d66">Training: wrapped in verification gates</text>
 
   <!-- gate chips -->
   <rect x="55" y="140" width="240" height="70" rx="10" fill="#ffffff" stroke="#1a7f6e" stroke-width="2"/>
@@ -49,7 +49,7 @@
 
   <!-- ===== right: deployment ===== -->
   <rect x="720" y="70" width="730" height="330" rx="14" fill="none" stroke="#0b3d66" stroke-width="2.5"/>
-  <text x="1085" y="102" text-anchor="middle" font-size="17" font-weight="700" fill="#0b3d66">Deployment — one controller interface</text>
+  <text x="1085" y="102" text-anchor="middle" font-size="17" font-weight="700" fill="#0b3d66">Deployment: one controller interface</text>
 
   <!-- learned policy -->
   <rect x="750" y="125" width="330" height="90" rx="12" fill="#ffffff" stroke="#d97a1e" stroke-width="2.5"/>
@@ -69,7 +69,7 @@
   <text x="1180" y="254" text-anchor="middle" font-size="26" font-weight="700" fill="#1a7f6e">+</text>
   <path d="M 1080 170 C 1125 170 1145 200 1158 224" fill="none" stroke="#6b7a88" stroke-width="2" marker-end="url(#arrow)"/>
   <path d="M 1080 305 C 1125 305 1145 288 1158 268" fill="none" stroke="#6b7a88" stroke-width="2" marker-end="url(#arrow)"/>
-  <text x="1224" y="228" font-size="15" fill="#6b7a88">residual composition —</text>
+  <text x="1224" y="228" font-size="15" fill="#6b7a88">residual composition,</text>
   <text x="1224" y="250" font-size="15" fill="#6b7a88">the policy corrects the</text>
   <text x="1224" y="272" font-size="15" fill="#6b7a88">stabilizing classical base</text>
 

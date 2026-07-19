@@ -6,7 +6,7 @@
   </defs>
   <rect x="0" y="0" width="1500" height="700" fill="#ffffff"/>
 
-  <text x="30" y="46" font-size="26" font-weight="700" fill="#0b3d66">mybot &#8212; training system architecture</text>
+  <text x="30" y="46" font-size="26" font-weight="700" fill="#0b3d66">mybot: training system architecture</text>
   <text x="30" y="74" font-size="16" fill="#6b7a88">simulation, ROS 2 transport, environment wrapper and learner are separate processes glued by topics and services</text>
 
   <!-- parallel stack hints behind sim + wrapper -->
@@ -69,10 +69,10 @@
 
   <!-- parallel workers note -->
   <path d="M 30 388 L 30 400 L 1126 400 L 1126 388" fill="none" stroke="#6b7a88" stroke-width="1.5"/>
-  <text x="578" y="428" font-size="15.5" fill="#6b7a88" text-anchor="middle">&#215; N parallel environment workers (plain multiprocessing, no RL library) &#8212; rollout collection ~5&#8211;10&#215; faster wall-clock than a single environment</text>
+  <text x="578" y="428" font-size="15.5" fill="#6b7a88" text-anchor="middle">&#215; N parallel environment workers (plain multiprocessing, no RL library), rollout collection ~5&#8211;10&#215; faster wall-clock than a single environment</text>
 
   <!-- curriculum strip -->
-  <text x="30" y="490" font-size="17" font-weight="700" fill="#0b3d66">Skill curriculum &#8212; one policy, each stage warm-starts from the previous best checkpoint</text>
+  <text x="30" y="490" font-size="17" font-weight="700" fill="#0b3d66">Skill curriculum: one policy, each stage warm-starts from the previous best checkpoint</text>
 
   <g>
     <rect x="30" y="510" width="165" height="64" rx="8" fill="#ffffff" stroke="#1a7f6e" stroke-width="2"/>

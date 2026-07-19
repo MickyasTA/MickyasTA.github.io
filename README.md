@@ -1,6 +1,6 @@
 # mickyasta.github.io
 
-Personal portfolio of **Mickyas Tamiru Asfaw** — robotics, reinforcement learning, control.
+Personal portfolio of **Mickyas Tamiru Asfaw**: robotics, reinforcement learning, control.
 
 Live at: **https://mickyasta.github.io**
 
@@ -18,12 +18,12 @@ assets/img/  assets/video/  # curated media
 .nojekyll               # serve as plain static files
 ```
 
-Plain static site — no build step. Edit the HTML/CSS directly and push to `main`.
+Plain static site, no build step. Edit the HTML/CSS directly and push to `main`.
 
 ## Notes
 
 - AETHER-1 is shown at a high level only (code private; no landing-sequence video is published
-  pre-patent-filing — the EU has no disclosure grace period).
+  pre-patent-filing, the EU has no disclosure grace period).
 - Videos are H.264 MP4s kept small (< 8 MB) for fast loads; the collision-avoidance demo was
   transcoded from GIF with ffmpeg.
 - Some project demos (Duckietown lane following, palletizing arm) are embedded as

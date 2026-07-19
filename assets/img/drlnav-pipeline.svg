@@ -14,7 +14,7 @@
 
   <!-- top note: shipped weights come from upstream -->
   <path d="M149,95 V34 H1292 V68" fill="none" stroke="#6b7a88" stroke-width="2" stroke-dasharray="7,6" marker-end="url(#arr)"/>
-  <text x="690" y="26" font-size="14" fill="#6b7a88" text-anchor="middle">shipped pre-trained weights come from the upstream ROS&#160;1 project &#8212; box randomization was not fixed in the ROS&#160;2 port</text>
+  <text x="690" y="26" font-size="14" fill="#6b7a88" text-anchor="middle">shipped pre-trained weights come from the upstream ROS&#160;1 project, box randomization was not fixed in the ROS&#160;2 port</text>
 
   <!-- A: upstream ROS 1 project -->
   <rect x="25" y="95" width="248" height="185" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
@@ -43,7 +43,7 @@
   <text x="720" y="124" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Gazebo 11 simulation</text>
   <text x="601" y="169" font-size="15" fill="#0b3d66">Pioneer 3-DX base</text>
   <text x="601" y="195" font-size="15" fill="#0b3d66">Velodyne VLP-16 3D LiDAR</text>
-  <text x="601" y="221" font-size="15" fill="#0b3d66">td3.world &#8212; walls + obstacles</text>
+  <text x="601" y="221" font-size="15" fill="#0b3d66">td3.world: walls + obstacles</text>
   <text x="601" y="247" font-size="15" fill="#0b3d66">randomized boxes &amp; goals</text>
 
   <!-- D: TD3 training -->
@@ -68,7 +68,7 @@
   <rect x="1150" y="212" width="285" height="118" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
   <rect x="1150" y="212" width="285" height="44" rx="10" fill="#1a7f6e"/>
   <rect x="1150" y="238" width="285" height="18" fill="#1a7f6e"/>
-  <text x="1292" y="241" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">slam_toolbox &#8212; live map</text>
+  <text x="1292" y="241" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">slam_toolbox: live map</text>
   <text x="1166" y="286" font-size="15" fill="#0b3d66">/front_laser/scan &#8594;</text>
   <text x="1166" y="312" font-size="15" fill="#0b3d66">/map occupancy grid</text>
 

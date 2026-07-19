@@ -6,7 +6,7 @@
   </defs>
   <rect x="0" y="0" width="1480" height="400" fill="#ffffff"/>
 
-  <text x="740" y="42" text-anchor="middle" font-size="19" font-weight="700" fill="#0b3d66">From CAD to a deployable controller — the AETHER-1 pipeline</text>
+  <text x="740" y="42" text-anchor="middle" font-size="19" font-weight="700" fill="#0b3d66">From CAD to a deployable controller, the AETHER-1 pipeline</text>
 
   <!-- step numbers -->
   <text x="37" y="100" font-size="15" fill="#6b7a88" font-weight="600">01</text>

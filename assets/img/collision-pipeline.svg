@@ -14,13 +14,13 @@
 
   <!-- closed loop (top) -->
   <path d="M1342,140 L1342,95 L570,95 L570,132" fill="none" stroke="#d97a1e" stroke-width="2.5" marker-end="url(#arrO)"/>
-  <text x="956" y="82" font-size="15" fill="#d97a1e" text-anchor="middle" font-weight="600">closed loop — control &amp; learning at ~3.3 Hz</text>
+  <text x="956" y="82" font-size="15" fill="#d97a1e" text-anchor="middle" font-weight="600">closed loop: control &amp; learning at ~3.3 Hz</text>
 
   <!-- Box A: platform model -->
   <rect x="30" y="40" width="340" height="180" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
   <rect x="30" y="40" width="340" height="44" rx="10" fill="#1a7f6e"/>
   <rect x="30" y="66" width="340" height="18" fill="#1a7f6e"/>
-  <text x="200" y="69" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Platform model — URDF / xacro</text>
+  <text x="200" y="69" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Platform model: URDF / xacro</text>
   <text x="48" y="114" font-size="15" fill="#0b3d66">hector-quadrotor base link, 1.477 kg</text>
   <text x="48" y="140" font-size="15" fill="#0b3d66">mass-property inertia tensor + mesh</text>
   <text x="48" y="166" font-size="15" fill="#0b3d66">depth camera, laser, IMU declared</text>
@@ -30,7 +30,7 @@
   <rect x="30" y="270" width="340" height="180" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
   <rect x="30" y="270" width="340" height="44" rx="10" fill="#1a7f6e"/>
   <rect x="30" y="296" width="340" height="18" fill="#1a7f6e"/>
-  <text x="200" y="299" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">World &amp; scenario design — SDF</text>
+  <text x="200" y="299" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">World &amp; scenario design: SDF</text>
   <text x="48" y="344" font-size="15" fill="#0b3d66">9 training worlds, trivial &#8594; expert</text>
   <text x="48" y="370" font-size="15" fill="#0b3d66">5 hand-built + 4 procedural rooms</text>
   <text x="48" y="396" font-size="15" fill="#0b3d66">SDF parsed &#8594; occupancy grid for</text>
@@ -96,7 +96,7 @@
   <rect x="430" y="430" width="670" height="44" rx="10" fill="#6b7a88"/>
   <rect x="430" y="456" width="670" height="18" fill="#6b7a88"/>
   <text x="765" y="459" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Deterministic evaluation battery</text>
-  <text x="448" y="504" font-size="15" fill="#0b3d66">greedy policy — exploration noise off, no training, no curriculum advance, no weight writes</text>
+  <text x="448" y="504" font-size="15" fill="#0b3d66">greedy policy: exploration noise off, no training, no curriculum advance, no weight writes</text>
   <text x="448" y="530" font-size="15" fill="#0b3d66">trajectory map &#183; statistics panel &#183; failure analysis &#183; animated 2D playback</text>
-  <text x="448" y="556" font-size="15" fill="#0b3d66">third-person Gazebo video &#183; written report — no_goal harness failures excluded</text>
+  <text x="448" y="556" font-size="15" fill="#0b3d66">third-person Gazebo video &#183; written report, no_goal harness failures excluded</text>
 </svg>

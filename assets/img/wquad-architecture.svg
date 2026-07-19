@@ -17,7 +17,7 @@
 
   <!-- closed control loop (top) -->
   <path d="M1269,85 V45 H189 V83" fill="none" stroke="#d97a1e" stroke-width="2.5" marker-end="url(#arrO)"/>
-  <text x="729" y="37" font-size="15" fill="#d97a1e" text-anchor="middle" font-weight="600">control loop &#8212; the policy's joint commands actuate the robot; fresh proprioception returns every step</text>
+  <text x="729" y="37" font-size="15" fill="#d97a1e" text-anchor="middle" font-weight="600">control loop: the policy's joint commands actuate the robot; fresh proprioception returns every step</text>
 
   <!-- TOP BAND: control loop -->
 
@@ -35,11 +35,11 @@
   <rect x="385" y="85" width="328" height="185" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
   <rect x="385" y="85" width="328" height="44" rx="10" fill="#0b3d66"/>
   <rect x="385" y="111" width="328" height="18" fill="#0b3d66"/>
-  <text x="549" y="114" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Observation manager &#8212; 10</text>
+  <text x="549" y="114" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Observation manager: 10</text>
   <text x="401" y="162" font-size="15" fill="#0b3d66">base linear velocity (3)</text>
   <text x="401" y="190" font-size="15" fill="#0b3d66">base angular velocity (3)</text>
   <text x="401" y="218" font-size="15" fill="#0b3d66">previous action (4)</text>
-  <text x="401" y="246" font-size="15" fill="#0b3d66">proprioception only &#8212; no vision</text>
+  <text x="401" y="246" font-size="15" fill="#0b3d66">proprioception only, no vision</text>
 
   <!-- PPO policy -->
   <rect x="745" y="85" width="328" height="185" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
@@ -55,7 +55,7 @@
   <rect x="1105" y="85" width="328" height="185" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>
   <rect x="1105" y="85" width="328" height="44" rx="10" fill="#1a7f6e"/>
   <rect x="1105" y="111" width="328" height="18" fill="#1a7f6e"/>
-  <text x="1269" y="114" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Action manager &#8212; 4</text>
+  <text x="1269" y="114" font-size="18" fill="#ffffff" text-anchor="middle" font-weight="700">Action manager: 4</text>
   <text x="1121" y="162" font-size="15" fill="#0b3d66">rear wheels &#8594; joint velocity</text>
   <text x="1121" y="190" font-size="15" fill="#0b3d66">(rl_wheel, rr_wheel)</text>
   <text x="1121" y="218" font-size="15" fill="#0b3d66">front thighs &#8594; joint position</text>
@@ -77,7 +77,7 @@
   <text x="924" y="316" font-size="14.5" fill="#d97a1e">updated policy weights</text>
 
   <!-- BOTTOM BAND label -->
-  <text x="25" y="342" font-size="15" fill="#6b7a88" font-weight="600">Manager-based env internals + PPO learner &#8212; reward &amp; termination define the balance task; PPO learns from the parallel rollouts</text>
+  <text x="25" y="342" font-size="15" fill="#6b7a88" font-weight="600">Manager-based env internals + PPO learner: reward &amp; termination define the balance task; PPO learns from the parallel rollouts</text>
 
   <!-- Reward manager -->
   <rect x="25" y="358" width="328" height="172" rx="10" fill="#ffffff" stroke="#6b7a88" stroke-width="1.5"/>

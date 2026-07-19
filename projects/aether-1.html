@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AETHER-1 — hybrid legged-wheeled-aerial robot · Mickyas Tamiru Asfaw</title>
-<meta name="description" content="AETHER-1: one reinforcement-learning policy that balances, drives, flies, lands, and chooses between driving and flying — validated in simulation, hardware prototype in development.">
+<title>AETHER-1: hybrid legged-wheeled-aerial robot · Mickyas Tamiru Asfaw</title>
+<meta name="description" content="AETHER-1: one reinforcement-learning policy that balances, drives, flies, lands, and chooses between driving and flying, validated in simulation, hardware prototype in development.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -32,7 +32,7 @@
   <h1 style="margin-top:18px;">AETHER-1</h1>
   <p class="lede">
     A hybrid legged-wheeled-aerial robot controlled by <strong>one</strong> reinforcement-learning
-    policy that balances, drives, flies, lands, and — most importantly — <em>decides for itself</em>
+    policy that balances, drives, flies, lands, and, most importantly, <em>decides for itself</em>
     when to drive and when to fly, because flying costs roughly ten times more energy than driving.
   </p>
 
@@ -49,7 +49,7 @@
     &#8776;12 N&#183;m nose-down moment that no static pose or joint stiffness can cancel, and disturbances
     grow by a factor of <em>e</em> roughly every 0.23 s. Standing still is already a feedback-control
     task. On that statically unstable, underactuated base sit four tiltable ducted rotors, turning the
-    vehicle into one continuous-action system that must balance, drive, take off, fly, and land — with
+    vehicle into one continuous-action system that must balance, drive, take off, fly, and land, with
     hard transitions between ground and air dynamics in between. The learning problem is to optimize a
     single continuous-action policy over that entire envelope under partial observability: lagged
     actuators, noisy and biased sensors, and only measurements a real robot could obtain onboard.
@@ -57,7 +57,7 @@
   <p>
     The reason to solve it on one vehicle is energy. Confined-space drones fly superbly but only for
     minutes; ground robots run for hours but stop at the first stairwell, drop, or debris field.
-    Hovering burns kilowatts while driving burns watts — roughly a ten-to-one gap — so the target
+    Hovering burns kilowatts while driving burns watts, roughly a ten-to-one gap, so the target
     behavior is a robot that drives whenever wheels suffice and spends its precious flight seconds only
     where they cannot, with the drive-vs-fly decision <strong>learned</strong> through an energy-priced
     reward rather than hard-coded. Because the end goal is hardware, sim-to-real transfer is a design
@@ -72,8 +72,8 @@
     parametric: a single parameter file holds every dimension and mass, and re-running the generator
     produces STEP parts and posed assemblies (which open directly in SolidWorks), STL meshes, and a
     URDF whose inertial tensors are computed from the CAD geometry. The generated description is
-    validated automatically — the URDF must load, total mass must check out, and a forward-kinematics
-    check must place the wheels on the ground plane to 0.00 mm — so the robot description can never
+    validated automatically, the URDF must load, total mass must check out, and a forward-kinematics
+    check must place the wheels on the ground plane to 0.00 mm, so the robot description can never
     silently drift from the CAD.
   </p>
   <p>
@@ -93,24 +93,24 @@
   </figure>
   <figure>
     <img src="../assets/img/aether1-cad-iso.png" alt="AETHER-1 Mk1 CAD model, isometric view">
-    <figcaption>The Mk1 prototype CAD — a 15 kg redesign generated parametrically (every dimension flows from one parameter file into STEP, URDF, and previews). The 26.47 kg simulation robot remains the validated dynamics reference.</figcaption>
+    <figcaption>The Mk1 prototype CAD: a 15 kg redesign generated parametrically (every dimension flows from one parameter file into STEP, URDF, and previews). The 26.47 kg simulation robot remains the validated dynamics reference.</figcaption>
   </figure>
   <figure class="wide">
     <img src="../assets/img/aether1-geometry.png" alt="AETHER-1 to-scale geometry drawing: side view with center of mass, top view of rotor and wheel layout">
-    <figcaption>To-scale geometry, generated directly from the simulation model's constants — the documentation can never drift from the MJCF, because the drawing is regenerated from it.</figcaption>
+    <figcaption>To-scale geometry, generated directly from the simulation model's constants, the documentation can never drift from the MJCF, because the drawing is regenerated from it.</figcaption>
   </figure>
 
   <h2>Implementation &amp; architecture</h2>
   <p>
     The training environment wraps the MuJoCo model behind a fixed observation/action contract. The
-    policy sees only what a real robot could measure onboard — proprioceptive state, goal-relative
+    policy sees only what a real robot could measure onboard, proprioceptive state, goal-relative
     quantities, and notably the <em>applied</em> rotor thrust after the motor lag rather than its own
     command, so the actuator dynamics are observed instead of hidden. Actions are continuous commands
     to the legs, wheels, duct tilts, and rotors.
   </p>
   <p>
     <strong>Hybrid by design, not by fallback.</strong> The learned policy does not replace classical
-    control — it is composed <em>with</em> it. LQR balance and model-based flight controllers act as
+    control, it is composed <em>with</em> it. LQR balance and model-based flight controllers act as
     stabilizing bases on which the policy learns residual corrections, as independent safety layers,
     and as honest benchmarks: learned, classical, and hybrid controllers are interchangeable behind
     one interface and compared on identical seeded evaluations, so every claim that "the learned
@@ -119,8 +119,8 @@
   <p>
     <strong>The learner.</strong> The algorithm is PPO, hand-written in PyTorch rather than imported
     from a library, running on 24 parallel CPU environments. Skills are grown through a staged
-    curriculum — balance, driving, hover, 3D flight, air&#8596;ground transitions, and finally free
-    drive-or-fly arbitration — and advancement is never scheduled: a stage is passed only when measured
+    curriculum, balance, driving, hover, 3D flight, air&#8596;ground transitions, and finally free
+    drive-or-fly arbitration, and advancement is never scheduled: a stage is passed only when measured
     success clears its performance gate. Earlier stages are continually rehearsed while new ones are
     learned, so the policy that eventually flies has not forgotten how to balance. A handful of
     unglamorous mechanics carried the run: observation-normalization statistics are preserved across
@@ -153,8 +153,8 @@
   <p>
     The center of mass sits 4.64 cm ahead of the wheel axle, so gravity exerts a &#8776;12 N&#183;m
     nose-down moment about the tire contact line the moment an episode starts. No leg stiffness can
-    fix this — leg torques are internal forces; they reshape the robot without changing the net
-    external moment — and the unstable dynamics e-fold roughly every 0.23 s. The resolution is
+    fix this, leg torques are internal forces; they reshape the robot without changing the net
+    external moment, and the unstable dynamics e-fold roughly every 0.23 s. The resolution is
     architectural rather than clever: balance is the curriculum's first stage, an LQR regulating
     around the true equilibrium (a lean of about 5&#176; back, which puts the CoM over the contact
     line) provides the classical base, and the 100 Hz control rate was chosen to give roughly 23
@@ -164,27 +164,27 @@
 
   <h3>The placeholder thrust model that could not fly</h3>
   <p>
-    The exported robot description gave each rotor a 3 N&#183;m torque actuator on its spin hinge — a
+    The exported robot description gave each rotor a 3 N&#183;m torque actuator on its spin hinge, a
     URDF-export placeholder, not a motor spec. Working the numbers with actuator-disk momentum theory
     exposed it: hover needs 64.92 N per rotor, which for this duct implies roughly 700&#8211;950 W of
     realistic shaft power per rotor, and at the 110 N thrust ceiling the required shaft torque is
-    about 5.1 N&#183;m — past the placeholder's cap. Under a hard 3 N&#183;m limit the robot would
+    about 5.1 N&#183;m, past the placeholder's cap. Under a hard 3 N&#183;m limit the robot would
     have a thrust-to-weight ratio of about 1.0: it could levitate, but never climb or reject a
     disturbance. The fix replaced the hinge actuators with thrust-native actuators commanded in
     newtons (giving T/W &#8776; 1.69) behind the first-order motor lag, and the whole action-to-force
     chain was then calibrated empirically: commanding exact hover thrust leaves a residual vertical
-    acceleration of +0.024 m/s&#178; — 0.25 % of gravity.
+    acceleration of +0.024 m/s&#178;, 0.25 % of gravity.
   </p>
 
   <h3>Catastrophic forgetting across locomotion modes</h3>
   <p>
     A policy trained sequentially on balance, then driving, then flight optimizes whatever it is
-    currently graded on — and quietly overwrites the rest. Left alone, the network that masters hover
+    currently graded on, and quietly overwrites the rest. Left alone, the network that masters hover
     degrades at driving, and the one that masters flight forgets how to balance; the curriculum would
     end with exactly one skill. The answer is retention by construction: every stage's training mix
     keeps a share of episodes from all earlier stages, so old skills keep generating gradient, and a
     stage only closes when measured success clears its gate. Structural contracts protect what has
-    been learned, too — the observation layout is frozen for the life of the run, and when a new group
+    been learned, too. The observation layout is frozen for the life of the run, and when a new group
     of actuators comes into play its action mapping is initialized at a physically neutral point
     instead of rescaling anything already trained (a predecessor project measured ~87 % of actions
     railing at the clip limits after an innocent-looking rescale).
@@ -200,11 +200,11 @@
     collapses, termination goes to ~100 %, and the flat return curve hides the fact that the policy
     has correctly learned that ending the episode is worth more than living through it. With
     discounting, any stage whose honest-but-sloppy survival nets a negative per-step value makes dying
-    the optimum — and gradient descent will find it. Auditing this project's first-draft stages found
+    the optimum, and gradient descent will find it. Auditing this project's first-draft stages found
     several where that held for baseline controllers, plus a subtler trap: a do-nothing policy could
     settle onto the floor below every crash threshold and absorb a mild penalty forever, a state
     strictly worse than death because even termination was unreachable. A related class of exploit is
-    physical rather than economic — such as leaning on the rotors while "driving" — and those are
+    physical rather than economic, such as leaning on the rotors while "driving", and those are
     caught by measuring the cheat at the physical effector (world-frame vertical thrust) instead of at
     joint coordinates. The fix was to make detection institutional: an automated reward-economics
     audit recomputes the value of surviving versus terminating for baseline controllers on every
@@ -221,24 +221,24 @@
   </p>
   <figure class="wide">
     <img src="../assets/img/aether1-results-overview.png" alt="Training outcome overview: curriculum stage progression, episode length and return, evaluation length, return and success rate over the run">
-    <figcaption>Training overview — curriculum stage index, episode length and return (top), evaluation length, return and success rate (bottom) over &#8776;150 million environment steps.</figcaption>
+    <figcaption>Training overview: curriculum stage index, episode length and return (top), evaluation length, return and success rate (bottom) over &#8776;150 million environment steps.</figcaption>
   </figure>
   <p>
     The stage-index panel (top left) tells the run's story in one staircase: the first stages clear in
     roughly the first fifth of the &#8776;150 million environment steps, then the curriculum holds on
     its penultimate stage for well over half the run before the final stage unlocks near the 140 M
-    mark. That long plateau is not stagnation — it is the honest price of the hardest skill, trained
+    mark. That long plateau is not stagnation, it is the honest price of the hardest skill, trained
     under domain randomization until its gate was met. The episode-length and return panels (top
     middle, top right) climb quickly to ~1,750-step episodes and returns in the 1,200&#8211;1,500
     band, and every sharp dip lines up with a stage introduction: each new stage changes what an
     episode demands, so length and return briefly collapse and are then re-mastered. The deepest dip
-    sits exactly at the final-stage switch, followed by a fast recovery — the signature of a policy
+    sits exactly at the final-stage switch, followed by a fast recovery, the signature of a policy
     that adapts rather than starts over, which is the retention machinery visibly paying off.
   </p>
   <p>
     The evaluation row (bottom) repeats the pattern with a deterministic policy. The most informative
     panel is the success rate (bottom right): it spikes toward ~0.9 as early stages are mastered, then
-    collapses toward zero each time a new stage arrives — not because the robot got worse, but because
+    collapses toward zero each time a new stage arrives, not because the robot got worse, but because
     the success criterion itself just got harder. Through the long penultimate stage it grinds in the
     0.3&#8211;0.4 band, and at the end of the visible window it climbs above 0.9 on the final stage.
     The overview is a live snapshot taken mid-run; the curriculum subsequently closed its final stage
@@ -252,20 +252,20 @@
     every episode with final goal distances of 0.17&#8211;0.19 m and final tilt around 4&#176;;
     flight to air goals with hover-hold likewise succeeds everywhere, station-keeping within
     0.18&#8211;0.20 m. The rotor-to-wheel landing handoff completes in every seeded episode, touching
-    down at 0.14&#8211;0.15 m/s and settling upright within 9&#176;. A seven-axis robustness sweep —
+    down at 0.14&#8211;0.15 m/s and settling upright within 9&#176;. A seven-axis robustness sweep,
     wind, +20 % mass with a +2 kg payload, rotor asymmetry, battery sag, sensor bias, one-step action
-    latency, and floor tilt — succeeds on all seven axes; the heavy-configuration case carries a WARN
+    latency, and floor tilt, succeeds on all seven axes; the heavy-configuration case carries a WARN
     because its worst episode heeled to 43&#176; before recovering, even though every episode still
     succeeded.
   </p>
   <p>
     The honest weak spot is <em>mission_full_handoff</em>, the chained takeoff &#8594; fly &#8594;
     land &#8594; drive mission, at 0.60 success. Each individual capability passes near-perfectly in
-    isolation; chained, their small errors compound — a modest touchdown offset becomes the driving
+    isolation; chained, their small errors compound. A modest touchdown offset becomes the driving
     leg's initial error, and the worst episode reached 13&#8211;33&#176; of tilt with about 1.9 m of
     station error. This is precisely the failure class the battery exists to surface before hardware
     does: the failing seeds are recorded as full state/action traces for replay and analysis. The
-    remaining WARNs are of the same character — landings that succeed but bounce more than the
+    remaining WARNs are of the same character, landings that succeed but bounce more than the
     single-bounce target on their worst episode, and a gust-during-touchdown edge case that sits
     exactly at its 0.40 acceptance floor, marking touchdown under strong gusts as the weakest edge of
     the envelope. Qualitatively, the montage below shows what the numbers summarize: the same policy
@@ -279,7 +279,7 @@
   <h2>Future work</h2>
   <ul>
     <li><strong>Close the chained-mission gap.</strong> Use the recorded failure traces from the 0.60-success handoff scenario to drive the next training/verification iteration, so the full mission chain clears the battery before hardware is asked to fly it.</li>
-    <li><strong>Replace guessed constants with measured ones.</strong> Staged test rigs for the Mk1 program measure what simulation could only assume — thrust maps, motor lag, and the other research-tunable parameters — and feed the measurements back into the model.</li>
+    <li><strong>Replace guessed constants with measured ones.</strong> Staged test rigs for the Mk1 program measure what simulation could only assume, thrust maps, motor lag, and the other research-tunable parameters, and feed the measurements back into the model.</li>
     <li><strong>Build and bring up the Mk1.</strong> Finish procurement and assembly of the 15 kg demonstrator and execute the safety-gated bring-up procedure, sensor and actuator checks first.</li>
     <li><strong>Tethered flight tests.</strong> Graduate from bench rigs to constrained flight, then to the full drive &#8594; fly &#8594; land &#8594; drive demonstration on hardware.</li>
     <li><strong>First pilot conversations.</strong> Take the demonstrator's results to industrial-inspection operators, where the drive-long/fly-short energy profile matters most.</li>
