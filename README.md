@@ -11,6 +11,7 @@ index.html              # main page: hero (live balancer), flagship (AETHER-1), 
                         #   experience, publications, education, skills, about, contact
 projects/*.html         # five case studies (aether-1, mybot, collision-avoidance,
                         #   drl-navigation, wheeled-quadruped), one shared template
+assets/Mickyas_Tamiru_Asfaw_CV.pdf  # public 2-page CV, linked from hero, contact and footers
 404.html                # branded not-found page (root-absolute paths, for GitHub Pages)
 assets/css/style.css    # single stylesheet: paper light theme, dark theme, one accent
 assets/js/main.js       # theme toggle, reveals, active nav, video + YouTube facades

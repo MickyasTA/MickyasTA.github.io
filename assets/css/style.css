@@ -437,6 +437,7 @@ code { font-family: var(--mono); font-size: .86em; background: var(--paper-2); p
 
 .footer { border-top: 1px solid var(--rule); padding-block: 28px 40px; font-family: var(--mono); font-size: .75rem; color: var(--ink-3); }
 .footer-inner { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: center; justify-content: space-between; }
+.hint { margin-left: 8px; font-family: var(--mono); font-size: .68rem; letter-spacing: .04em; color: var(--ink-3); white-space: nowrap; }
 .theme { display: inline-flex; align-items: center; gap: 4px; }
 .theme > span { margin-right: 8px; }
 .theme button { padding: 6px 8px; color: var(--ink-3); border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; letter-spacing: .02em; }
