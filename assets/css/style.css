@@ -467,7 +467,7 @@ code { font-family: var(--mono); font-size: .86em; background: var(--paper-2); p
 .prose figure.plate.narrow { max-width: 460px; }
 .prose figure.pair { display: grid; gap: 16px; background: none; border: 0; padding: 0; }
 @media (min-width: 640px) { .prose figure.pair { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.prose figure.pair img { background: var(--plate); border: 1px solid var(--rule); width: 100%; }
+.prose figure.pair img { background: var(--plate); border: 1px solid var(--rule); width: 100%; max-width: 320px; }
 .prose figcaption { margin-top: 12px; font-size: .84rem; line-height: 1.55; color: var(--ink-3); max-width: 76ch; }
 .prose figure.plate figcaption { color: #6b6558; }
 .prose figure.pair figcaption { grid-column: 1 / -1; margin-top: 0; }

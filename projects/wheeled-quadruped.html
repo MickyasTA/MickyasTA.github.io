@@ -3,60 +3,78 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wheeled quadruped robot &#183; Self-balancing RL in Isaac Lab &#183; Mickyas Tamiru Asfaw</title>
+<title>Wheeled quadruped robot | Self-balancing RL in Isaac Lab | Mickyas Tamiru Asfaw</title>
 <meta name="description" content="A segway-style wheeled quadruped learns to balance and drive with PPO in NVIDIA Isaac Lab 2.3.2. An asymmetric actor-critic keeps the deployed policy on onboard-only sensing across 2048 GPU-parallel environments, with four trained policies (balance and velocity, on flat and rough terrain) exported to ONNX and TorchScript, and validated sim-to-sim by running them unchanged in a second physics engine (MuJoCo).">
+<meta name="theme-color" content="#f4f0e7">
+<link rel="canonical" href="https://mickyasta.github.io/projects/wheeled-quadruped.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Mickyas Tamiru Asfaw">
+<meta property="og:title" content="Wheeled quadruped robot | Self-balancing RL in Isaac Lab | Mickyas Tamiru Asfaw">
+<meta property="og:description" content="A segway-style wheeled quadruped learns to balance and drive with PPO in NVIDIA Isaac Lab 2.3.2. An asymmetric actor-critic keeps the deployed policy on onboard-only sensing across 2048 GPU-parallel environments, with four trained policies (balance and velocity, on flat and rough terrain) exported to ONNX and TorchScript, and validated sim-to-sim by running them unchanged in a second physics engine (MuJoCo).">
+<meta property="og:url" content="https://mickyasta.github.io/projects/wheeled-quadruped.html">
+<meta property="og:image" content="https://mickyasta.github.io/assets/img/wquad-demo-poster.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wheeled quadruped robot | Self-balancing RL in Isaac Lab | Mickyas Tamiru Asfaw">
+<meta name="twitter:description" content="A segway-style wheeled quadruped learns to balance and drive with PPO in NVIDIA Isaac Lab 2.3.2. An asymmetric actor-critic keeps the deployed policy on onboard-only sensing across 2048 GPU-parallel environments, with four trained policies (balance and velocity, on flat and rough terrain) exported to ONNX and TorchScript, and validated sim-to-sim by running them unchanged in a second physics engine (MuJoCo).">
+<meta name="twitter:image" content="https://mickyasta.github.io/assets/img/wquad-demo-poster.png">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>&#129302;</text></svg>">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="nav-logo" href="../index.html">mickyas<span class="tick">@</span>robotics<span class="tick">:~$</span></a>
-    <div class="nav-links">
-      <a href="../index.html#projects">Projects</a>
-      <a class="nav-cta" href="mailto:mickyastamiru92@gmail.com">Contact</a>
-    </div>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../index.html" aria-label="Mickyas Tamiru Asfaw, home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="../index.html#flagship">AETHER-1</a></li>
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a class="nav-cta" href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
   </div>
-</nav>
+</header>
 
-<div class="detail-hero">
-  <video autoplay controls muted loop playsinline preload="metadata" poster="../assets/img/wquad-demo-poster.png" src="../assets/video/wquad-demo.mp4"></video>
-</div>
-
-<main class="detail-body">
-  <a class="back-link" href="../index.html">&#8592; back to all projects</a>
-  <h1 style="margin-top:18px;">Wheeled quadruped robot: self-balancing RL in Isaac Lab</h1>
-  <p class="lede">
-    A <strong>segway-style wheeled quadruped</strong> (a four-legged robot that balances pitched up on
+<main id="main">
+  <div class="wrap">
+    <div class="pp-head">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span aria-hidden="true">/</span><a href="../index.html#work">Work</a><span aria-hidden="true">/</span><span>Case study 05</span></nav>
+      <h1 class="rise">Wheeled quadruped robot: self-balancing RL in Isaac Lab</h1>
+      <p class="pp-lede rise" style="--i:1">A <strong>segway-style wheeled quadruped</strong> (a four-legged robot that balances pitched up on
     its two rear wheels) learns to <strong>stand upright and drive</strong> with <strong>Proximal Policy
     Optimization (PPO)</strong> in <strong>NVIDIA&nbsp;Isaac&nbsp;Lab</strong>. It is essentially a
     <strong>3D inverted-pendulum</strong> problem: the policy actuates the rear wheels and front thighs
     to hold the torso at an upright base height of <strong>0.828&nbsp;m</strong> from
     <strong>onboard sensing alone</strong>, trained across <strong>2048&nbsp;environments</strong> in
     parallel on a single GPU. Four policies are trained: balance and velocity tracking, each on flat
-    ground and on rough terrain.
-  </p>
-
-  <div class="notice">
-    &#127793; <strong>Learning project.</strong> I built this to teach myself <strong>NVIDIA Isaac
+    ground and on rough terrain.</p>
+      <p class="pp-notice rise" style="--i:2"><strong>Learning project.</strong> I built this to teach myself <strong>NVIDIA Isaac
     Lab</strong>, starting from an online example repository and then substantially rebuilding and
     extending it into my own tasks. The learning has come a long way since: it now has
     <strong>four trained policies</strong>, an <strong>asymmetric actor-critic</strong>, domain
     randomization, and a rough-terrain curriculum. It is here because I believe in
     <strong>learning in public</strong>, and the page has grown (trained policies, a demo video, a
-    12-chapter project wiki) as the learning has.
-  </div>
+    12-chapter project wiki) as the learning has.</p>
+      <div class="pp-actions rise" style="--i:3"><a class="btn btn-solid ext" target="_blank" rel="noopener" href="https://github.com/MickyasTA/wheeled_quadruped_robot">View the code</a><a class="btn btn-line ext" target="_blank" rel="noopener" href="https://isaac-sim.github.io/IsaacLab/">NVIDIA Isaac Lab</a></div>
+    </div>
 
-  <p style="display:flex; gap:12px; flex-wrap:wrap; margin-top:24px;">
-    <a class="btn btn-primary" href="https://github.com/MickyasTA/wheeled_quadruped_robot" target="_blank" rel="noopener">View the code &#8599;</a>
-    <a class="btn btn-ghost" href="https://isaac-sim.github.io/IsaacLab/" target="_blank" rel="noopener">NVIDIA Isaac Lab &#8599;</a>
-  </p>
+    <div class="pp-hero reveal"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/wquad-demo-poster.png" src="../assets/video/wquad-demo.mp4" aria-label="Trained wheeled quadruped driving across rough terrain in Isaac Sim"></video></div></div>
+    <dl class="datastrip cols-4"><div><dt>parallel environments on a single GPU</dt><dd>2048</dd></div><div><dt>trained policies: balance and velocity, flat and rough</dt><dd>4</dd></div><div><dt>steps held by the flat velocity policy</dt><dd>996 / 1000</dd></div><div><dt>policies transfer at 100% in MuJoCo</dt><dd>3 of 4</dd></div></dl>
 
-  <h2 id="goal">Project goal</h2>
+    <div class="pp-layout">
+      <aside class="toc" aria-label="On this page">
+        <span class="label">On this page</span>
+        <ol><li><a href="#goal">Project goal</a></li><li><a href="#architecture">How it works &amp; architecture</a></li><li><a href="#tasks">The tasks, including rough terrain</a></li><li><a href="#results">Results &amp; analysis</a></li><li><a href="#sim2sim">Sim-to-sim validation (MuJoCo)</a></li><li><a href="#future">Future work</a></li></ol>
+      </aside>
+      <article class="prose">
+<h2 id="goal">Project goal</h2>
   <p>
     Teach a statically-unstable robot to <strong>keep itself standing</strong>, then to
     <strong>drive on command</strong>. The segway-style wheeled quadruped balances pitched up on its
@@ -157,9 +175,9 @@
     That gap is reported as-is, not smoothed over: uneven ground is a strictly harder problem than the
     flat case.
   </p>
-  <figure style="display:flex; gap:14px; flex-wrap:wrap;">
-    <img src="../assets/img/wquad-robot_balancing.png" alt="The wheeled quadruped standing upright on its rear wheels on a light grid floor in Isaac Sim, at roughly its target balance height" style="flex:1 1 300px; min-width:280px; background:var(--bg);">
-    <img src="../assets/img/wquad-robot_collision.png" alt="The same robot rendered with its green collision / articulation wireframe overlaid, showing the wheels, thighs, shins and body links used by the physics engine" style="flex:1 1 300px; min-width:280px; background:var(--bg);">
+  <figure class="pair">
+    <img src="../assets/img/wquad-robot_balancing.png" alt="The wheeled quadruped standing upright on its rear wheels on a light grid floor in Isaac Sim, at roughly its target balance height" width="256" height="256" loading="lazy" decoding="async">
+    <img src="../assets/img/wquad-robot_collision.png" alt="The same robot rendered with its green collision / articulation wireframe overlaid, showing the wheels, thighs, shins and body links used by the physics engine" width="256" height="256" loading="lazy" decoding="async">
   </figure>
   <figcaption>
     <b>Left:</b> the balancing pose, the quadruped standing on its rear wheels at close to the
@@ -197,13 +215,8 @@
     Different engine, different contact model, different terrain: a genuine cross-engine test rather
     than a replay.
   </p>
-  <figure style="margin:22px 0;">
-    <video autoplay controls muted loop playsinline preload="metadata" src="../assets/video/wquad-sim2sim.mp4" style="width:100%; border-radius:10px; background:var(--bg);"></video>
-    <figcaption>
-      The same Isaac-trained policy driving over rough terrain in <strong>MuJoCo</strong>, a physics
-      engine it never saw during training.
-    </figcaption>
-  </figure>
+  <figure class="media16"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/wquad-demo-poster.png" src="../assets/video/wquad-sim2sim.mp4" aria-label="Isaac-trained policy driving over rough terrain in MuJoCo"></video></div><figcaption>The same Isaac-trained policy driving over rough terrain in <strong>MuJoCo</strong>, a physics
+      engine it never saw during training.</figcaption></figure>
   <p>
     <strong>Three of the four policies transferred at 100%</strong>, surviving every episode in MuJoCo:
     balance, velocity, and balance on rough terrain. The hardest task, <strong>driving while balancing
@@ -233,25 +246,31 @@
       measure.</li>
   </ul>
 
-  <p style="margin-top:26px; font-size:14.5px; color:var(--text-faint);">
+  <p class="fine">
     Built on <strong>NVIDIA Isaac Lab</strong> (BSD-3-Clause), started from an online example repository
     and substantially rebuilt as a standalone Isaac&nbsp;Lab&nbsp;2.3.2 external project under the
     <code>isaaclab</code> namespace. Released under the MIT License.
   </p>
 
-  <p style="display:flex; gap:12px; flex-wrap:wrap; margin-top:34px;">
-    <a class="btn btn-primary" href="https://github.com/MickyasTA/wheeled_quadruped_robot" target="_blank" rel="noopener">View the code &#8599;</a>
-    <a class="btn btn-ghost" href="https://isaac-sim.github.io/IsaacLab/" target="_blank" rel="noopener">NVIDIA Isaac Lab &#8599;</a>
-  </p>
+<div class="actions"><a class="btn btn-solid ext" target="_blank" rel="noopener" href="https://github.com/MickyasTA/wheeled_quadruped_robot">View the code</a><a class="btn btn-line ext" target="_blank" rel="noopener" href="https://isaac-sim.github.io/IsaacLab/">NVIDIA Isaac Lab</a></div>
+      </article>
+    </div>
+  </div>
+
+  <nav class="wrap pager" aria-label="More case studies">
+    <a class="prev" href="drl-navigation.html" rel="prev"><span class="label">Previous</span><span class="t">DRL navigation + live SLAM</span></a>
+    <a class="next" href="aether-1.html" rel="next"><span class="label">Next</span><span class="t">AETHER-1</span></a>
+  </nav>
 </main>
 
-<footer>
-  <div class="foot-inner">
+<footer class="footer">
+  <div class="wrap footer-inner">
     <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
-    <span><a href="../index.html">mickyasta.github.io</a></span>
+    <div class="theme" role="group" aria-label="Colour theme"><span>Theme</span><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button><button type="button" data-theme-set="auto" aria-pressed="true">Auto</button></div>
+    <span><a class="link" href="../index.html">mickyasta.github.io</a></span>
   </div>
 </footer>
 
-<script src="../assets/js/main.js"></script>
+<script src="../assets/js/main.js" defer></script>
 </body>
 </html>

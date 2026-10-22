@@ -3,49 +3,69 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DRL robot navigation + live SLAM (TD3) &#183; Mickyas Tamiru Asfaw</title>
+<title>DRL robot navigation + live SLAM (TD3) | Mickyas Tamiru Asfaw</title>
 <meta name="description" content="A Twin-Delayed DDPG (TD3) agent drives a Pioneer 3-DX through cluttered rooms in ROS 2 + Gazebo, reaching goals collision-free from 3D LiDAR while slam_toolbox builds a live occupancy-grid map. A GIPSA-Lab (Grenoble INP) project, documented in a published paper.">
+<meta name="theme-color" content="#f4f0e7">
+<link rel="canonical" href="https://mickyasta.github.io/projects/drl-navigation.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Mickyas Tamiru Asfaw">
+<meta property="og:title" content="DRL robot navigation + live SLAM (TD3) | Mickyas Tamiru Asfaw">
+<meta property="og:description" content="A Twin-Delayed DDPG (TD3) agent drives a Pioneer 3-DX through cluttered rooms in ROS 2 + Gazebo, reaching goals collision-free from 3D LiDAR while slam_toolbox builds a live occupancy-grid map. A GIPSA-Lab (Grenoble INP) project, documented in a published paper.">
+<meta property="og:url" content="https://mickyasta.github.io/projects/drl-navigation.html">
+<meta property="og:image" content="https://mickyasta.github.io/assets/img/drlnav-demo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DRL robot navigation + live SLAM (TD3) | Mickyas Tamiru Asfaw">
+<meta name="twitter:description" content="A Twin-Delayed DDPG (TD3) agent drives a Pioneer 3-DX through cluttered rooms in ROS 2 + Gazebo, reaching goals collision-free from 3D LiDAR while slam_toolbox builds a live occupancy-grid map. A GIPSA-Lab (Grenoble INP) project, documented in a published paper.">
+<meta name="twitter:image" content="https://mickyasta.github.io/assets/img/drlnav-demo.png">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>&#129302;</text></svg>">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="nav-logo" href="../index.html">mickyas<span class="tick">@</span>robotics<span class="tick">:~$</span></a>
-    <div class="nav-links">
-      <a href="../index.html#projects">Projects</a>
-      <a class="nav-cta" href="mailto:mickyastamiru92@gmail.com">Contact</a>
-    </div>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../index.html" aria-label="Mickyas Tamiru Asfaw, home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="../index.html#flagship">AETHER-1</a></li>
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a class="nav-cta" href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
   </div>
-</nav>
+</header>
 
-<div class="detail-hero">
-  <iframe src="https://www.youtube-nocookie.com/embed/IRASuKMiOvw?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=IRASuKMiOvw&amp;modestbranding=1&amp;playsinline=1&amp;rel=0" title="TD3 robot navigation with live SLAM mapping: demo" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-</div>
-
-<main class="detail-body">
-  <a class="back-link" href="../index.html">&#8592; back to all projects</a>
-  <h1 style="margin-top:18px;">DRL robot navigation + live SLAM</h1>
-  <p class="lede">
-    A <strong>Twin-Delayed DDPG (TD3)</strong> agent drives a <strong>Pioneer 3-DX</strong> robot
+<main id="main">
+  <div class="wrap">
+    <div class="pp-head">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span aria-hidden="true">/</span><a href="../index.html#work">Work</a><span aria-hidden="true">/</span><span>Case study 04</span></nav>
+      <h1 class="rise">DRL robot navigation + live SLAM</h1>
+      <p class="pp-lede rise" style="--i:1">A <strong>Twin-Delayed DDPG (TD3)</strong> agent drives a <strong>Pioneer 3-DX</strong> robot
     through an unknown, cluttered room in <strong>ROS&nbsp;2 + Gazebo</strong>, reaching
     randomly spawned goals collision-free from raw <strong>3D LiDAR</strong>, while
     <strong><code>slam_toolbox</code></strong> builds a live occupancy-grid map of the room as it
     explores. Built as an Integrator Project at <strong>GIPSA-Lab, Grenoble&nbsp;INP</strong> and
-    documented in a published paper.
-  </p>
+    documented in a published paper.</p>
+      <div class="pp-actions rise" style="--i:3"><a class="btn btn-solid ext" target="_blank" rel="noopener" href="https://github.com/MickyasTA/DRL_robot_navigation_ros2">View the code</a><a class="btn btn-line ext" target="_blank" rel="noopener" href="https://www.researchgate.net/publication/380875371_Controlling_a_Mobile_Robot_Using_ROS2_and_Machine_Learning">Read the paper</a><a class="btn btn-line ext" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=IRASuKMiOvw">Watch the demo</a></div>
+    </div>
 
-  <p style="display:flex; gap:12px; flex-wrap:wrap; margin-top:24px;">
-    <a class="btn btn-primary" href="https://github.com/MickyasTA/DRL_robot_navigation_ros2" target="_blank" rel="noopener">View the code &#8599;</a>
-    <a class="btn btn-ghost" href="https://www.researchgate.net/publication/380875371_Controlling_a_Mobile_Robot_Using_ROS2_and_Machine_Learning" target="_blank" rel="noopener">Read the paper &#8599;</a>
-    <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=IRASuKMiOvw" target="_blank" rel="noopener">Watch the demo &#8599;</a>
-  </p>
+    <div class="pp-hero reveal"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping: demo" target="_blank" rel="noopener"><span class="yt-art" aria-hidden="true"></span><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 robot navigation with live SLAM mapping: demo</span></a></div>
+    <dl class="datastrip cols-4"><div><dt>state values: 20 LiDAR sectors, goal distance, heading error, previous action</dt><dd>24</dd></div><div><dt>angular sectors across the 180° in front</dt><dd>20</dd></div><div><dt>goal and collision reward</dt><dd>±100</dd></div><div><dt>a full from-scratch training run</dt><dd>8–10 h</dd></div></dl>
 
-  <h2 id="goal">Project goal</h2>
+    <div class="pp-layout">
+      <aside class="toc" aria-label="On this page">
+        <span class="label">On this page</span>
+        <ol><li><a href="#goal">Project goal</a></li><li><a href="#pipeline">From idea to simulation</a></li><li><a href="#architecture">Implementation &amp; architecture</a></li><li><a href="#challenges">Critical challenges</a></li><li><a href="#results">Results &amp; analysis</a></li><li><a href="#future">Future work</a></li></ol>
+      </aside>
+      <article class="prose">
+<h2 id="goal">Project goal</h2>
   <p>
     Send a mobile robot to an arbitrary goal point in an unknown, cluttered room using only its
     onboard perception, no map handed to it in advance, no classical motion planner in the
@@ -88,8 +108,8 @@
     the paper. It was carried out as an Integrator Project at GIPSA-Lab, Grenoble&nbsp;INP /
     Universit&eacute; Grenoble Alpes (2024).
   </p>
-  <figure class="wide">
-    <img src="../assets/img/drlnav-pipeline.png" alt="Pipeline diagram: the upstream ROS 1 project is ported to ROS 2 Foxy, which feeds a Gazebo 11 simulation of the Pioneer 3-DX and Velodyne VLP-16; TD3 training produces a policy; at runtime a pre-trained policy drives the robot while slam_toolbox maps the room live. A note marks that the shipped weights come from the upstream project because box randomization was not fixed in the port.">
+  <figure class="plate">
+    <img src="../assets/img/drlnav-pipeline.png" alt="Pipeline diagram: the upstream ROS 1 project is ported to ROS 2 Foxy, which feeds a Gazebo 11 simulation of the Pioneer 3-DX and Velodyne VLP-16; TD3 training produces a policy; at runtime a pre-trained policy drives the robot while slam_toolbox maps the room live. A note marks that the shipped weights come from the upstream project because box randomization was not fixed in the port." width="2190" height="570" loading="lazy" decoding="async">
     <figcaption>From upstream project to running system: the ROS&nbsp;1 TD3 project is ported to ROS&nbsp;2 Foxy, wired to a Gazebo&nbsp;11 world with the Pioneer 3-DX + VLP-16, and trained with TD3. At runtime the pre-trained policy drives the robot while <code>slam_toolbox</code> maps live. (The shipped weights come from the upstream project, see the challenges below.)</figcaption>
   </figure>
 
@@ -137,8 +157,8 @@
     learned controller never sees the map, and mapping never touches the policy, so exploration
     is a pure by-product of the goal-driven driving.
   </p>
-  <figure class="wide">
-    <img src="../assets/img/drlnav-architecture.png" alt="Architecture diagram: the Gazebo simulation feeds a 24-value state (20 LiDAR sectors, distance to goal, heading error, previous action) into the TD3 actor, which outputs a continuous cmd_vel Twist back to the robot. On the training side, transitions feed a replay buffer, twin critics compute min(Q1,Q2), and delayed target-policy-smoothed updates flow back to the actor with TensorBoard logging. A parallel, independent path sends the 2D laser scan to slam_toolbox, producing a live occupancy grid in RViz.">
+  <figure class="plate">
+    <img src="../assets/img/drlnav-architecture.png" alt="Architecture diagram: the Gazebo simulation feeds a 24-value state (20 LiDAR sectors, distance to goal, heading error, previous action) into the TD3 actor, which outputs a continuous cmd_vel Twist back to the robot. On the training side, transitions feed a replay buffer, twin critics compute min(Q1,Q2), and delayed target-policy-smoothed updates flow back to the actor with TensorBoard logging. A parallel, independent path sends the 2D laser scan to slam_toolbox, producing a live occupancy grid in RViz." width="2190" height="1095" loading="lazy" decoding="async">
     <figcaption>TD3 anatomy applied to LiDAR navigation. The control loop (top) turns a 24-value state into a continuous <code>/cmd_vel</code>; the off-policy learner (middle) trains the actor from a replay buffer through twin critics with delayed, smoothed updates; the SLAM path (bottom) runs in parallel and independent of the policy.</figcaption>
   </figure>
 
@@ -178,10 +198,7 @@
   </p>
 
   <h2 id="results">Results &amp; analysis</h2>
-  <figure class="media16">
-    <iframe src="https://www.youtube-nocookie.com/embed/IRASuKMiOvw?mute=1" title="TD3 robot navigation with live SLAM mapping: demo" style="position:absolute; inset:0; width:100%; height:100%; border:0;" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  </figure>
-  <figcaption>The trained agent explores the room and avoids obstacles while <code>slam_toolbox</code> maps it live. <b>Left:</b> the occupancy grid growing in RViz &nbsp;&middot;&nbsp; <b>Right:</b> the Gazebo simulation with the robot, obstacles, and laser scan.</figcaption>
+  <figure class="media16"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping: demo" target="_blank" rel="noopener"><span class="yt-art" aria-hidden="true"></span><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 robot navigation with live SLAM mapping: demo</span></a><figcaption>The trained agent explores the room and avoids obstacles while <code>slam_toolbox</code> maps it live. <b>Left:</b> the occupancy grid growing in RViz &nbsp;&middot;&nbsp; <b>Right:</b> the Gazebo simulation with the robot, obstacles, and laser scan.</figcaption></figure>
   <p>
     The clip shows the full system running: the pre-trained TD3 policy continuously re-targets goals
     and threads the Pioneer 3-DX between the obstacles, while the parallel SLAM node turns those
@@ -190,8 +207,7 @@
     controller, and the map on the left is assembled from its laser scan without ever feeding back into
     the policy.
   </p>
-  <figure>
-    <img src="../assets/img/drlnav-map_third.png" alt="Occupancy grid of the room built with slam_toolbox during autonomous exploration: black walls and obstacles, white free space, grey unmapped regions, with the cross- and triangle-shaped obstacles and scattered boxes clearly resolved" style="max-width:420px; margin-left:auto; margin-right:auto; display:block; background:var(--bg);">
+  <figure class="plate narrow"><img src="../assets/img/drlnav-map_third.png" alt="Occupancy grid of the room built with slam_toolbox during autonomous exploration: black walls and obstacles, white free space, grey unmapped regions, with the cross- and triangle-shaped obstacles and scattered boxes clearly resolved" width="843" height="783" loading="lazy" decoding="async">
     <figcaption>An occupancy grid the robot built with <code>slam_toolbox</code> during exploration, black is walls/obstacles, white is free space, grey is unmapped. The walls, the cross- and triangle-shaped obstacles, and the scattered boxes are all captured. The raw <code>.pgm</code>/<code>.yaml</code> outputs (and a few more saved runs) live in the repository&rsquo;s <code>maps/</code> folder.</figcaption>
   </figure>
   <p>
@@ -219,26 +235,32 @@
       from any location, retiring the hard-coded home-directory assumptions.</li>
   </ul>
 
-  <p style="margin-top:26px; font-size:14.5px; color:var(--text-faint);">
+  <p class="fine">
     Developed with Saleh Abuali and Perla Sammour, supervised by Bogdan Robu and Ahmad Hably, at
     GIPSA-Lab, Grenoble&nbsp;INP / Universit&eacute; Grenoble Alpes (2024). It builds on
     Cimurs&nbsp;et&nbsp;al., <em>Goal-Driven Autonomous Exploration Through Deep Reinforcement
     Learning</em> (IEEE RA-L, 2022).
   </p>
 
-  <p style="display:flex; gap:12px; flex-wrap:wrap; margin-top:34px;">
-    <a class="btn btn-primary" href="https://github.com/MickyasTA/DRL_robot_navigation_ros2" target="_blank" rel="noopener">View the code &#8599;</a>
-    <a class="btn btn-ghost" href="https://www.researchgate.net/publication/380875371_Controlling_a_Mobile_Robot_Using_ROS2_and_Machine_Learning" target="_blank" rel="noopener">Read the paper &#8599;</a>
-  </p>
+<div class="actions"><a class="btn btn-solid ext" target="_blank" rel="noopener" href="https://github.com/MickyasTA/DRL_robot_navigation_ros2">View the code</a><a class="btn btn-line ext" target="_blank" rel="noopener" href="https://www.researchgate.net/publication/380875371_Controlling_a_Mobile_Robot_Using_ROS2_and_Machine_Learning">Read the paper</a></div>
+      </article>
+    </div>
+  </div>
+
+  <nav class="wrap pager" aria-label="More case studies">
+    <a class="prev" href="collision-avoidance.html" rel="prev"><span class="label">Previous</span><span class="t">DRL collision avoidance</span></a>
+    <a class="next" href="wheeled-quadruped.html" rel="next"><span class="label">Next</span><span class="t">Wheeled quadruped</span></a>
+  </nav>
 </main>
 
-<footer>
-  <div class="foot-inner">
+<footer class="footer">
+  <div class="wrap footer-inner">
     <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
-    <span><a href="../index.html">mickyasta.github.io</a></span>
+    <div class="theme" role="group" aria-label="Colour theme"><span>Theme</span><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button><button type="button" data-theme-set="auto" aria-pressed="true">Auto</button></div>
+    <span><a class="link" href="../index.html">mickyasta.github.io</a></span>
   </div>
 </footer>
 
-<script src="../assets/js/main.js"></script>
+<script src="../assets/js/main.js" defer></script>
 </body>
 </html>

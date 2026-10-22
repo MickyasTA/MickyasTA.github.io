@@ -3,46 +3,68 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AETHER-1: hybrid legged-wheeled-aerial robot · Mickyas Tamiru Asfaw</title>
+<title>AETHER-1: hybrid legged-wheeled-aerial robot | Mickyas Tamiru Asfaw</title>
 <meta name="description" content="AETHER-1: one reinforcement-learning policy that balances, drives, flies, lands, and chooses between driving and flying, validated in simulation, hardware prototype in development.">
+<meta name="theme-color" content="#f4f0e7">
+<link rel="canonical" href="https://mickyasta.github.io/projects/aether-1.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Mickyas Tamiru Asfaw">
+<meta property="og:title" content="AETHER-1: hybrid legged-wheeled-aerial robot | Mickyas Tamiru Asfaw">
+<meta property="og:description" content="AETHER-1: one reinforcement-learning policy that balances, drives, flies, lands, and chooses between driving and flying, validated in simulation, hardware prototype in development.">
+<meta property="og:url" content="https://mickyasta.github.io/projects/aether-1.html">
+<meta property="og:image" content="https://mickyasta.github.io/assets/img/aether1-cad-iso.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AETHER-1: hybrid legged-wheeled-aerial robot | Mickyas Tamiru Asfaw">
+<meta name="twitter:description" content="AETHER-1: one reinforcement-learning policy that balances, drives, flies, lands, and chooses between driving and flying, validated in simulation, hardware prototype in development.">
+<meta name="twitter:image" content="https://mickyasta.github.io/assets/img/aether1-cad-iso.png">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>&#129302;</text></svg>">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="nav-logo" href="../index.html">mickyas<span class="tick">@</span>robotics<span class="tick">:~$</span></a>
-    <div class="nav-links">
-      <a href="../index.html#projects">Projects</a>
-      <a class="nav-cta" href="mailto:mickyastamiru92@gmail.com">Contact</a>
-    </div>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../index.html" aria-label="Mickyas Tamiru Asfaw, home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="../index.html#flagship">AETHER-1</a></li>
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a class="nav-cta" href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
   </div>
-</nav>
+</header>
 
-<div class="detail-hero">
-  <video autoplay controls muted loop playsinline preload="auto" poster="../assets/img/aether1-sim-frame.png" src="../assets/video/aether1_sim_v2.mp4"></video>
-</div>
-
-<main class="detail-body">
-  <a class="back-link" href="../index.html">&#8592; back to all projects</a>
-  <h1 style="margin-top:18px;">AETHER-1</h1>
-  <p class="lede">
-    A hybrid legged-wheeled-aerial robot controlled by <strong>one</strong> reinforcement-learning
+<main id="main">
+  <div class="wrap">
+    <div class="pp-head">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span aria-hidden="true">/</span><a href="../index.html#work">Work</a><span aria-hidden="true">/</span><span>Case study 01</span></nav>
+      <h1 class="rise">AETHER-1</h1>
+      <p class="pp-lede rise" style="--i:1">A hybrid legged-wheeled-aerial robot controlled by <strong>one</strong> reinforcement-learning
     policy that balances, drives, flies, lands, and, most importantly, <em>decides for itself</em>
-    when to drive and when to fly, because flying costs roughly ten times more energy than driving.
-  </p>
-
-  <div class="notice">
-    &#128274; <strong>Code and full technical documentation are private</strong> while the hardware
+    when to drive and when to fly, because flying costs roughly ten times more energy than driving.</p>
+      <p class="pp-notice rise" style="--i:2"><strong>Code and full technical documentation are private</strong> while the hardware
     program and intellectual-property work are in progress. This page describes the project at a
-    high level; if you want to talk details, <a href="mailto:mickyastamiru92@gmail.com">get in touch</a>.
-  </div>
+    high level; if you want to talk details, <a href="mailto:mickyastamiru92@gmail.com">get in touch</a>.</p>
+    </div>
 
-  <h2>Project goal</h2>
+    <div class="pp-hero reveal"><div class="media-frame"><video data-click data-label="Play simulation montage (22 MB)" controls muted loop playsinline preload="none" poster="../assets/img/aether1-sim-frame.png" src="../assets/video/aether1_sim_v2.mp4" aria-label="Montage of the AETHER-1 policy balancing, driving and flying in the verification simulator"></video></div></div>
+    <dl class="datastrip"><div><dt>final curriculum gate success</dt><dd>0.995</dd></div><div><dt>one policy, one continuous run</dt><dd>6 stages</dd></div><div><dt>verified physics &amp; training stack</dt><dd>250 tests</dd></div><div><dt>drive vs hover energy asymmetry</dt><dd>~10×</dd></div><div><dt>domain randomization for sim2real</dt><dd>36 axes</dd></div><div><dt>Mk1 hardware prototype target</dt><dd>15 kg</dd></div></dl>
+
+    <div class="pp-layout">
+      <aside class="toc" aria-label="On this page">
+        <span class="label">On this page</span>
+        <ol><li><a href="#project-goal">Project goal</a></li><li><a href="#from-idea-to-simulation">From idea to simulation</a></li><li><a href="#implementation-and-architecture">Implementation &amp; architecture</a></li><li><a href="#challenges">Critical challenges</a></li><li><a href="#results-and-analysis">Results &amp; analysis</a></li><li><a href="#future-work">Future work</a></li></ol>
+      </aside>
+      <article class="prose">
+<h2 id="project-goal">Project goal</h2>
   <p>
     The control problem starts with the base. AETHER-1's 26.47 kg simulation model is a two-wheeled
     platform whose center of mass sits 4.64 cm <em>ahead</em> of the wheel axle: gravity applies a
@@ -65,7 +87,7 @@
     the robot until the exact deployed controller build passes a deterministic verification battery.
   </p>
 
-  <h2>From idea to simulation</h2>
+  <h2 id="from-idea-to-simulation">From idea to simulation</h2>
   <p>
     The robot existed as engineering geometry before it existed as code. The concept was developed
     into CAD through a SolidWorks workflow, and for the Mk1 hardware demonstrator the CAD is fully
@@ -87,20 +109,20 @@
     right mattered immediately: the exported model's placeholder rotor actuators turned out to be
     physically incapable of flight, a story told under <a href="#challenges">Critical challenges</a>.
   </p>
-  <figure class="wide">
-    <img src="../assets/img/aether1-pipeline.png" alt="Pipeline diagram: CAD design to URDF and MJCF export, to MuJoCo environment, to curriculum RL training, to the seeded verification battery, to the deployment package">
+  <figure class="plate">
+    <img src="../assets/img/aether1-pipeline.png" alt="Pipeline diagram: CAD design to URDF and MJCF export, to MuJoCo environment, to curriculum RL training, to the seeded verification battery, to the deployment package" width="2220" height="600" loading="lazy" decoding="async">
     <figcaption>The pipeline from CAD to a deployable controller. Every hop has its own validation: mass and forward-kinematics checks on the description, calibration probes on the actuators, physics sanity gates before training.</figcaption>
   </figure>
-  <figure>
-    <img src="../assets/img/aether1-cad-iso.png" alt="AETHER-1 Mk1 CAD model, isometric view">
+  <figure class="plate">
+    <img src="../assets/img/aether1-cad-iso.png" alt="AETHER-1 Mk1 CAD model, isometric view" width="1600" height="1200" loading="lazy" decoding="async">
     <figcaption>The Mk1 prototype CAD: a 15 kg redesign generated parametrically (every dimension flows from one parameter file into STEP, URDF, and previews). The 26.47 kg simulation robot remains the validated dynamics reference.</figcaption>
   </figure>
-  <figure class="wide">
-    <img src="../assets/img/aether1-geometry.png" alt="AETHER-1 to-scale geometry drawing: side view with center of mass, top view of rotor and wheel layout">
+  <figure class="plate">
+    <img src="../assets/img/aether1-geometry.png" alt="AETHER-1 to-scale geometry drawing: side view with center of mass, top view of rotor and wheel layout" width="2021" height="1218" loading="lazy" decoding="async">
     <figcaption>To-scale geometry, generated directly from the simulation model's constants, the documentation can never drift from the MJCF, because the drawing is regenerated from it.</figcaption>
   </figure>
 
-  <h2>Implementation &amp; architecture</h2>
+  <h2 id="implementation-and-architecture">Implementation &amp; architecture</h2>
   <p>
     The training environment wraps the MuJoCo model behind a fixed observation/action contract. The
     policy sees only what a real robot could measure onboard, proprioceptive state, goal-relative
@@ -138,8 +160,8 @@
     training if any stage ever makes failure more profitable than success, and a numeric run monitor
     that grades the live telemetry against explicit thresholds instead of relying on eyeballs.
   </p>
-  <figure class="wide">
-    <img src="../assets/img/aether1-architecture.png" alt="Architecture diagram: curriculum RL training wrapped in verification gates produces gated policy checkpoints; at deployment a learned policy and a classical LQR/MPC/PID stack are composed residually behind one controller interface driving the MuJoCo plant">
+  <figure class="plate">
+    <img src="../assets/img/aether1-architecture.png" alt="Architecture diagram: curriculum RL training wrapped in verification gates produces gated policy checkpoints; at deployment a learned policy and a classical LQR/MPC/PID stack are composed residually behind one controller interface driving the MuJoCo plant" width="2220" height="960" loading="lazy" decoding="async">
     <figcaption>Two-layer control architecture. Training lives inside verification gates; deployment composes the learned policy with the classical stack behind a single controller interface.</figcaption>
   </figure>
 
@@ -189,8 +211,8 @@
     instead of rescaling anything already trained (a predecessor project measured ~87 % of actions
     railing at the clip limits after an innocent-looking rescale).
   </p>
-  <figure class="wide">
-    <img src="../assets/img/aether1-challenge.png" alt="Two conceptual panels: with sequential training only, balance and drive skill curves decay as new stages arrive; with retention rehearsal, all three skill curves rise and stay high">
+  <figure class="plate">
+    <img src="../assets/img/aether1-challenge.png" alt="Two conceptual panels: with sequential training only, balance and drive skill curves decay as new stages arrive; with retention rehearsal, all three skill curves rise and stay high" width="2220" height="840" loading="lazy" decoding="async">
     <figcaption>The forgetting failure mode and its fix, conceptually. Left: training only the newest skill lets earlier ones decay. Right: rehearsing all earlier stages keeps every skill alive in one policy.</figcaption>
   </figure>
 
@@ -213,14 +235,14 @@
     before it is trusted.
   </p>
 
-  <h2>Results &amp; analysis</h2>
+  <h2 id="results-and-analysis">Results &amp; analysis</h2>
   <p>
     Two layers of evidence back the claims on this page: the training telemetry of the one-brain run,
     and an independent, seeded verification battery executed on the exact controller build that would
     ship to hardware.
   </p>
-  <figure class="wide">
-    <img src="../assets/img/aether1-results-overview.png" alt="Training outcome overview: curriculum stage progression, episode length and return, evaluation length, return and success rate over the run">
+  <figure class="plate">
+    <img src="../assets/img/aether1-results-overview.png" alt="Training outcome overview: curriculum stage progression, episode length and return, evaluation length, return and success rate over the run" width="1500" height="730" loading="lazy" decoding="async">
     <figcaption>Training overview: curriculum stage index, episode length and return (top), evaluation length, return and success rate (bottom) over &#8776;150 million environment steps.</figcaption>
   </figure>
   <p>
@@ -271,12 +293,9 @@
     the envelope. Qualitatively, the montage below shows what the numbers summarize: the same policy
     balancing, driving, and flying in the verification simulator.
   </p>
-  <figure class="media16">
-    <video controls muted loop playsinline preload="none" poster="../assets/img/aether1-sim-frame.png" src="../assets/video/aether1_sim_v2.mp4"></video>
-  </figure>
-  <figcaption>The deployed policy driving and flying in the verification simulator (montage).</figcaption>
+  <figure class="media16"><div class="media-frame"><video data-click data-label="Play simulation montage (22 MB)" controls muted loop playsinline preload="none" poster="../assets/img/aether1-sim-frame.png" src="../assets/video/aether1_sim_v2.mp4" aria-label="The deployed policy driving and flying in the verification simulator (montage)."></video></div><figcaption>The deployed policy driving and flying in the verification simulator (montage).</figcaption></figure>
 
-  <h2>Future work</h2>
+  <h2 id="future-work">Future work</h2>
   <ul>
     <li><strong>Close the chained-mission gap.</strong> Use the recorded failure traces from the 0.60-success handoff scenario to drive the next training/verification iteration, so the full mission chain clears the battery before hardware is asked to fly it.</li>
     <li><strong>Replace guessed constants with measured ones.</strong> Staged test rigs for the Mk1 program measure what simulation could only assume, thrust maps, motor lag, and the other research-tunable parameters, and feed the measurements back into the model.</li>
@@ -285,18 +304,25 @@
     <li><strong>First pilot conversations.</strong> Take the demonstrator's results to industrial-inspection operators, where the drive-long/fly-short energy profile matters most.</li>
   </ul>
 
-  <p style="margin-top:34px;">
-    <a class="btn btn-primary" href="mailto:mickyastamiru92@gmail.com">Talk to me about AETHER-1</a>
-  </p>
+<div class="actions"><a class="btn btn-solid" href="mailto:mickyastamiru92@gmail.com">Talk to me about AETHER-1</a></div>
+      </article>
+    </div>
+  </div>
+
+  <nav class="wrap pager" aria-label="More case studies">
+    <a class="prev" href="wheeled-quadruped.html" rel="prev"><span class="label">Previous</span><span class="t">Wheeled quadruped</span></a>
+    <a class="next" href="mybot.html" rel="next"><span class="label">Next</span><span class="t">mybot</span></a>
+  </nav>
 </main>
 
-<footer>
-  <div class="foot-inner">
+<footer class="footer">
+  <div class="wrap footer-inner">
     <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
-    <span><a href="../index.html">mickyasta.github.io</a></span>
+    <div class="theme" role="group" aria-label="Colour theme"><span>Theme</span><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button><button type="button" data-theme-set="auto" aria-pressed="true">Auto</button></div>
+    <span><a class="link" href="../index.html">mickyasta.github.io</a></span>
   </div>
 </footer>
 
-<script src="../assets/js/main.js"></script>
+<script src="../assets/js/main.js" defer></script>
 </body>
 </html>

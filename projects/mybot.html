@@ -3,46 +3,68 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>mybot: two-wheeled wheel-legged bipedal robot · Mickyas Tamiru Asfaw</title>
+<title>mybot: two-wheeled wheel-legged bipedal robot | Mickyas Tamiru Asfaw</title>
 <meta name="description" content="mybot: a two-wheeled wheel-legged bipedal robot that learns to self-balance, drive, and reach goals with a from-scratch PPO (no RL libraries), trained in a ROS 2 Humble + Gazebo Classic environment and verified in MuJoCo.">
+<meta name="theme-color" content="#f4f0e7">
+<link rel="canonical" href="https://mickyasta.github.io/projects/mybot.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Mickyas Tamiru Asfaw">
+<meta property="og:title" content="mybot: two-wheeled wheel-legged bipedal robot | Mickyas Tamiru Asfaw">
+<meta property="og:description" content="mybot: a two-wheeled wheel-legged bipedal robot that learns to self-balance, drive, and reach goals with a from-scratch PPO (no RL libraries), trained in a ROS 2 Humble + Gazebo Classic environment and verified in MuJoCo.">
+<meta property="og:url" content="https://mickyasta.github.io/projects/mybot.html">
+<meta property="og:image" content="https://mickyasta.github.io/assets/img/mybot-render.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="mybot: two-wheeled wheel-legged bipedal robot | Mickyas Tamiru Asfaw">
+<meta name="twitter:description" content="mybot: a two-wheeled wheel-legged bipedal robot that learns to self-balance, drive, and reach goals with a from-scratch PPO (no RL libraries), trained in a ROS 2 Humble + Gazebo Classic environment and verified in MuJoCo.">
+<meta name="twitter:image" content="https://mickyasta.github.io/assets/img/mybot-render.png">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>&#129302;</text></svg>">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="nav-logo" href="../index.html">mickyas<span class="tick">@</span>robotics<span class="tick">:~$</span></a>
-    <div class="nav-links">
-      <a href="../index.html#projects">Projects</a>
-      <a class="nav-cta" href="mailto:mickyastamiru92@gmail.com">Contact</a>
-    </div>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../index.html" aria-label="Mickyas Tamiru Asfaw, home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="../index.html#flagship">AETHER-1</a></li>
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a class="nav-cta" href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
   </div>
-</nav>
+</header>
 
-<div class="detail-hero">
-  <video autoplay controls muted loop playsinline preload="metadata" poster="../assets/img/mybot-render.png" src="../assets/video/mujoco_balance_stable.mp4"></video>
-</div>
-
-<main class="detail-body">
-  <a class="back-link" href="../index.html">&#8592; back to all projects</a>
-  <h1 style="margin-top:18px;">mybot: wheel-legged bipedal robot</h1>
-  <p class="lede">
-    A <strong>two-wheeled, wheel-legged bipedal robot</strong> that learns to balance on its wheels
+<main id="main">
+  <div class="wrap">
+    <div class="pp-head">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a><span aria-hidden="true">/</span><a href="../index.html#work">Work</a><span aria-hidden="true">/</span><span>Case study 02</span></nav>
+      <h1 class="rise">mybot: wheel-legged bipedal robot</h1>
+      <p class="pp-lede rise" style="--i:1">A <strong>two-wheeled, wheel-legged bipedal robot</strong> that learns to balance on its wheels
     and drive to a goal point, trained with a <strong>from-scratch PPO</strong> (no
-    Stable-Baselines3, no RL library), written from the equations up in PyTorch.
-  </p>
-
-  <div class="notice">
-    &#128274; <strong>Code is private</strong>, available on request. This page describes the
+    Stable-Baselines3, no RL library), written from the equations up in PyTorch.</p>
+      <p class="pp-notice rise" style="--i:2"><strong>Code is private</strong>, available on request. This page describes the
     project at a high level; if you want to talk details,
-    <a href="mailto:mickyastamiru92@gmail.com">get in touch</a>.
-  </div>
+    <a href="mailto:mickyastamiru92@gmail.com">get in touch</a>.</p>
+    </div>
 
-  <h2>Project goal</h2>
+    <div class="pp-hero reveal"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/mybot-balance-poster.png" src="../assets/video/mujoco_balance_stable.mp4" aria-label="mybot balancing on its wheels in MuJoCo for a full 20-second episode"></video></div></div>
+    <dl class="datastrip cols-4"><div><dt>held-out runs arrive and station-keep</dt><dd>9 of 10</dd></div><div><dt>mean end distance, from a 1.47 m mean start</dt><dd>0.16 m</dd></div><div><dt>20-second balance episode, held</dt><dd>1000 steps</dd></div><div><dt>faster training with parallel workers</dt><dd>5–10×</dd></div></dl>
+
+    <div class="pp-layout">
+      <aside class="toc" aria-label="On this page">
+        <span class="label">On this page</span>
+        <ol><li><a href="#project-goal">Project goal</a></li><li><a href="#from-idea-to-simulation">From idea to simulation</a></li><li><a href="#implementation-and-architecture">Implementation &amp; architecture</a></li><li><a href="#critical-challenges">Critical challenges</a></li><li><a href="#results-and-analysis">Results &amp; analysis</a></li><li><a href="#future-work">Future work</a></li></ol>
+      </aside>
+      <article class="prose">
+<h2 id="project-goal">Project goal</h2>
   <p>
     mybot has two independent legs (a 3-DOF hip plus knee each) ending in driven wheels. With its
     centre of mass above the wheel axle the base is <strong>underactuated and statically
@@ -62,7 +84,7 @@
     real robot can measure.
   </p>
 
-  <h2>From idea to simulation</h2>
+  <h2 id="from-idea-to-simulation">From idea to simulation</h2>
   <p>
     The concept trades between two locomotion modes: wheels are efficient and fast on flat ground,
     while individually actuated legs allow squatting, stepping, and climbing once balance is solved.
@@ -82,12 +104,12 @@
     converted into a <strong>MuJoCo model</strong> that is used to verify and render the learned
     behaviour independently of the training stack.
   </p>
-  <figure class="wide">
-    <img src="../assets/img/mybot-pipeline.png" alt="mybot pipeline: concept, SolidWorks CAD, URDF export, Gazebo Classic with ros2_control, from-scratch PPO training, MuJoCo verification">
+  <figure class="plate">
+    <img src="../assets/img/mybot-pipeline.png" alt="mybot pipeline: concept, SolidWorks CAD, URDF export, Gazebo Classic with ros2_control, from-scratch PPO training, MuJoCo verification" width="2250" height="615" loading="lazy" decoding="async">
     <figcaption>The pipeline from concept to verified policy. One description drives everything: CAD mass properties feed the URDF, the URDF feeds both the Gazebo Classic training environment and the MuJoCo verification model.</figcaption>
   </figure>
 
-  <h2>Implementation &amp; architecture</h2>
+  <h2 id="implementation-and-architecture">Implementation &amp; architecture</h2>
   <p>
     The system is a chain of separate processes glued by ROS&nbsp;2 topics and services. Gazebo
     simulates the robot and publishes sensor data; a <strong>Gymnasium-style environment
@@ -127,12 +149,12 @@
     without it, a few degrees of heading error with it), and the goal stages add potential-based
     progress, face-the-goal, arrival, and station-keeping terms.
   </p>
-  <figure class="wide">
-    <img src="../assets/img/mybot-architecture.png" alt="mybot training architecture: Gazebo Classic simulation, ROS 2 topics and services, RL environment wrapper, PPO learner, with the skill curriculum strip">
+  <figure class="plate">
+    <img src="../assets/img/mybot-architecture.png" alt="mybot training architecture: Gazebo Classic simulation, ROS 2 topics and services, RL environment wrapper, PPO learner, with the skill curriculum strip" width="2250" height="1050" loading="lazy" decoding="async">
     <figcaption>Training architecture and the curriculum strip. Simulation, transport, environment wrapper, and learner are separate processes; parallel workers feed one PPO learner, and one policy is carried through every stage.</figcaption>
   </figure>
 
-  <h2>Critical challenges</h2>
+  <h2 id="critical-challenges">Critical challenges</h2>
 
   <h3>Episodes that ended after one step</h3>
   <p>
@@ -171,8 +193,8 @@
     a skill the policy practices directly rather than a corner case of navigation, and the orbit
     disappeared.
   </p>
-  <figure class="wide">
-    <img src="../assets/img/mybot-challenge.png" alt="Diagram of the orbiting failure mode: rotationally symmetric proximity reward lets the robot circle the goal forever; spawn-at-goal HOLD episodes teach stopping as a skill">
+  <figure class="plate">
+    <img src="../assets/img/mybot-challenge.png" alt="Diagram of the orbiting failure mode: rotationally symmetric proximity reward lets the robot circle the goal forever; spawn-at-goal HOLD episodes teach stopping as a skill" width="2250" height="960" loading="lazy" decoding="async">
     <figcaption>The most instructive failure mode: a rotationally symmetric proximity reward makes orbiting profitable (left); spawn-at-goal HOLD episodes make being stopped at the goal the best-paid behaviour (right).</figcaption>
   </figure>
 
@@ -189,7 +211,7 @@
     is implemented and smoke-tested; the terrain stage is being retrained with it.
   </p>
 
-  <h2>Results &amp; analysis</h2>
+  <h2 id="results-and-analysis">Results &amp; analysis</h2>
   <p>
     The balance run below tells the whole convergence story. Mean episode length and mean episode
     reward move together (the reward is dominated by the alive bonus): both sit near zero for the
@@ -203,8 +225,8 @@
     saturates near the maximum, which is why checkpoint selection is driven by evaluation rather
     than the noisy training episodes.
   </p>
-  <figure class="wide">
-    <img src="../assets/img/mybot-training-metrics.png" alt="mybot training metrics overview: episode length, reward, evaluation return, throughput, and losses over training">
+  <figure class="plate">
+    <img src="../assets/img/mybot-training-metrics.png" alt="mybot training metrics overview: episode length, reward, evaluation return, throughput, and losses over training" width="1500" height="1200" loading="lazy" decoding="async">
     <figcaption>Training overview for the balance run. Top row: mean episode length, mean reward, and the smooth deterministic evaluation return. Bottom rows: per-episode score/steps and the PPO loss diagnostics.</figcaption>
   </figure>
   <p>
@@ -219,10 +241,7 @@
     1000-step successes with early falls, and the band narrows as the policy consolidates.
   </p>
 
-  <figure class="media16">
-    <video controls muted loop playsinline preload="none" poster="../assets/img/mybot-balance-poster.png" src="../assets/video/mujoco_balance_stable.mp4"></video>
-  </figure>
-  <figcaption>Balance, verified in MuJoCo: a full 20-second episode (1000 control steps) upright on the wheels, legs held at stance, with realistic contacts and friction.</figcaption>
+  <figure class="media16"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/mybot-balance-poster.png" src="../assets/video/mujoco_balance_stable.mp4" aria-label="Balance, verified in MuJoCo: a full 20-second episode (1000 control steps) upright on the wheels, legs held at stance, with realistic contacts and friction."></video></div><figcaption>Balance, verified in MuJoCo: a full 20-second episode (1000 control steps) upright on the wheels, legs held at stance, with realistic contacts and friction.</figcaption></figure>
   <p>
     The videos show what the curves cannot. The balance clip is a <strong>MuJoCo verification
     render</strong> of the learned policy, an independent physics model converted from the
@@ -231,10 +250,7 @@
     policies produced.
   </p>
 
-  <figure class="media16">
-    <video controls muted loop playsinline preload="none" poster="../assets/img/mybot-nav-poster.png" src="../assets/video/nav_goal_reach.mp4"></video>
-  </figure>
-  <figcaption>Goal navigation with settle: the robot drives to a randomized goal marker, decelerates, and holds position there, balancing throughout.</figcaption>
+  <figure class="media16"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/mybot-nav-poster.png" src="../assets/video/nav_goal_reach.mp4" aria-label="Goal navigation with settle: the robot drives to a randomized goal marker, decelerates, and holds position there, balancing throughout."></video></div><figcaption>Goal navigation with settle: the robot drives to a randomized goal marker, decelerates, and holds position there, balancing throughout.</figcaption></figure>
   <p>
     The navigation clip shows the full stack: the robot accelerates toward a randomized goal
     marker, faces it, decelerates on approach, and holds station inside the goal region while still
@@ -250,7 +266,7 @@
     policy yet.
   </p>
 
-  <h2>Future work</h2>
+  <h2 id="future-work">Future work</h2>
   <ul>
     <li><strong>Finish the terrain/stairs retraining</strong> with rehearsal episodes and the 24-ray
       sensor, tracking per-mode metrics (flat, duck, step, terrain) instead of a single average.</li>
@@ -264,18 +280,25 @@
       terms (the IMU sensors are already defined in the model) as the last step before sim-to-real.</li>
   </ul>
 
-  <p style="margin-top:34px;">
-    <a class="btn btn-primary" href="mailto:mickyastamiru92@gmail.com">Talk to me about mybot</a>
-  </p>
+<div class="actions"><a class="btn btn-solid" href="mailto:mickyastamiru92@gmail.com">Talk to me about mybot</a></div>
+      </article>
+    </div>
+  </div>
+
+  <nav class="wrap pager" aria-label="More case studies">
+    <a class="prev" href="aether-1.html" rel="prev"><span class="label">Previous</span><span class="t">AETHER-1</span></a>
+    <a class="next" href="collision-avoidance.html" rel="next"><span class="label">Next</span><span class="t">DRL collision avoidance</span></a>
+  </nav>
 </main>
 
-<footer>
-  <div class="foot-inner">
+<footer class="footer">
+  <div class="wrap footer-inner">
     <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
-    <span><a href="../index.html">mickyasta.github.io</a></span>
+    <div class="theme" role="group" aria-label="Colour theme"><span>Theme</span><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button><button type="button" data-theme-set="auto" aria-pressed="true">Auto</button></div>
+    <span><a class="link" href="../index.html">mickyasta.github.io</a></span>
   </div>
 </footer>
 
-<script src="../assets/js/main.js"></script>
+<script src="../assets/js/main.js" defer></script>
 </body>
 </html>
