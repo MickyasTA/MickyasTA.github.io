@@ -3,472 +3,425 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mickyas Tamiru Asfaw: Robotics · Reinforcement Learning · Control</title>
-<meta name="description" content="Robotics engineer building robots that learn to move: hybrid ground-air robots, from-scratch reinforcement learning, classical control, and sim-to-real.">
-<meta property="og:title" content="Mickyas Tamiru Asfaw: Robotics Engineer">
-<meta property="og:description" content="Hybrid ground-air robots, from-scratch RL, classical control, sim-to-real.">
-<meta property="og:image" content="assets/img/aether1-cad-iso.png">
+<title>Mickyas Tamiru Asfaw | Robotics, reinforcement learning, control</title>
+<meta name="description" content="Mickyas Tamiru Asfaw, AI Robotics R&amp;I Engineer at CESI LINEACT, Rouen. Learned control for mobile robots: from-scratch reinforcement learning, classical control (MPC/LQR/PID) and sim-to-real engineering.">
+<meta name="theme-color" content="#f4f0e7">
+<link rel="canonical" href="https://mickyasta.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mickyas Tamiru Asfaw">
+<meta property="og:title" content="Mickyas Tamiru Asfaw | Robotics, reinforcement learning, control">
+<meta property="og:description" content="AI Robotics R&amp;I Engineer. Hybrid ground-air robots, from-scratch RL, classical control, sim-to-real.">
+<meta property="og:url" content="https://mickyasta.github.io/">
+<meta property="og:image" content="https://mickyasta.github.io/assets/img/aether1-cad-iso.png">
+<meta property="og:image:alt" content="CAD render of the AETHER-1 Mk1 hybrid ground-air robot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mickyas Tamiru Asfaw | Robotics, reinforcement learning, control">
+<meta name="twitter:description" content="AI Robotics R&amp;I Engineer. Hybrid ground-air robots, from-scratch RL, classical control, sim-to-real.">
+<meta name="twitter:image" content="https://mickyasta.github.io/assets/img/aether1-cad-iso.png">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>&#129302;</text></svg>">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="nav-logo" href="#top">mickyas<span class="tick">@</span>robotics<span class="tick">:~$</span></a>
-    <div class="nav-links">
-      <a href="#aether">AETHER-1</a>
-      <a href="#projects">Projects</a>
-      <a href="#experience">Experience</a>
-      <a href="#skills">Skills</a>
-      <a href="#about">About</a>
-      <a class="nav-cta" href="mailto:mickyastamiru92@gmail.com">Contact</a>
-    </div>
-  </div>
-</nav>
-
-<header class="hero" id="top">
-  <div class="wrap">
-    <div class="hero-kicker">// robotics · reinforcement learning · control</div>
-    <h1>I build robots that <span class="grad">learn to move</span>, from equations to hardware.</h1>
-    <p class="hero-sub">
-      I'm <strong>Mickyas Tamiru Asfaw</strong>, a robotics engineer focused on learned control for
-      mobile robots: hand-written reinforcement learning, classical control (MPC/LQR/PID),
-      and the sim-to-real engineering that makes policies survive contact with reality.
-    </p>
-    <div class="hero-meta">
-      <span>&#128205; Rouen, France</span>
-      <span>&#128188; AI Robotics R&amp;I Engineer &middot; CESI LINEACT Research Lab</span>
-      <span>&#129302; Currently building: AETHER-1, a hybrid ground&ndash;air robot</span>
-    </div>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="#aether">Flagship project &#8595;</a>
-      <a class="btn btn-ghost" href="https://github.com/MickyasTA" target="_blank" rel="noopener">GitHub &#8599;</a>
-    </div>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Mickyas Tamiru Asfaw, back to top"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#flagship">AETHER-1</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a class="nav-cta" href="#contact">Contact</a></li>
+      </ul>
+    </nav>
   </div>
 </header>
 
-<section id="aether">
-  <div class="wrap">
-    <div class="sec-kicker">Flagship</div>
-    <h2 class="sec-title">AETHER-1: hybrid legged-wheeled-aerial robot</h2>
-    <p class="sec-lead">
-      One robot that drives for hours and flies for minutes: a self-balancing two-wheel base with
-      four tilting rotors, controlled by a single reinforcement-learning policy trained through a
-      performance-gated curriculum, with the fly-vs-drive decision <em>learned</em> from an
-      energy-priced reward, not hard-coded.
-    </p>
+<main id="main">
 
-    <div class="featured reveal">
-      <div class="featured-media">
-        <video autoplay controls muted loop playsinline preload="metadata" poster="assets/img/aether1-sim-frame.png" src="assets/video/aether1_sim_v2.mp4"></video>
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow rise" style="--i:0">AI Robotics R&amp;I Engineer &middot; CESI LINEACT, Rouen</p>
+      <h1 class="rise" style="--i:1">I build robots that <em>learn to move</em>, from equations to hardware.</h1>
+      <p class="hero-sub rise" style="--i:2">
+        I'm Mickyas Tamiru Asfaw, a robotics engineer focused on learned control for mobile robots:
+        hand-written reinforcement learning, classical control (MPC/LQR/PID), and the sim-to-real
+        engineering that makes policies survive contact with reality.
+      </p>
+      <div class="hero-actions rise" style="--i:3">
+        <a class="btn btn-solid" href="#work">See the work</a>
+        <a class="btn btn-line" href="#contact">Contact</a>
       </div>
-      <div class="featured-body">
-        <div class="featured-tag">SIMULATION-VALIDATED &middot; HARDWARE PROTOTYPE IN DEVELOPMENT</div>
+      <ul class="hero-links rise" style="--i:4">
+        <li><a class="link ext" href="https://github.com/MickyasTA" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a class="link ext" href="https://www.linkedin.com/in/mickyas-tamiru-asfaw-1409271a6/" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a class="link ext" href="https://www.youtube.com/@engineering_design" target="_blank" rel="noopener">YouTube</a></li>
+      </ul>
+      <dl class="hero-facts rise" style="--i:5">
+        <div><dt>Role</dt><dd>AI Robotics R&amp;I Engineer</dd></div>
+        <div><dt>Lab</dt><dd>CESI LINEACT Research Laboratory</dd></div>
+        <div><dt>Base</dt><dd>Rouen, France</dd></div>
+        <div><dt>Now</dt><dd>AETHER-1, a hybrid ground&ndash;air robot</dd></div>
+      </dl>
+    </div>
+
+    <figure class="sim rise" id="sim" style="--i:2">
+      <div class="sim-frame">
+        <canvas role="img" aria-label="Interactive simulation of a two-wheeled self-balancing robot stabilised by an LQR controller. Drag the robot or tap beside it to push it and watch it recover."></canvas>
+        <div class="sim-chip"><i aria-hidden="true"></i><span>Live &middot; LQR</span></div>
+        <button class="sim-toggle" type="button" aria-pressed="false">Pause</button>
+      </div>
+      <dl class="sim-readout" aria-label="Live controller readouts">
+        <div><dt>Tilt &theta;</dt><dd data-o="th">+0.0<small>&deg;</small></dd></div>
+        <div><dt>Rate</dt><dd data-o="w">+0<small>&deg;/s</small></dd></div>
+        <div><dt>Wheel cmd</dt><dd data-o="u">+0.0<small>N</small></dd></div>
+        <div><dt>Ctrl</dt><dd data-o="c">LQR</dd></div>
+      </dl>
+      <figcaption>Live: LQR-stabilised two-wheel balancer, simulated in your browser. Push it: drag the body, or tap beside it. Gains are computed at load by iterating the Riccati equation.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section" id="flagship">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="label"><b>01</b> Flagship</p>
+      <h2 class="sec-title">AETHER-1: a hybrid legged-wheeled-aerial robot</h2>
+      <p class="sec-lead">
+        One robot that drives for hours and flies for minutes: a self-balancing two-wheel base with
+        four tilting rotors, controlled by a single reinforcement-learning policy trained through a
+        performance-gated curriculum. The fly-or-drive decision is <em>learned</em> from an
+        energy-priced reward, not hard-coded.
+      </p>
+    </header>
+
+    <div class="media-frame reveal">
+      <video data-click data-label="Play simulation montage (22 MB)" controls muted loop playsinline preload="none" poster="assets/img/aether1-sim-frame.png" src="assets/video/aether1_sim_v2.mp4" aria-label="Montage of the AETHER-1 policy balancing, driving and flying in the verification simulator"></video>
+    </div>
+
+    <dl class="datastrip reveal">
+      <div><dt>final curriculum gate success</dt><dd>0.995</dd></div>
+      <div><dt>one policy, one continuous run</dt><dd>6 stages</dd></div>
+      <div><dt>verified physics &amp; training stack</dt><dd>250 tests</dd></div>
+      <div><dt>drive vs hover energy asymmetry</dt><dd>~10&times;</dd></div>
+      <div><dt>domain randomization for sim2real</dt><dd>36 axes</dd></div>
+      <div><dt>Mk1 hardware prototype target</dt><dd>15 kg</dd></div>
+    </dl>
+
+    <div class="case-grid">
+      <div class="case-copy reveal">
+        <p class="label" style="margin-bottom:14px">Simulation-validated &middot; hardware prototype in development</p>
         <h3>From a blank MuJoCo file to a deployable control stack</h3>
         <p>
-          From-scratch PPO (no RL libraries) beside an MPC/LQR/PID classical stack; one policy
+          From-scratch PPO (no RL libraries) beside an MPC/LQR/PID classical stack. One policy
           advances through six curriculum stages: balance, drive, hover, 3D flight,
           takeoff/landing, and free drive-or-fly arbitration, without forgetting earlier skills.
         </p>
-        <div class="fact-row">
-          <div class="fact"><b>0.995</b><span>final curriculum gate success</span></div>
-          <div class="fact"><b>6 stages</b><span>one policy, one continuous run</span></div>
-          <div class="fact"><b>250 tests</b><span>verified physics &amp; training stack</span></div>
-          <div class="fact"><b>~10&times;</b><span>drive vs hover energy asymmetry</span></div>
-          <div class="fact"><b>36 axes</b><span>domain randomization for sim2real</span></div>
-          <div class="fact"><b>15 kg</b><span>Mk1 hardware prototype target</span></div>
+        <p class="note"><strong>Source code is private</strong> while the IP and hardware program are in progress. To talk details, <a class="link" href="mailto:mickyastamiru92@gmail.com">get in touch</a>.</p>
+        <div class="case-actions">
+          <a class="btn btn-solid" href="projects/aether-1.html">Read the case study</a>
         </div>
-        <div class="featured-foot">
-          <a class="btn btn-primary" href="projects/aether-1.html">Project deep dive &#8594;</a>
-          <span class="lock-note">&#128274; Code private: IP &amp; hardware program in progress</span>
-        </div>
+      </div>
+      <div class="plates reveal">
+        <figure class="plate">
+          <img src="assets/img/aether1-architecture.png" width="2220" height="960" loading="lazy" decoding="async" alt="Architecture diagram: curriculum RL training wrapped in verification gates produces gated policy checkpoints; at deployment a learned policy and a classical LQR/MPC/PID stack are composed residually behind one controller interface driving the MuJoCo plant">
+          <p class="plate-cap dark">Two-layer control architecture: training inside verification gates, deployment composing the learned policy with the classical stack.</p>
+        </figure>
+        <figure class="plate">
+          <img src="assets/img/aether1-cad-iso.png" width="1600" height="1200" loading="lazy" decoding="async" alt="AETHER-1 Mk1 CAD model, isometric view: four ducted rotors above a body with two wheeled legs">
+          <p class="plate-cap dark">The Mk1 prototype CAD, generated parametrically from one parameter file.</p>
+        </figure>
       </div>
     </div>
   </div>
 </section>
 
-<section id="projects" style="background: var(--bg-soft);">
+<section class="section" id="work">
   <div class="wrap">
-    <div class="sec-kicker">Selected work</div>
-    <h2 class="sec-title">Projects</h2>
-    <p class="sec-lead">Robots that balance, navigate, and transfer from simulation to the real world.</p>
+    <header class="sec-head reveal">
+      <p class="label"><b>02</b> Selected work</p>
+      <h2 class="sec-title">Robots that balance, navigate, and transfer from simulation to the real world.</h2>
+    </header>
 
-    <div class="grid">
+    <ol class="work-list">
 
-      <article class="card reveal">
-        <div class="card-media">
-          <video autoplay controls muted loop playsinline preload="metadata" poster="assets/img/mybot-render.png" src="assets/video/mujoco_balance_stable.mp4"></video>
+      <li class="work-item feature has-case reveal">
+        <span class="work-no">01</span>
+        <div class="work-body">
+          <h3><a href="projects/mybot.html">mybot: two-wheeled bipedal robot</a></h3>
+          <p>A wheeled biped that learns to self-balance and drive to goals with a <strong>hand-written PPO</strong> (no RL libraries), a ROS 2 + Gazebo training pipeline, MuJoCo verification, and a staged curriculum from balance to goal navigation.</p>
+          <ul class="tags"><li>ROS 2</li><li>Gazebo</li><li>MuJoCo</li><li>PPO from scratch</li><li>PyTorch</li></ul>
+          <div class="work-links"><a class="link" href="projects/mybot.html">Case study</a><span class="private">Code private</span></div>
         </div>
-        <div class="card-body">
-          <h4>mybot: two-wheeled bipedal robot</h4>
-          <p>
-            A wheeled biped that learns to self-balance and drive to goals with a
-            <strong>hand-written PPO</strong> (no RL libraries), ROS 2 + Gazebo training
-            pipeline, MuJoCo verification, staged curriculum from balance to goal navigation.
-          </p>
-          <div class="tags">
-            <span class="tag">ROS 2</span><span class="tag">Gazebo</span><span class="tag">MuJoCo</span>
-            <span class="tag">PPO from scratch</span><span class="tag">PyTorch</span>
-          </div>
-          <div class="card-foot">
-            <a href="projects/mybot.html">Details &#8594;</a>
-            <span class="private">&#128274; Code private</span>
-          </div>
-        </div>
-      </article>
+        <div class="work-media"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="assets/img/mybot-balance-poster.png" src="assets/video/mujoco_balance_stable.mp4" aria-label="mybot balancing on its wheels in MuJoCo for a full 20-second episode"></video></div></div>
+      </li>
 
-      <article class="card reveal">
-        <div class="card-media">
-          <video autoplay controls muted loop playsinline preload="metadata" poster="assets/img/collision-ppo-detour-poster.png" src="assets/video/collision-ppo-detour-gazebo.mp4"></video>
+      <li class="work-item feature flip has-case reveal">
+        <span class="work-no">02</span>
+        <div class="work-body">
+          <h3><a href="projects/collision-avoidance.html">DRL collision-avoidance system</a></h3>
+          <p>Vision-based quadrotor collision avoidance in Gazebo, learned from scratch: a <strong>TD3</strong> baseline reads stacked depth frames plus a goal direction, and a <strong>recurrent-PPO</strong> extension flies genuine detours around occluders, 80% deterministic success on the detour task.</p>
+          <ul class="tags"><li>ROS 2</li><li>Gazebo</li><li>TD3 + recurrent PPO</li><li>Depth vision</li></ul>
+          <div class="work-links"><a class="link" href="projects/collision-avoidance.html">Case study</a><span class="private">Code private</span></div>
         </div>
-        <div class="card-body">
-          <h4>DRL collision-avoidance system</h4>
-          <p>
-            Vision-based quadrotor collision avoidance in Gazebo, learned from scratch: a
-            <strong>TD3</strong> baseline reads stacked depth frames plus a goal direction, and a
-            <strong>recurrent-PPO</strong> extension flies genuine detours around occluders,
-            80% deterministic success on the detour task.
-          </p>
-          <div class="tags">
-            <span class="tag">ROS 2</span><span class="tag">Gazebo</span><span class="tag">TD3 + recurrent PPO</span>
-            <span class="tag">Depth vision</span>
-          </div>
-          <div class="card-foot">
-            <a href="projects/collision-avoidance.html">Details &#8594;</a>
-            <span class="private">&#128274; Code private</span>
-          </div>
-        </div>
-      </article>
+        <div class="work-media"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="assets/img/collision-ppo-detour-poster.png" src="assets/video/collision-ppo-detour-gazebo.mp4" aria-label="Quadrotor flying a detour course around box occluders in Gazebo"></video></div></div>
+      </li>
 
+      <li class="work-item has-case reveal">
+        <span class="work-no">03</span>
+        <div class="work-body">
+          <h3><a href="projects/drl-navigation.html">DRL robot navigation + live SLAM (TD3)</a></h3>
+          <p>A TD3 agent drives a Pioneer 3-DX through cluttered rooms in ROS 2 + Gazebo, reaching random goals collision-free from 3D-LiDAR input while <strong>slam_toolbox maps the room live</strong>, turning a goal-reaching policy into autonomous exploration. GIPSA-Lab project (Grenoble INP), documented in a published paper.</p>
+          <ul class="tags"><li>TD3</li><li>ROS 2</li><li>3D LiDAR</li><li>SLAM</li></ul>
+          <div class="work-links">
+            <a class="link" href="projects/drl-navigation.html">Case study</a>
+            <a class="link ext" href="https://github.com/MickyasTA/DRL_robot_navigation_ros2" target="_blank" rel="noopener">Code</a>
+            <a class="link ext" href="https://www.researchgate.net/publication/380875371_Controlling_a_Mobile_Robot_Using_ROS2_and_Machine_Learning" target="_blank" rel="noopener">Paper</a>
+          </div>
+        </div>
+        <div class="work-media"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping, demo" target="_blank" rel="noopener"><span class="yt-art" aria-hidden="true"></span><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 navigation with live SLAM mapping</span></a></div>
+      </li>
 
-      <article class="card reveal">
-        <div class="card-media">
-          <iframe src="https://www.youtube-nocookie.com/embed/IRASuKMiOvw?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=IRASuKMiOvw" title="TD3 robot navigation with live SLAM mapping, demo" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <div class="card-body">
-          <h4>DRL robot navigation + live SLAM (TD3)</h4>
-          <p>
-            A TD3 agent drives a Pioneer 3-DX through cluttered rooms in ROS 2 + Gazebo, reaching
-            random goals collision-free from 3D-LiDAR input while <strong>slam_toolbox maps the room
-            live</strong>, turning a goal-reaching policy into autonomous exploration. GIPSA-Lab
-            project (Grenoble INP), documented in a published paper.
-          </p>
-          <div class="tags">
-            <span class="tag">TD3</span><span class="tag">ROS 2</span><span class="tag">3D LiDAR</span><span class="tag">SLAM</span>
-          </div>
-          <div class="card-foot">
-            <a href="projects/drl-navigation.html">Details &#8594;</a>
-            <a href="https://github.com/MickyasTA/DRL_robot_navigation_ros2" target="_blank" rel="noopener">Code &#8599;</a>
-            <a href="https://www.researchgate.net/publication/380875371_Controlling_a_Mobile_Robot_Using_ROS2_and_Machine_Learning" target="_blank" rel="noopener">Paper &#8599;</a>
+      <li class="work-item flip reveal">
+        <span class="work-no">04</span>
+        <div class="work-body">
+          <h3>Duckiebot: from sim to real</h3>
+          <p>Reinforcement learning for lane following trained in the Duckietown simulator and transferred to a physical Duckiebot: domain adaptation, deployment pipeline, and real-world evaluation.</p>
+          <ul class="tags"><li>Duckietown</li><li>Sim2Real</li><li>RL</li></ul>
+          <div class="work-links">
+            <a class="link ext" href="https://github.com/MickyasTA/Duckiebot_From-SIM-to-Real" target="_blank" rel="noopener">Code</a>
+            <a class="link ext" href="https://duckietown.com/deep-reinforcement-learning-for-autonomous-lane-following/" target="_blank" rel="noopener">Article</a>
+            <a class="link ext" href="https://www.youtube.com/watch?v=UU6YHIyoIJ0" target="_blank" rel="noopener">Demo 2</a>
           </div>
         </div>
-      </article>
+        <div class="work-media"><a class="media-frame yt" href="https://www.youtube.com/watch?v=6GN9yh_nj5E" data-yt="6GN9yh_nj5E" data-title="Deep-RL autonomous lane following on Duckietown, demo" target="_blank" rel="noopener"><span class="yt-art" aria-hidden="true"></span><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">Deep-RL lane following on Duckietown</span></a></div>
+      </li>
 
-      <article class="card reveal">
-        <div class="card-media">
-          <iframe src="https://www.youtube-nocookie.com/embed/6GN9yh_nj5E?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=6GN9yh_nj5E" title="Deep-RL autonomous lane following on Duckietown, demo" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <div class="card-body">
-          <h4>Duckiebot: from sim to real</h4>
-          <p>
-            Reinforcement learning for lane following trained in the Duckietown simulator and
-            transferred to a physical Duckiebot, domain adaptation, deployment pipeline, and
-            real-world evaluation.
-          </p>
-          <div class="tags">
-            <span class="tag">Duckietown</span><span class="tag">Sim2Real</span><span class="tag">RL</span>
-          </div>
-          <div class="card-foot">
-            <a href="https://github.com/MickyasTA/Duckiebot_From-SIM-to-Real" target="_blank" rel="noopener">Code &#8599;</a>
-            <a href="https://duckietown.com/deep-reinforcement-learning-for-autonomous-lane-following/" target="_blank" rel="noopener">Article &#8599;</a>
-            <a href="https://www.youtube.com/watch?v=UU6YHIyoIJ0" target="_blank" rel="noopener">Demo 2 &#8599;</a>
+      <li class="work-item has-case reveal">
+        <span class="work-no">05</span>
+        <div class="work-body">
+          <h3><a href="projects/wheeled-quadruped.html">Wheeled quadruped robot</a></h3>
+          <p><strong>Learning project</strong>, grown well past the start: a segway-style wheeled quadruped learns to <strong>balance and drive</strong> with <strong>PPO</strong> in <strong>NVIDIA Isaac Lab</strong>. An <strong>asymmetric actor-critic</strong> keeps the deployed policy on <strong>onboard-only sensing</strong> across <strong>2048 GPU-parallel environments</strong>. Four trained policies (balance and velocity, on flat and rough terrain), exported to ONNX and TorchScript, and validated sim-to-sim in a second physics engine (MuJoCo).</p>
+          <ul class="tags"><li>Isaac Lab</li><li>PPO</li><li>Sim-to-real</li><li>MuJoCo sim-to-sim</li><li>GPU-parallel RL</li><li>Learning in public</li></ul>
+          <div class="work-links">
+            <a class="link" href="projects/wheeled-quadruped.html">Case study</a>
+            <a class="link ext" href="https://github.com/MickyasTA/wheeled_quadruped_robot" target="_blank" rel="noopener">Code</a>
           </div>
         </div>
-      </article>
+        <div class="work-media"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="assets/img/wquad-demo-poster.png" src="assets/video/wquad-demo.mp4" aria-label="Trained wheeled quadruped driving across rough terrain in Isaac Sim"></video></div></div>
+      </li>
 
-      <article class="card reveal">
-        <div class="card-media">
-          <video autoplay controls muted loop playsinline preload="metadata" poster="assets/img/wquad-demo-poster.png" src="assets/video/wquad-demo.mp4"></video>
+      <li class="work-item flip reveal">
+        <span class="work-no">06</span>
+        <div class="work-body">
+          <h3>Aerial Gym: multi-agent avoidance</h3>
+          <p>Contributor to the Aerial Gym Simulator: multi-agent quadcopter collision avoidance trained with <strong>TD3 / SAC</strong> in Isaac Gym, massively parallel GPU simulation for aerial swarms.</p>
+          <ul class="tags"><li>Isaac Gym</li><li>TD3 / SAC</li><li>Multi-agent</li></ul>
+          <div class="work-links"><a class="link ext" href="https://github.com/MickyasTA/aerial_gym_simulator" target="_blank" rel="noopener">Code</a></div>
         </div>
-        <div class="card-body">
-          <h4>Wheeled quadruped robot</h4>
-          <p>
-            <strong>Learning project</strong>, grown well past the start: a segway-style wheeled
-            quadruped learns to <strong>balance and drive</strong> with <strong>PPO</strong> in
-            <strong>NVIDIA Isaac Lab</strong>. An <strong>asymmetric actor-critic</strong> keeps the
-            deployed policy on <strong>onboard-only sensing</strong> across <strong>2048 GPU-parallel
-            environments</strong>. Four trained policies (balance and velocity, on flat and rough
-            terrain), exported to ONNX and TorchScript, and validated sim-to-sim in a second physics
-            engine (MuJoCo).
-          </p>
-          <div class="tags">
-            <span class="tag">Isaac Lab</span><span class="tag">PPO</span><span class="tag">Sim-to-real</span><span class="tag">MuJoCo sim-to-sim</span><span class="tag">GPU-parallel RL</span><span class="tag">Learning in public</span>
-          </div>
-          <div class="card-foot">
-            <a href="projects/wheeled-quadruped.html">Details &#8594;</a>
-            <a href="https://github.com/MickyasTA/wheeled_quadruped_robot" target="_blank" rel="noopener">Code &#8599;</a>
-          </div>
-        </div>
-      </article>
+        <div class="work-media"><div class="media-frame plate-art" aria-hidden="true"><span>SWARM</span></div></div>
+      </li>
 
-      <article class="card reveal">
-        <div class="card-media pattern"><span>SWARM</span></div>
-        <div class="card-body">
-          <h4>Aerial Gym: multi-agent avoidance</h4>
-          <p>
-            Contributor to the Aerial Gym Simulator: multi-agent quadcopter collision
-            avoidance trained with <strong>TD3 / SAC</strong> in Isaac Gym, massively parallel
-            GPU simulation for aerial swarms.
-          </p>
-          <div class="tags">
-            <span class="tag">Isaac Gym</span><span class="tag">TD3 / SAC</span><span class="tag">Multi-agent</span>
-          </div>
-          <div class="card-foot">
-            <a href="https://github.com/MickyasTA/aerial_gym_simulator" target="_blank" rel="noopener">Code &#8599;</a>
+      <li class="work-item reveal">
+        <span class="work-no">07</span>
+        <div class="work-body">
+          <h3>Quadrotor modeling &amp; LQR control</h3>
+          <p>Full dynamic modeling of a quadrotor UAV with an <strong>LQR-with-integral-action</strong> controller, designed, simulated, and validated on real hardware with a Parrot Mambo position-control flight test.</p>
+          <ul class="tags"><li>LQR</li><li>UAV</li><li>MATLAB / Simulink</li></ul>
+          <div class="work-links">
+            <a class="link ext" href="https://www.youtube.com/watch?v=qmciAbd4ehE" target="_blank" rel="noopener">Demo</a>
+            <a class="link ext" href="https://www.researchgate.net/publication/380970706_Modeling_and_Control_Design_of_Quadrotor_UAV_using_LQR_controller_with_Integral_Action" target="_blank" rel="noopener">Paper</a>
           </div>
         </div>
-      </article>
+        <div class="work-media"><a class="media-frame yt" href="https://www.youtube.com/watch?v=qmciAbd4ehE" data-yt="qmciAbd4ehE" data-title="Parrot Mambo quadrotor: LQR position-control flight test" target="_blank" rel="noopener"><span class="yt-art" aria-hidden="true"></span><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play flight test</span><span class="yt-title">Parrot Mambo, LQR position control</span></a></div>
+      </li>
 
-      <article class="card reveal">
-        <div class="card-media">
-          <iframe src="https://www.youtube-nocookie.com/embed/qmciAbd4ehE?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=qmciAbd4ehE&amp;rel=0&amp;modestbranding=1&amp;playsinline=1" title="Parrot Mambo quadrotor: LQR position-control flight test" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <li class="work-item flip reveal">
+        <span class="work-no">08</span>
+        <div class="work-body">
+          <h3>Robust lateral vehicle control</h3>
+          <p>LPV/H-infinity and LPV/LQR controllers for lateral control of autonomous vehicles: robust stability and performance across varying operating points.</p>
+          <ul class="tags"><li>H-infinity</li><li>LPV</li><li>Autonomous vehicles</li></ul>
+          <div class="work-links"><a class="link ext" href="https://www.researchgate.net/publication/380970938_Design_and_analysis_of_an_H-infinity_controller_for_a_Clutch_and_Anti-Roll_systems" target="_blank" rel="noopener">Paper</a></div>
         </div>
-        <div class="card-body">
-          <h4>Quadrotor modeling &amp; LQR control</h4>
-          <p>
-            Full dynamic modeling of a quadrotor UAV with an <strong>LQR-with-integral-action</strong>
-            controller, designed, simulated, and validated on real hardware with a Parrot Mambo
-            position-control flight test.
-          </p>
-          <div class="tags">
-            <span class="tag">LQR</span><span class="tag">UAV</span><span class="tag">MATLAB / Simulink</span>
-          </div>
-          <div class="card-foot">
-            <a href="https://www.youtube.com/watch?v=qmciAbd4ehE" target="_blank" rel="noopener">Demo &#8599;</a>
-            <a href="https://www.researchgate.net/publication/380970706_Modeling_and_Control_Design_of_Quadrotor_UAV_using_LQR_controller_with_Integral_Action" target="_blank" rel="noopener">Paper &#8599;</a>
-          </div>
-        </div>
-      </article>
+        <div class="work-media"><div class="media-frame plate-art" aria-hidden="true"><span>LPV / H&#8734;</span></div></div>
+      </li>
 
-      <article class="card reveal">
-        <div class="card-media pattern"><span>LPV / H&#8734;</span></div>
-        <div class="card-body">
-          <h4>Robust lateral vehicle control</h4>
-          <p>
-            LPV/H-infinity and LPV/LQR controllers for lateral control of autonomous
-            vehicles, robust stability and performance across varying operating points.
-          </p>
-          <div class="tags">
-            <span class="tag">H-infinity</span><span class="tag">LPV</span><span class="tag">Autonomous vehicles</span>
-          </div>
-          <div class="card-foot">
-            <a href="https://www.researchgate.net/publication/380970938_Design_and_analysis_of_an_H-infinity_controller_for_a_Clutch_and_Anti-Roll_systems" target="_blank" rel="noopener">Paper &#8599;</a>
-          </div>
+      <li class="work-item reveal">
+        <span class="work-no">09</span>
+        <div class="work-body">
+          <h3>5-axis palletizing robot arm</h3>
+          <p>A 5-axis palletizing arm designed and prototyped at Heineken Brewery: CAD in SolidWorks, dynamics in MATLAB/Simulink and CoppeliaSim, Arduino control with a custom Android HMI.</p>
+          <ul class="tags"><li>SolidWorks</li><li>Simulink</li><li>Arduino</li></ul>
+          <div class="work-links"><a class="link ext" href="https://www.youtube.com/watch?v=ENkWMesq81U" target="_blank" rel="noopener">Demo</a></div>
         </div>
-      </article>
+        <div class="work-media"><a class="media-frame yt" href="https://www.youtube.com/watch?v=ENkWMesq81U" data-yt="ENkWMesq81U" data-title="5-axis palletizing robot arm, demo" target="_blank" rel="noopener"><span class="yt-art" aria-hidden="true"></span><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">5-axis palletizing arm</span></a></div>
+      </li>
 
-      <article class="card reveal">
-        <div class="card-media">
-          <iframe src="https://www.youtube-nocookie.com/embed/ENkWMesq81U?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=ENkWMesq81U" title="5-axis palletizing robot arm, demo" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <div class="card-body">
-          <h4>5-axis palletizing robot arm</h4>
-          <p>
-            A 5-axis palletizing arm designed and prototyped at Heineken Brewery, CAD in
-            SolidWorks, dynamics in MATLAB/Simulink and CoppeliaSim, Arduino control with a
-            custom Android HMI.
-          </p>
-          <div class="tags">
-            <span class="tag">SolidWorks</span><span class="tag">Simulink</span><span class="tag">Arduino</span>
-          </div>
-          <div class="card-foot">
-            <a href="https://www.youtube.com/watch?v=ENkWMesq81U" target="_blank" rel="noopener">Demo &#8599;</a>
-          </div>
-        </div>
-      </article>
-
-    </div>
+    </ol>
   </div>
 </section>
 
-<section id="experience" style="background: var(--bg-soft);">
+<section class="section" id="experience">
   <div class="wrap">
-    <div class="sec-kicker">Track record</div>
-    <h2 class="sec-title">Experience</h2>
-    <p class="sec-lead">Research and engineering roles across robot perception, learned control, and hardware, from digital twins today back to my first mechatronics prototypes.</p>
+    <header class="sec-head reveal">
+      <p class="label"><b>03</b> Track record</p>
+      <h2 class="sec-title">Experience</h2>
+      <p class="sec-lead">Research and engineering roles across robot perception, learned control, and hardware, from digital twins today back to my first mechatronics prototypes.</p>
+    </header>
 
-    <div class="timeline">
+    <ol class="timeline">
+      <li class="role reveal">
+        <div class="role-when">Feb 2025 &ndash; present<span>Rouen, France</span></div>
+        <div class="role-body">
+          <h3>AI Robotics Research &amp; Innovation Engineer</h3>
+          <p class="role-org">CESI &middot; LINEACT Research Laboratory</p>
+          <ul>
+            <li>Build <strong>3D Gaussian Splatting</strong> digital twins of industrial and nuclear environments, including an ArUco-based COLMAP metric-rescaling pipeline for a nuclear site at Orano.</li>
+            <li>Deploy <strong>FoundationPose</strong> 6-DoF object pose estimation to keep digital twins updated live, with SAM2/SAM3, Depth Anything V3, and YOLO-6D perception.</li>
+            <li>Develop an XR/VR teleoperation interface for the Ubik mobile robot and multi-sensor (MoCap / RGB-D / IMU) calibration.</li>
+          </ul>
+        </div>
+      </li>
+      <li class="role reveal">
+        <div class="role-when">Mar &ndash; Aug 2024<span>Toulouse, France</span></div>
+        <div class="role-body">
+          <h3>Robotics Engineer Intern</h3>
+          <p class="role-org">IRT Saint Exup&eacute;ry</p>
+          <ul>
+            <li>Trained deep-RL policies (<strong>DDPG / TD3 / SAC</strong>) for autonomous lane following on Duckietown, using auto-encoder latent states and a contrastive-learning buffer (+18.3% task performance).</li>
+            <li>Achieved sim-to-real transfer to a Jetson-Nano robot with domain randomization, deployed via Docker + ROS 2.</li>
+          </ul>
+          <div class="role-links">
+            <a class="link ext" href="https://duckietown.com/deep-reinforcement-learning-for-autonomous-lane-following/" target="_blank" rel="noopener">Article</a>
+            <a class="link ext" href="https://www.youtube.com/watch?v=6GN9yh_nj5E" target="_blank" rel="noopener">Demo 1</a>
+            <a class="link ext" href="https://www.youtube.com/watch?v=UU6YHIyoIJ0" target="_blank" rel="noopener">Demo 2</a>
+          </div>
+        </div>
+      </li>
+      <li class="role reveal">
+        <div class="role-when">Jul &ndash; Oct 2021<span>Addis Ababa, Ethiopia</span></div>
+        <div class="role-body">
+          <h3>Robotics Engineer Intern</h3>
+          <p class="role-org">Heineken Brewery S.C.</p>
+          <ul>
+            <li>Designed and prototyped a <strong>5-axis palletizing robot arm</strong> in SolidWorks, with dynamics in MATLAB/Simulink and CoppeliaSim.</li>
+            <li>Built the control system on Arduino with a custom Android HMI.</li>
+          </ul>
+          <div class="role-links"><a class="link ext" href="https://www.youtube.com/watch?v=ENkWMesq81U" target="_blank" rel="noopener">Demo</a></div>
+        </div>
+      </li>
+    </ol>
 
-      <article class="exp reveal">
-        <div class="exp-head">
+    <div class="sub-section" id="publications">
+      <h3 class="reveal">Publications</h3>
+
+      <p class="label reveal" style="margin-bottom:14px">Published</p>
+      <ol class="pubs">
+        <li class="pub reveal">
+          <div class="pub-venue">IntRob&nbsp;'26, Budapest</div>
           <div>
-            <h4>AI Robotics Research &amp; Innovation Engineer</h4>
-            <div class="exp-org">CESI &middot; LINEACT Research Laboratory</div>
+            <h4 class="pub-title">Benchmarking Open-Source Segmentation and Metric Monocular Depth Methods in 6DoF Object Pose Estimation with FoundationPose</h4>
+            <p class="pub-authors"><strong>M. T. Asfaw</strong> et al.</p>
+            <p class="doi"><a class="link ext" href="https://doi.org/10.1145/3831600.3831602" target="_blank" rel="noopener">doi:10.1145/3831600.3831602</a></p>
           </div>
-          <div class="exp-meta">
-            <span class="exp-date">Feb 2025 &ndash; present</span>
-            <span class="exp-loc">&#128205; Rouen, France</span>
-          </div>
-        </div>
-        <ul>
-          <li>Build <strong>3D Gaussian Splatting</strong> digital twins of industrial and nuclear environments, including an ArUco-based COLMAP metric-rescaling pipeline for a nuclear site at Orano.</li>
-          <li>Deploy <strong>FoundationPose</strong> 6-DoF object pose estimation to keep digital twins updated live, with SAM2/SAM3, Depth Anything V3, and YOLO-6D perception.</li>
-          <li>Develop an XR/VR teleoperation interface for the Ubik mobile robot and multi-sensor (MoCap / RGB-D / IMU) calibration.</li>
-        </ul>
-      </article>
-
-      <article class="exp reveal">
-        <div class="exp-head">
+        </li>
+        <li class="pub reveal">
+          <div class="pub-venue">ICPR Workshops, Lyon</div>
           <div>
-            <h4>Robotics Engineer Intern</h4>
-            <div class="exp-org">IRT Saint Exup&eacute;ry</div>
+            <h4 class="pub-title">Mind the Domain Gap: Benchmarking Structure-from-Motion Methods on Paired Industrial Physical-Digital Twin Datasets to Enable Radiance Field Rendering</h4>
+            <p class="pub-authors">S. Choudhary, <strong>M. T. Asfaw</strong>, et al.</p>
+            <p class="doi"><a class="link ext" href="https://doi.org/10.1007/978-3-032-39518-4_8" target="_blank" rel="noopener">doi:10.1007/978-3-032-39518-4_8</a></p>
           </div>
-          <div class="exp-meta">
-            <span class="exp-date">Mar &ndash; Aug 2024</span>
-            <span class="exp-loc">&#128205; Toulouse, France</span>
-          </div>
-        </div>
-        <ul>
-          <li>Trained deep-RL policies (<strong>DDPG / TD3 / SAC</strong>) for autonomous lane following on Duckietown, using auto-encoder latent states and a contrastive-learning buffer (+18.3% task performance).</li>
-          <li>Achieved sim-to-real transfer to a Jetson-Nano robot with domain randomization, deployed via Docker + ROS 2.</li>
-        </ul>
-        <div class="exp-links">
-          <a href="https://duckietown.com/deep-reinforcement-learning-for-autonomous-lane-following/" target="_blank" rel="noopener">Article &#8599;</a>
-          <a href="https://www.youtube.com/watch?v=6GN9yh_nj5E" target="_blank" rel="noopener">Demo 1 &#8599;</a>
-          <a href="https://www.youtube.com/watch?v=UU6YHIyoIJ0" target="_blank" rel="noopener">Demo 2 &#8599;</a>
-        </div>
-      </article>
+        </li>
+      </ol>
 
-      <article class="exp reveal">
-        <div class="exp-head">
+      <p class="label reveal" style="margin:36px 0 14px">In progress</p>
+      <ol class="pubs">
+        <li class="pub reveal">
+          <div class="pub-venue"><span class="status">Being finalised for submission</span></div>
           <div>
-            <h4>Robotics Engineer Intern</h4>
-            <div class="exp-org">Heineken Brewery S.C.</div>
+            <h4 class="pub-title">Differentiable Render-and-Compare for 6-DoF Object Pose Rectification</h4>
           </div>
-          <div class="exp-meta">
-            <span class="exp-date">Jul &ndash; Oct 2021</span>
-            <span class="exp-loc">&#128205; Addis Ababa, Ethiopia</span>
+        </li>
+        <li class="pub reveal">
+          <div class="pub-venue"><span class="status">Under review</span><br>Array (Elsevier)</div>
+          <div>
+            <h4 class="pub-title">Exploring the Physical and Digital Domain Gap in 3D Reconstruction: A Benchmark of Radiance Field Rendering Techniques on Paired Industrial Twins</h4>
+            <p class="pub-authors">S. Choudhary, <strong>M. T. Asfaw</strong>, N. Ragot, et al.</p>
           </div>
-        </div>
-        <ul>
-          <li>Designed and prototyped a <strong>5-axis palletizing robot arm</strong> in SolidWorks, with dynamics in MATLAB/Simulink and CoppeliaSim.</li>
-          <li>Built the control system on Arduino with a custom Android HMI.</li>
-        </ul>
-        <div class="exp-links">
-          <a href="https://www.youtube.com/watch?v=ENkWMesq81U" target="_blank" rel="noopener">Demo &#8599;</a>
-        </div>
-      </article>
-
+        </li>
+      </ol>
     </div>
 
-    <div class="exp-split">
-      <div class="reveal">
-        <h3 class="sub-head">Publications</h3>
-        <div class="pub">
-          <div class="pub-body">
-            <h4>Benchmarking Open-Source Segmentation and Metric Monocular Depth Methods in 6DoF Object Pose Estimation with FoundationPose</h4>
-            <div class="pub-meta">IntRob'26, Budapest &middot; M. T. Asfaw et al.</div>
-          </div>
-          <span class="badge badge-ok">Accepted</span>
+    <div class="sub-section">
+      <h3 class="reveal">Education</h3>
+      <div class="edu">
+        <div class="edu-row reveal">
+          <div class="edu-when">2023&ndash;2024<br>Grenoble, France</div>
+          <div><h4>M2: Mobile, Autonomous &amp; Robotic Systems (TSI)</h4><p>Grenoble Institute of Technology (INP) &ndash; ENSE3 &middot; GPA 15.53/20 (~3.9/4)</p></div>
         </div>
-        <div class="pub">
-          <div class="pub-body">
-            <h4>Mind the Domain Gap: Benchmarking Structure-from-Motion Methods on Paired Industrial Physical-Digital Twins Datasets for Enabling Radiance Field Rendering</h4>
-            <div class="pub-meta">ICPR Workshops, Lyon &middot; S. Choudhary, M. T. Asfaw, et al.</div>
-          </div>
-          <span class="badge badge-ok">Accepted</span>
+        <div class="edu-row reveal">
+          <div class="edu-when">Addis Ababa Science &amp; Technology University</div>
+          <div><h4>MSc: Electromechanical (Mechatronics) Engineering</h4><p>GPA 3.92/4</p></div>
         </div>
-        <div class="pub">
-          <div class="pub-body">
-            <h4>Benchmarking 3D Gaussian Splatting Methods for Physical Twin and Digital Twin in an Industrial Context</h4>
-            <div class="pub-meta">Array (Elsevier) &middot; S. Choudhary, M. T. Asfaw, N. Ragot, et al.</div>
-          </div>
-          <span class="badge badge-sub">Submitted</span>
-        </div>
-      </div>
-
-      <div class="reveal">
-        <h3 class="sub-head">Education</h3>
-        <div class="edu">
-          <h4>M2: Mobile, Autonomous &amp; Robotic Systems (TSI)</h4>
-          <div class="edu-org">Grenoble Institute of Technology (INP) &ndash; ENSE3 &middot; 2023&ndash;2024</div>
-          <div class="edu-note">GPA 15.53/20 (~3.9/4) &middot; Grenoble, France</div>
-        </div>
-        <div class="edu">
-          <h4>MSc: Electromechanical (Mechatronics) Engineering</h4>
-          <div class="edu-org">Addis Ababa Science &amp; Technology University</div>
-          <div class="edu-note">GPA 3.92/4</div>
-        </div>
-        <div class="edu">
-          <h4>BSc: Electromechanical Engineering</h4>
-          <div class="edu-org">Addis Ababa Science &amp; Technology University &middot; 2017&ndash;2022</div>
-          <div class="edu-note">GPA 3.94/4</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section id="skills">
-  <div class="wrap">
-    <div class="sec-kicker">Toolbox</div>
-    <h2 class="sec-title">Skills &amp; stack</h2>
-    <div class="skill-groups">
-      <div class="skill-group reveal">
-        <h5>Reinforcement learning</h5>
-        <div class="tags">
-          <span class="tag">PPO (from scratch)</span><span class="tag">TD3</span>
-          <span class="tag">Curriculum learning</span><span class="tag">Reward design</span>
-          <span class="tag">Domain randomization</span><span class="tag">Sim2Real</span>
-        </div>
-      </div>
-      <div class="skill-group reveal">
-        <h5>Control theory</h5>
-        <div class="tags">
-          <span class="tag">MPC (OSQP)</span><span class="tag">LQR</span><span class="tag">Cascade PID</span>
-          <span class="tag">State estimation</span><span class="tag">Residual RL</span>
-        </div>
-      </div>
-      <div class="skill-group reveal">
-        <h5>Simulation &amp; robotics</h5>
-        <div class="tags">
-          <span class="tag">MuJoCo</span><span class="tag">Gazebo</span><span class="tag">ROS 2</span>
-          <span class="tag">URDF / MJCF</span><span class="tag">PyBullet / Isaac</span>
-        </div>
-      </div>
-      <div class="skill-group reveal">
-        <h5>Perception &amp; digital twins</h5>
-        <div class="tags">
-          <span class="tag">3D Gaussian Splatting</span><span class="tag">COLMAP / SfM</span>
-          <span class="tag">FoundationPose</span><span class="tag">SAM2 / SAM3</span>
-          <span class="tag">Depth Anything</span><span class="tag">Open3D</span><span class="tag">Unity / XR</span>
-        </div>
-      </div>
-      <div class="skill-group reveal">
-        <h5>Engineering</h5>
-        <div class="tags">
-          <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">C++</span>
-          <span class="tag">CAD (SolidWorks / CadQuery)</span><span class="tag">CATIA V5</span>
-          <span class="tag">PX4 / Jetson</span><span class="tag">Docker</span><span class="tag">Isaac Gym</span>
-          <span class="tag">SLAM / Nav2</span><span class="tag">Stable-Baselines3</span>
-          <span class="tag">CI &amp; testing</span>
+        <div class="edu-row reveal">
+          <div class="edu-when">2017&ndash;2022<br>Addis Ababa Science &amp; Technology University</div>
+          <div><h4>BSc: Electromechanical Engineering</h4><p>GPA 3.94/4</p></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="about" style="background: var(--bg-soft);">
+<section class="section" id="skills">
   <div class="wrap">
-    <div class="sec-kicker">About</div>
-    <h2 class="sec-title">Engineering philosophy</h2>
-    <div class="about-flex">
-      <div class="reveal">
+    <header class="sec-head reveal">
+      <p class="label"><b>04</b> Toolbox</p>
+      <h2 class="sec-title">Skills &amp; stack</h2>
+    </header>
+    <div class="skills" data-stagger>
+      <div class="skill reveal">
+        <h3>Reinforcement learning</h3>
+        <ul><li>PPO (from scratch)</li><li>TD3</li><li>Curriculum learning</li><li>Reward design</li><li>Domain randomization</li><li>Sim2Real</li></ul>
+      </div>
+      <div class="skill reveal">
+        <h3>Control theory</h3>
+        <ul><li>MPC (OSQP)</li><li>LQR</li><li>Cascade PID</li><li>State estimation</li><li>Residual RL</li></ul>
+      </div>
+      <div class="skill reveal">
+        <h3>Simulation &amp; robotics</h3>
+        <ul><li>MuJoCo</li><li>Gazebo</li><li>ROS 2</li><li>URDF / MJCF</li><li>PyBullet / Isaac</li></ul>
+      </div>
+      <div class="skill reveal">
+        <h3>Perception &amp; digital twins</h3>
+        <ul><li>3D Gaussian Splatting</li><li>COLMAP / SfM</li><li>FoundationPose</li><li>SAM2 / SAM3</li><li>Depth Anything</li><li>Open3D</li><li>Unity / XR</li></ul>
+      </div>
+      <div class="skill reveal">
+        <h3>Engineering</h3>
+        <ul><li>Python, PyTorch, C++</li><li>CAD (SolidWorks / CadQuery), CATIA V5</li><li>PX4 / Jetson, Docker</li><li>Isaac Gym</li><li>SLAM / Nav2</li><li>Stable-Baselines3</li><li>CI &amp; testing</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="label"><b>05</b> About</p>
+      <h2 class="sec-title">Engineering philosophy</h2>
+    </header>
+    <div class="about-grid">
+      <div class="about-copy reveal">
+        <blockquote class="pullquote">A controller you derived, implemented, and unit-tested is one you can debug at 3&nbsp;a.m. when the robot does something strange.</blockquote>
         <p>
           I like building the whole stack myself, not because libraries are bad, but because a
           controller you derived, implemented, and unit-tested is one you can debug at 3 a.m.
@@ -480,7 +433,7 @@
           The thread through my work is <strong>locomotion that has to earn trust</strong>:
           statically unstable bases that must balance to exist, aerial systems where the landing
           is the hard part, and policies that transfer from simulation to hardware because the
-          gap was engineered away, measured latencies, calibrated actuators, and domain
+          gap was engineered away: measured latencies, calibrated actuators, and domain
           randomization on the axes that actually matter.
         </p>
         <p>
@@ -489,51 +442,50 @@
           ground robots can complete alone.
         </p>
       </div>
-      <div class="about-side reveal">
-        <h5>At a glance</h5>
-        <ul>
-          <li><b>Focus</b>: learned control &amp; robot perception</li>
-          <li><b>Role</b>: AI Robotics R&amp;I Engineer, CESI LINEACT</li>
-          <li><b>Base</b>: Rouen, France</li>
-          <li><b>Current</b>: AETHER-1 hardware prototype (Mk1, 15 kg)</li>
-          <li><b>Approach</b>: from-scratch implementations, test-gated pipelines</li>
-          <li><b>Open to</b>: collaborations, pilots, robotics conversations</li>
-        </ul>
+      <dl class="glance reveal">
+        <div><dt>Focus</dt><dd>Learned control &amp; robot perception</dd></div>
+        <div><dt>Role</dt><dd>AI Robotics R&amp;I Engineer, CESI LINEACT</dd></div>
+        <div><dt>Base</dt><dd>Rouen, France</dd></div>
+        <div><dt>Current</dt><dd>AETHER-1 hardware prototype (Mk1, 15 kg)</dd></div>
+        <div><dt>Approach</dt><dd>From-scratch implementations, test-gated pipelines</dd></div>
+        <div><dt>Open to</dt><dd>Collaborations, pilots, robotics conversations</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="label"><b>06</b> Contact</p>
+      <h2 class="sec-title">Let's build robots that work.</h2>
+      <p class="sec-lead">
+        Whether it's reinforcement learning that has to run on real hardware, a control problem
+        that refuses to behave, or the AETHER-1 program, I'd love to hear from you.
+      </p>
+    </header>
+    <div class="reveal">
+      <a class="mail" href="mailto:mickyastamiru92@gmail.com">mickyastamiru92@gmail.com</a>
+      <div class="contact-links">
+        <a class="link ext" href="https://github.com/MickyasTA" target="_blank" rel="noopener">GitHub</a>
+        <a class="link ext" href="https://www.linkedin.com/in/mickyas-tamiru-asfaw-1409271a6/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="link ext" href="https://www.youtube.com/@engineering_design" target="_blank" rel="noopener">YouTube</a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="contact" id="contact">
-  <div class="wrap">
-    <div class="sec-kicker">Contact</div>
-    <h2 class="sec-title">Let's build robots that work.</h2>
-    <p>
-      Whether it's reinforcement learning that has to run on real hardware, a control problem
-      that refuses to behave, or the AETHER-1 program, I'd love to hear from you.
-    </p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="mailto:mickyastamiru92@gmail.com">mickyastamiru92@gmail.com</a>
-      <a class="btn btn-ghost" href="https://github.com/MickyasTA" target="_blank" rel="noopener">github.com/MickyasTA &#8599;</a>
-      <a class="btn btn-ghost" href="https://www.linkedin.com/in/mickyas-tamiru-asfaw-1409271a6/" target="_blank" rel="noopener">LinkedIn &#8599;</a>
-      <a class="btn btn-ghost" href="https://www.youtube.com/@engineering_design" target="_blank" rel="noopener">YouTube &#8599;</a>
-    </div>
-  </div>
-</section>
+</main>
 
-<footer>
-  <div class="foot-inner">
+<footer class="footer">
+  <div class="wrap footer-inner">
     <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
-    <span class="foot-social">
-      <a href="https://github.com/MickyasTA" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://www.linkedin.com/in/mickyas-tamiru-asfaw-1409271a6/" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://www.youtube.com/@engineering_design" target="_blank" rel="noopener">YouTube</a>
-      <a href="mailto:mickyastamiru92@gmail.com">Email</a>
-    </span>
-    <span>Built as a static site &middot; hosted on <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></span>
+    <div class="theme" role="group" aria-label="Colour theme"><span>Theme</span><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button><button type="button" data-theme-set="auto" aria-pressed="true">Auto</button></div>
+    <span>Static site &middot; hosted on <a class="link" href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></span>
   </div>
 </footer>
 
-<script src="assets/js/main.js"></script>
+<script src="assets/js/main.js" defer></script>
+<script src="assets/js/balancer.js" defer></script>
 </body>
 </html>
