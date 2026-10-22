@@ -20,9 +20,10 @@
 <meta name="twitter:image" content="https://mickyasta.github.io/assets/img/aether1-cad-iso.png">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/instrument-serif-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/geist-latin-400-500-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/geist-mono-latin-400-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -30,7 +31,7 @@
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="#top" aria-label="Mickyas Tamiru Asfaw, back to top"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
+    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
     <nav aria-label="Primary"><button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links"><span>Menu</span></button>
       <ul class="nav-links" id="nav-links">
         <li><a href="#flagship">AETHER-1</a></li>
@@ -64,7 +65,7 @@
         <li><a class="link ext" href="https://github.com/MickyasTA" target="_blank" rel="noopener">GitHub</a></li>
         <li><a class="link ext" href="https://www.linkedin.com/in/mickyas-tamiru-asfaw-1409271a6/" target="_blank" rel="noopener">LinkedIn</a></li>
         <li><a class="link ext" href="https://www.youtube.com/@engineering_design" target="_blank" rel="noopener">YouTube</a></li>
-        <li><a class="link" href="assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="Download CV as PDF, 1.3 MB">CV &darr;</a><span class="hint">PDF &middot; 1.3 MB</span></li>
+        <li><a class="link" href="assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="CV, download PDF (1.3 MB)">CV &darr;</a><span class="hint">PDF &middot; 1.3 MB</span></li>
       </ul>
       <dl class="hero-facts rise" style="--i:5">
         <div><dt>Role</dt><dd>Robotics &amp; AI Engineer</dd></div>
@@ -106,7 +107,7 @@
     </header>
 
     <div class="media-frame reveal">
-      <video data-click data-label="Play simulation montage (22 MB)" controls muted loop playsinline preload="none" poster="assets/img/aether1-poster.jpg" src="assets/video/aether1_sim_v2.mp4" aria-label="Montage of the AETHER-1 policy balancing, driving and flying in the verification simulator"></video>
+      <img class="vposter" src="assets/img/aether1-poster.webp" width="1600" height="875" alt="" loading="lazy" decoding="async"><video data-click data-label="Play simulation montage (22 MB)" controls muted loop playsinline preload="none"  src="assets/video/aether1_sim_v2.mp4" aria-label="Montage of the AETHER-1 policy balancing, driving and flying in the verification simulator"></video>
     </div>
 
     <dl class="datastrip reveal">
@@ -134,11 +135,11 @@
       </div>
       <div class="plates reveal">
         <figure class="plate">
-          <img src="assets/img/aether1-architecture.png" width="2220" height="960" loading="lazy" decoding="async" alt="Architecture diagram: curriculum RL training wrapped in verification gates produces gated policy checkpoints; at deployment a learned policy and a classical LQR/MPC/PID stack are composed residually behind one controller interface driving the MuJoCo plant">
+          <img width="1600" height="692" src="assets/img/aether1-architecture.webp" loading="lazy" decoding="async" alt="Architecture diagram: curriculum RL training wrapped in verification gates produces gated policy checkpoints; at deployment a learned policy and a classical LQR/MPC/PID stack are composed residually behind one controller interface driving the MuJoCo plant">
           <p class="plate-cap dark">Two-layer control architecture: training inside verification gates, deployment composing the learned policy with the classical stack.</p>
         </figure>
         <figure class="plate">
-          <img src="assets/img/aether1-cad-iso.png" width="1600" height="1200" loading="lazy" decoding="async" alt="AETHER-1 Mk1 CAD model, isometric view: four ducted rotors above a body with two wheeled legs">
+          <img width="1600" height="1200" src="assets/img/aether1-cad-iso.webp" loading="lazy" decoding="async" alt="AETHER-1 Mk1 CAD model, isometric view: four ducted rotors above a body with two wheeled legs">
           <p class="plate-cap dark">The Mk1 prototype CAD, generated parametrically from one parameter file.</p>
         </figure>
       </div>
@@ -163,7 +164,7 @@
           <ul class="tags"><li>ROS 2</li><li>Gazebo</li><li>MuJoCo</li><li>PPO from scratch</li><li>PyTorch</li></ul>
           <div class="work-links"><a class="link" href="projects/mybot.html">Case study</a><span class="private">Code private</span></div>
         </div>
-        <div class="work-media"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="assets/img/mybot-balance-poster.png" src="assets/video/mujoco_balance_stable.mp4" aria-label="mybot balancing on its wheels in MuJoCo for a full 20-second episode"></video></div></div>
+        <div class="work-media"><div class="media-frame"><img class="vposter" src="assets/img/mybot-balance-poster.webp" width="1280" height="720" alt="" loading="lazy" decoding="async"><video data-auto controls muted loop playsinline preload="none"  src="assets/video/mujoco_balance_stable.mp4" aria-label="mybot balancing on its wheels in MuJoCo for a full 20-second episode"></video></div></div>
       </li>
 
       <li class="work-item feature flip has-case reveal">
@@ -174,7 +175,7 @@
           <ul class="tags"><li>ROS 2</li><li>Gazebo</li><li>TD3 + recurrent PPO</li><li>Depth vision</li></ul>
           <div class="work-links"><a class="link" href="projects/collision-avoidance.html">Case study</a><span class="private">Code private</span></div>
         </div>
-        <div class="work-media"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="assets/img/collision-ppo-detour-poster.png" src="assets/video/collision-ppo-detour-gazebo.mp4" aria-label="Quadrotor flying a detour course around box occluders in Gazebo"></video></div></div>
+        <div class="work-media"><div class="media-frame"><img class="vposter" src="assets/img/collision-ppo-detour-poster.webp" width="960" height="540" alt="" loading="lazy" decoding="async"><video data-auto controls muted loop playsinline preload="none"  src="assets/video/collision-ppo-detour-gazebo.mp4" aria-label="Quadrotor flying a detour course around box occluders in Gazebo"></video></div></div>
       </li>
 
       <li class="work-item has-case reveal">
@@ -189,7 +190,7 @@
             <a class="link ext" href="https://www.researchgate.net/publication/380875371_Controlling_a_Mobile_Robot_Using_ROS2_and_Machine_Learning" target="_blank" rel="noopener">Paper</a>
           </div>
         </div>
-        <div class="work-media"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping, demo" target="_blank" rel="noopener"><img class="yt-img" src="assets/img/yt-IRASuKMiOvw.jpg" width="800" height="450" loading="lazy" decoding="async" alt="TD3 robot navigation with live SLAM mapping, demo"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 navigation with live SLAM mapping</span></a></div>
+        <div class="work-media"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping, demo" target="_blank" rel="noopener"><img width="800" height="450" class="yt-img" src="assets/img/yt-IRASuKMiOvw.webp" loading="lazy" decoding="async" alt="TD3 robot navigation with live SLAM mapping, demo"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 navigation with live SLAM mapping</span></a></div>
       </li>
 
       <li class="work-item flip reveal">
@@ -204,7 +205,7 @@
             <a class="link ext" href="https://www.youtube.com/watch?v=UU6YHIyoIJ0" target="_blank" rel="noopener">Demo 2</a>
           </div>
         </div>
-        <div class="work-media"><a class="media-frame yt" href="https://www.youtube.com/watch?v=6GN9yh_nj5E" data-yt="6GN9yh_nj5E" data-title="Deep-RL autonomous lane following on Duckietown, demo" target="_blank" rel="noopener"><img class="yt-img" src="assets/img/yt-6GN9yh_nj5E.jpg" width="800" height="450" loading="lazy" decoding="async" alt="Deep-RL autonomous lane following on Duckietown, demo"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">Deep-RL lane following on Duckietown</span></a></div>
+        <div class="work-media"><a class="media-frame yt" href="https://www.youtube.com/watch?v=6GN9yh_nj5E" data-yt="6GN9yh_nj5E" data-title="Deep-RL autonomous lane following on Duckietown, demo" target="_blank" rel="noopener"><img width="800" height="450" class="yt-img" src="assets/img/yt-6GN9yh_nj5E.webp" loading="lazy" decoding="async" alt="Deep-RL autonomous lane following on Duckietown, demo"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">Deep-RL lane following on Duckietown</span></a></div>
       </li>
 
       <li class="work-item has-case reveal">
@@ -218,7 +219,7 @@
             <a class="link ext" href="https://github.com/MickyasTA/wheeled_quadruped_robot" target="_blank" rel="noopener">Code</a>
           </div>
         </div>
-        <div class="work-media"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="assets/img/wquad-demo-poster.png" src="assets/video/wquad-demo.mp4" aria-label="Trained wheeled quadruped driving across rough terrain in Isaac Sim"></video></div></div>
+        <div class="work-media"><div class="media-frame"><img class="vposter" src="assets/img/wquad-demo-poster.webp" width="1280" height="762" alt="" loading="lazy" decoding="async"><video data-auto controls muted loop playsinline preload="none"  src="assets/video/wquad-demo.mp4" aria-label="Trained wheeled quadruped driving across rough terrain in Isaac Sim"></video></div></div>
       </li>
 
       <li class="work-item flip reveal">
@@ -243,7 +244,7 @@
             <a class="link ext" href="https://www.researchgate.net/publication/380970706_Modeling_and_Control_Design_of_Quadrotor_UAV_using_LQR_controller_with_Integral_Action" target="_blank" rel="noopener">Paper</a>
           </div>
         </div>
-        <div class="work-media"><a class="media-frame yt" href="https://www.youtube.com/watch?v=qmciAbd4ehE" data-yt="qmciAbd4ehE" data-title="Parrot Mambo quadrotor: LQR position-control flight test" target="_blank" rel="noopener"><img class="yt-img" src="assets/img/yt-qmciAbd4ehE.jpg" width="800" height="450" loading="lazy" decoding="async" alt="Parrot Mambo quadrotor: LQR position-control flight test"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play flight test</span><span class="yt-title">Parrot Mambo, LQR position control</span></a></div>
+        <div class="work-media"><a class="media-frame yt" href="https://www.youtube.com/watch?v=qmciAbd4ehE" data-yt="qmciAbd4ehE" data-title="Parrot Mambo quadrotor: LQR position-control flight test" target="_blank" rel="noopener"><img width="800" height="450" class="yt-img" src="assets/img/yt-qmciAbd4ehE.webp" loading="lazy" decoding="async" alt="Parrot Mambo quadrotor: LQR position-control flight test"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play flight test</span><span class="yt-title">Parrot Mambo, LQR position control</span></a></div>
       </li>
 
       <li class="work-item flip reveal">
@@ -265,7 +266,7 @@
           <ul class="tags"><li>SolidWorks</li><li>Simulink</li><li>Arduino</li></ul>
           <div class="work-links"><a class="link ext" href="https://www.youtube.com/watch?v=ENkWMesq81U" target="_blank" rel="noopener">Demo</a></div>
         </div>
-        <div class="work-media"><a class="media-frame yt" href="https://www.youtube.com/watch?v=ENkWMesq81U" data-yt="ENkWMesq81U" data-title="5-axis palletizing robot arm, demo" target="_blank" rel="noopener"><img class="yt-img" src="assets/img/yt-ENkWMesq81U.jpg" width="800" height="450" loading="lazy" decoding="async" alt="5-axis palletizing robot arm, demo"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">5-axis palletizing arm</span></a></div>
+        <div class="work-media"><a class="media-frame yt" href="https://www.youtube.com/watch?v=ENkWMesq81U" data-yt="ENkWMesq81U" data-title="5-axis palletizing robot arm, demo" target="_blank" rel="noopener"><img width="800" height="450" class="yt-img" src="assets/img/yt-ENkWMesq81U.webp" loading="lazy" decoding="async" alt="5-axis palletizing robot arm, demo"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">5-axis palletizing arm</span></a></div>
       </li>
 
     </ol>
@@ -473,7 +474,7 @@
         <a class="link ext" href="https://github.com/MickyasTA" target="_blank" rel="noopener">GitHub</a>
         <a class="link ext" href="https://www.linkedin.com/in/mickyas-tamiru-asfaw-1409271a6/" target="_blank" rel="noopener">LinkedIn</a>
         <a class="link ext" href="https://www.youtube.com/@engineering_design" target="_blank" rel="noopener">YouTube</a>
-        <span><a class="link" href="assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="Download CV as PDF, 2 pages, 1.3 MB">Download CV (PDF, 2 pages)</a><span class="hint">PDF &middot; 1.3 MB</span></span>
+        <span><a class="link" href="assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="Download CV (PDF, 2 pages), 1.3 MB">Download CV (PDF, 2 pages)</a><span class="hint">PDF &middot; 1.3 MB</span></span>
       </div>
     </div>
   </div>
@@ -485,7 +486,7 @@
   <div class="wrap footer-inner">
     <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
     <div class="theme" role="group" aria-label="Colour theme"><span>Theme</span><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button><button type="button" data-theme-set="auto" aria-pressed="true">Auto</button></div>
-    <a class="link" href="assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="Download CV as PDF">CV (PDF)</a>
+    <a class="link" href="assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="CV (PDF), download">CV (PDF)</a>
     <span>Static site &middot; hosted on <a class="link" href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a></span>
   </div>
 </footer>

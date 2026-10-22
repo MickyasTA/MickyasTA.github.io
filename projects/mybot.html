@@ -19,9 +19,10 @@
 <meta name="twitter:image" content="https://mickyasta.github.io/assets/img/mybot-render.png">
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<link rel="preload" href="../assets/fonts/instrument-serif-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/geist-latin-400-500-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/geist-mono-latin-400-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -29,7 +30,7 @@
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="../index.html" aria-label="Mickyas Tamiru Asfaw, home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
     <nav aria-label="Primary"><button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links"><span>Menu</span></button>
       <ul class="nav-links" id="nav-links">
         <li><a href="../index.html#flagship">AETHER-1</a></li>
@@ -55,7 +56,7 @@
     <a href="mailto:mickyastamiru92@gmail.com">get in touch</a>.</p>
     </div>
 
-    <div class="pp-hero reveal"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/mybot-balance-poster.png" src="../assets/video/mujoco_balance_stable.mp4" aria-label="mybot balancing on its wheels in MuJoCo for a full 20-second episode"></video></div></div>
+    <div class="pp-hero reveal"><div class="media-frame"><img class="vposter" src="../assets/img/mybot-balance-poster.webp" width="1280" height="720" alt="" loading="eager" fetchpriority="high" decoding="async"><video data-auto controls muted loop playsinline preload="none"  src="../assets/video/mujoco_balance_stable.mp4" aria-label="mybot balancing on its wheels in MuJoCo for a full 20-second episode"></video></div></div>
     <dl class="datastrip cols-4"><div><dt>held-out runs arrive and station-keep</dt><dd>9 of 10</dd></div><div><dt>mean end distance, from a 1.47 m mean start</dt><dd>0.16 m</dd></div><div><dt>20-second balance episode, held</dt><dd>1000 steps</dd></div><div><dt>faster training with parallel workers</dt><dd>5–10×</dd></div></dl>
 
     <div class="pp-layout">
@@ -105,7 +106,7 @@
     behaviour independently of the training stack.
   </p>
   <figure class="plate">
-    <img src="../assets/img/mybot-pipeline.png" alt="mybot pipeline: concept, SolidWorks CAD, URDF export, Gazebo Classic with ros2_control, from-scratch PPO training, MuJoCo verification" width="2250" height="615" loading="lazy" decoding="async">
+    <img width="1600" height="437" src="../assets/img/mybot-pipeline.webp" alt="mybot pipeline: concept, SolidWorks CAD, URDF export, Gazebo Classic with ros2_control, from-scratch PPO training, MuJoCo verification" loading="lazy" decoding="async">
     <figcaption>The pipeline from concept to verified policy. One description drives everything: CAD mass properties feed the URDF, the URDF feeds both the Gazebo Classic training environment and the MuJoCo verification model.</figcaption>
   </figure>
 
@@ -150,7 +151,7 @@
     progress, face-the-goal, arrival, and station-keeping terms.
   </p>
   <figure class="plate">
-    <img src="../assets/img/mybot-architecture.png" alt="mybot training architecture: Gazebo Classic simulation, ROS 2 topics and services, RL environment wrapper, PPO learner, with the skill curriculum strip" width="2250" height="1050" loading="lazy" decoding="async">
+    <img width="1600" height="747" src="../assets/img/mybot-architecture.webp" alt="mybot training architecture: Gazebo Classic simulation, ROS 2 topics and services, RL environment wrapper, PPO learner, with the skill curriculum strip" loading="lazy" decoding="async">
     <figcaption>Training architecture and the curriculum strip. Simulation, transport, environment wrapper, and learner are separate processes; parallel workers feed one PPO learner, and one policy is carried through every stage.</figcaption>
   </figure>
 
@@ -194,7 +195,7 @@
     disappeared.
   </p>
   <figure class="plate">
-    <img src="../assets/img/mybot-challenge.png" alt="Diagram of the orbiting failure mode: rotationally symmetric proximity reward lets the robot circle the goal forever; spawn-at-goal HOLD episodes teach stopping as a skill" width="2250" height="960" loading="lazy" decoding="async">
+    <img width="1600" height="683" src="../assets/img/mybot-challenge.webp" alt="Diagram of the orbiting failure mode: rotationally symmetric proximity reward lets the robot circle the goal forever; spawn-at-goal HOLD episodes teach stopping as a skill" loading="lazy" decoding="async">
     <figcaption>The most instructive failure mode: a rotationally symmetric proximity reward makes orbiting profitable (left); spawn-at-goal HOLD episodes make being stopped at the goal the best-paid behaviour (right).</figcaption>
   </figure>
 
@@ -226,7 +227,7 @@
     than the noisy training episodes.
   </p>
   <figure class="plate">
-    <img src="../assets/img/mybot-training-metrics.png" alt="mybot training metrics overview: episode length, reward, evaluation return, throughput, and losses over training" width="1500" height="1200" loading="lazy" decoding="async">
+    <img width="1500" height="1200" src="../assets/img/mybot-training-metrics.webp" alt="mybot training metrics overview: episode length, reward, evaluation return, throughput, and losses over training" loading="lazy" decoding="async">
     <figcaption>Training overview for the balance run. Top row: mean episode length, mean reward, and the smooth deterministic evaluation return. Bottom rows: per-episode score/steps and the PPO loss diagnostics.</figcaption>
   </figure>
   <p>
@@ -241,7 +242,7 @@
     1000-step successes with early falls, and the band narrows as the policy consolidates.
   </p>
 
-  <figure class="media16"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/mybot-balance-poster.png" src="../assets/video/mujoco_balance_stable.mp4" aria-label="Balance, verified in MuJoCo: a full 20-second episode (1000 control steps) upright on the wheels, legs held at stance, with realistic contacts and friction."></video></div><figcaption>Balance, verified in MuJoCo: a full 20-second episode (1000 control steps) upright on the wheels, legs held at stance, with realistic contacts and friction.</figcaption></figure>
+  <figure class="media16"><div class="media-frame"><img class="vposter" src="../assets/img/mybot-balance-poster.webp" width="1280" height="720" alt="" loading="lazy" decoding="async"><video data-auto controls muted loop playsinline preload="none"  src="../assets/video/mujoco_balance_stable.mp4" aria-label="Balance, verified in MuJoCo: a full 20-second episode (1000 control steps) upright on the wheels, legs held at stance, with realistic contacts and friction."></video></div><figcaption>Balance, verified in MuJoCo: a full 20-second episode (1000 control steps) upright on the wheels, legs held at stance, with realistic contacts and friction.</figcaption></figure>
   <p>
     The videos show what the curves cannot. The balance clip is a <strong>MuJoCo verification
     render</strong> of the learned policy, an independent physics model converted from the
@@ -250,7 +251,7 @@
     policies produced.
   </p>
 
-  <figure class="media16"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/mybot-nav-poster.png" src="../assets/video/nav_goal_reach.mp4" aria-label="Goal navigation with settle: the robot drives to a randomized goal marker, decelerates, and holds position there, balancing throughout."></video></div><figcaption>Goal navigation with settle: the robot drives to a randomized goal marker, decelerates, and holds position there, balancing throughout.</figcaption></figure>
+  <figure class="media16"><div class="media-frame"><img class="vposter" src="../assets/img/mybot-nav-poster.webp" width="1280" height="720" alt="" loading="lazy" decoding="async"><video data-auto controls muted loop playsinline preload="none"  src="../assets/video/nav_goal_reach.mp4" aria-label="Goal navigation with settle: the robot drives to a randomized goal marker, decelerates, and holds position there, balancing throughout."></video></div><figcaption>Goal navigation with settle: the robot drives to a randomized goal marker, decelerates, and holds position there, balancing throughout.</figcaption></figure>
   <p>
     The navigation clip shows the full stack: the robot accelerates toward a randomized goal
     marker, faces it, decelerates on approach, and holds station inside the goal region while still
@@ -295,7 +296,7 @@
   <div class="wrap footer-inner">
     <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
     <div class="theme" role="group" aria-label="Colour theme"><span>Theme</span><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button><button type="button" data-theme-set="auto" aria-pressed="true">Auto</button></div>
-    <a class="link" href="../assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="Download CV as PDF">CV (PDF)</a>
+    <a class="link" href="../assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="CV (PDF), download">CV (PDF)</a>
     <span><a class="link" href="../index.html">mickyasta.github.io</a></span>
   </div>
 </footer>

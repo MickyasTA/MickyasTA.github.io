@@ -19,9 +19,10 @@
 <meta name="twitter:image" content="https://mickyasta.github.io/assets/img/drlnav-demo.png">
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<link rel="preload" href="../assets/fonts/instrument-serif-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/geist-latin-400-500-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/geist-mono-latin-400-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -29,7 +30,7 @@
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="../index.html" aria-label="Mickyas Tamiru Asfaw, home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
     <nav aria-label="Primary"><button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links"><span>Menu</span></button>
       <ul class="nav-links" id="nav-links">
         <li><a href="../index.html#flagship">AETHER-1</a></li>
@@ -56,7 +57,7 @@
       <div class="pp-actions rise" style="--i:3"><a class="btn btn-solid ext" target="_blank" rel="noopener" href="https://github.com/MickyasTA/DRL_robot_navigation_ros2">View the code</a><a class="btn btn-line ext" target="_blank" rel="noopener" href="https://www.researchgate.net/publication/380875371_Controlling_a_Mobile_Robot_Using_ROS2_and_Machine_Learning">Read the paper</a><a class="btn btn-line ext" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=IRASuKMiOvw">Watch the demo</a></div>
     </div>
 
-    <div class="pp-hero reveal"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping: demo" target="_blank" rel="noopener"><img class="yt-img" src="../assets/img/yt-IRASuKMiOvw.jpg" width="800" height="450" loading="lazy" decoding="async" alt="TD3 robot navigation with live SLAM mapping: demo"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 robot navigation with live SLAM mapping: demo</span></a></div>
+    <div class="pp-hero reveal"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping: demo" target="_blank" rel="noopener"><img width="800" height="450" class="yt-img" src="../assets/img/yt-IRASuKMiOvw.webp" loading="lazy" decoding="async" alt="TD3 robot navigation with live SLAM mapping: demo"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 robot navigation with live SLAM mapping: demo</span></a></div>
     <dl class="datastrip cols-4"><div><dt>state values: 20 LiDAR sectors, goal distance, heading error, previous action</dt><dd>24</dd></div><div><dt>angular sectors across the 180° in front</dt><dd>20</dd></div><div><dt>goal and collision reward</dt><dd>±100</dd></div><div><dt>a full from-scratch training run</dt><dd>8–10 h</dd></div></dl>
 
     <div class="pp-layout">
@@ -109,7 +110,7 @@
     Universit&eacute; Grenoble Alpes (2024).
   </p>
   <figure class="plate">
-    <img src="../assets/img/drlnav-pipeline.png" alt="Pipeline diagram: the upstream ROS 1 project is ported to ROS 2 Foxy, which feeds a Gazebo 11 simulation of the Pioneer 3-DX and Velodyne VLP-16; TD3 training produces a policy; at runtime a pre-trained policy drives the robot while slam_toolbox maps the room live. A note marks that the shipped weights come from the upstream project because box randomization was not fixed in the port." width="2190" height="570" loading="lazy" decoding="async">
+    <img width="1600" height="416" src="../assets/img/drlnav-pipeline.webp" alt="Pipeline diagram: the upstream ROS 1 project is ported to ROS 2 Foxy, which feeds a Gazebo 11 simulation of the Pioneer 3-DX and Velodyne VLP-16; TD3 training produces a policy; at runtime a pre-trained policy drives the robot while slam_toolbox maps the room live. A note marks that the shipped weights come from the upstream project because box randomization was not fixed in the port." loading="lazy" decoding="async">
     <figcaption>From upstream project to running system: the ROS&nbsp;1 TD3 project is ported to ROS&nbsp;2 Foxy, wired to a Gazebo&nbsp;11 world with the Pioneer 3-DX + VLP-16, and trained with TD3. At runtime the pre-trained policy drives the robot while <code>slam_toolbox</code> maps live. (The shipped weights come from the upstream project, see the challenges below.)</figcaption>
   </figure>
 
@@ -158,7 +159,7 @@
     is a pure by-product of the goal-driven driving.
   </p>
   <figure class="plate">
-    <img src="../assets/img/drlnav-architecture.png" alt="Architecture diagram: the Gazebo simulation feeds a 24-value state (20 LiDAR sectors, distance to goal, heading error, previous action) into the TD3 actor, which outputs a continuous cmd_vel Twist back to the robot. On the training side, transitions feed a replay buffer, twin critics compute min(Q1,Q2), and delayed target-policy-smoothed updates flow back to the actor with TensorBoard logging. A parallel, independent path sends the 2D laser scan to slam_toolbox, producing a live occupancy grid in RViz." width="2190" height="1095" loading="lazy" decoding="async">
+    <img width="1600" height="800" src="../assets/img/drlnav-architecture.webp" alt="Architecture diagram: the Gazebo simulation feeds a 24-value state (20 LiDAR sectors, distance to goal, heading error, previous action) into the TD3 actor, which outputs a continuous cmd_vel Twist back to the robot. On the training side, transitions feed a replay buffer, twin critics compute min(Q1,Q2), and delayed target-policy-smoothed updates flow back to the actor with TensorBoard logging. A parallel, independent path sends the 2D laser scan to slam_toolbox, producing a live occupancy grid in RViz." loading="lazy" decoding="async">
     <figcaption>TD3 anatomy applied to LiDAR navigation. The control loop (top) turns a 24-value state into a continuous <code>/cmd_vel</code>; the off-policy learner (middle) trains the actor from a replay buffer through twin critics with delayed, smoothed updates; the SLAM path (bottom) runs in parallel and independent of the policy.</figcaption>
   </figure>
 
@@ -198,7 +199,7 @@
   </p>
 
   <h2 id="results">Results &amp; analysis</h2>
-  <figure class="media16"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping: demo" target="_blank" rel="noopener"><img class="yt-img" src="../assets/img/yt-IRASuKMiOvw.jpg" width="800" height="450" loading="lazy" decoding="async" alt="TD3 robot navigation with live SLAM mapping: demo"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 robot navigation with live SLAM mapping: demo</span></a><figcaption>The trained agent explores the room and avoids obstacles while <code>slam_toolbox</code> maps it live. <b>Left:</b> the occupancy grid growing in RViz &nbsp;&middot;&nbsp; <b>Right:</b> the Gazebo simulation with the robot, obstacles, and laser scan.</figcaption></figure>
+  <figure class="media16"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping: demo" target="_blank" rel="noopener"><img width="800" height="450" class="yt-img" src="../assets/img/yt-IRASuKMiOvw.webp" loading="lazy" decoding="async" alt="TD3 robot navigation with live SLAM mapping: demo"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 robot navigation with live SLAM mapping: demo</span></a><figcaption>The trained agent explores the room and avoids obstacles while <code>slam_toolbox</code> maps it live. <b>Left:</b> the occupancy grid growing in RViz &nbsp;&middot;&nbsp; <b>Right:</b> the Gazebo simulation with the robot, obstacles, and laser scan.</figcaption></figure>
   <p>
     The clip shows the full system running: the pre-trained TD3 policy continuously re-targets goals
     and threads the Pioneer 3-DX between the obstacles, while the parallel SLAM node turns those
@@ -207,7 +208,7 @@
     controller, and the map on the left is assembled from its laser scan without ever feeding back into
     the policy.
   </p>
-  <figure class="plate narrow"><img src="../assets/img/drlnav-map_third.png" alt="Occupancy grid of the room built with slam_toolbox during autonomous exploration: black walls and obstacles, white free space, grey unmapped regions, with the cross- and triangle-shaped obstacles and scattered boxes clearly resolved" width="843" height="783" loading="lazy" decoding="async">
+  <figure class="plate narrow"><img width="843" height="783" src="../assets/img/drlnav-map_third.webp" alt="Occupancy grid of the room built with slam_toolbox during autonomous exploration: black walls and obstacles, white free space, grey unmapped regions, with the cross- and triangle-shaped obstacles and scattered boxes clearly resolved" loading="lazy" decoding="async">
     <figcaption>An occupancy grid the robot built with <code>slam_toolbox</code> during exploration, black is walls/obstacles, white is free space, grey is unmapped. The walls, the cross- and triangle-shaped obstacles, and the scattered boxes are all captured. The raw <code>.pgm</code>/<code>.yaml</code> outputs (and a few more saved runs) live in the repository&rsquo;s <code>maps/</code> folder.</figcaption>
   </figure>
   <p>
@@ -257,7 +258,7 @@
   <div class="wrap footer-inner">
     <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
     <div class="theme" role="group" aria-label="Colour theme"><span>Theme</span><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button><button type="button" data-theme-set="auto" aria-pressed="true">Auto</button></div>
-    <a class="link" href="../assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="Download CV as PDF">CV (PDF)</a>
+    <a class="link" href="../assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="CV (PDF), download">CV (PDF)</a>
     <span><a class="link" href="../index.html">mickyasta.github.io</a></span>
   </div>
 </footer>

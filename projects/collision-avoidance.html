@@ -19,9 +19,10 @@
 <meta name="twitter:image" content="https://mickyasta.github.io/assets/img/collision-ppo-detour-poster.png">
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<link rel="preload" href="../assets/fonts/instrument-serif-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/geist-latin-400-500-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/geist-mono-latin-400-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -29,7 +30,7 @@
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="../index.html" aria-label="Mickyas Tamiru Asfaw, home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
     <nav aria-label="Primary"><button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links"><span>Menu</span></button>
       <ul class="nav-links" id="nav-links">
         <li><a href="../index.html#flagship">AETHER-1</a></li>
@@ -56,7 +57,7 @@
     <a href="mailto:mickyastamiru92@gmail.com">get in touch</a>.</p>
     </div>
 
-    <div class="pp-hero reveal"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/collision-ppo-detour-poster.png" src="../assets/video/collision-ppo-detour-gazebo.mp4" aria-label="Quadrotor flying a detour course around box occluders in Gazebo"></video></div></div>
+    <div class="pp-hero reveal"><div class="media-frame"><img class="vposter" src="../assets/img/collision-ppo-detour-poster.webp" width="960" height="540" alt="" loading="eager" fetchpriority="high" decoding="async"><video data-auto controls muted loop playsinline preload="none"  src="../assets/video/collision-ppo-detour-gazebo.mp4" aria-label="Quadrotor flying a detour course around box occluders in Gazebo"></video></div></div>
     <dl class="datastrip cols-4"><div><dt>deterministic detour episodes reached the goal (80.0%)</dt><dd>12 / 15</dd></div><div><dt>timeouts; all three failures are collisions</dt><dd>0</dd></div><div><dt>mean path efficiency on successful detours</dt><dd>2.35×</dd></div><div><dt>synchronous control-learn loop</dt><dd>3.3 Hz</dd></div></dl>
 
     <div class="pp-layout">
@@ -112,7 +113,7 @@
     Gazebo session and the model checkpoint carries over.
   </p>
   <figure class="plate">
-    <img src="../assets/img/collision-pipeline.png" alt="Pipeline diagram: URDF platform model and SDF world design feed Gazebo Classic; depth stream is preprocessed and stacked into a 7-channel state; a from-scratch TD3 outputs velocity commands closed back through the simulator; a deterministic evaluation battery branches off frozen checkpoints" width="2190" height="945" loading="lazy" decoding="async">
+    <img width="1600" height="690" src="../assets/img/collision-pipeline.webp" alt="Pipeline diagram: URDF platform model and SDF world design feed Gazebo Classic; depth stream is preprocessed and stacked into a 7-channel state; a from-scratch TD3 outputs velocity commands closed back through the simulator; a deterministic evaluation battery branches off frozen checkpoints" loading="lazy" decoding="async">
     <figcaption>The pipeline: platform model (URDF/xacro) and worlds (SDF) feed Gazebo Classic 11 on ROS&nbsp;2 Humble; the depth stream is clipped, stacked, and goal-augmented; the from-scratch TD3 closes the loop at ~3.3&nbsp;Hz; frozen checkpoints feed a deterministic evaluation battery.</figcaption>
   </figure>
 
@@ -154,7 +155,7 @@
     and early goal radii lenient while the replay buffer fills.
   </p>
   <figure class="plate">
-    <img src="../assets/img/collision-architecture.png" alt="Architecture diagram: depth stack and Gaussian goal channel form a 7-channel state through a convolutional encoder; an explicit goal vector passes through an MLP; both concatenate into the actor producing four velocity actions; below, the replay buffer, twin critics, target networks and delayed actor update form the TD3 learning loop" width="2190" height="1350" loading="lazy" decoding="async">
+    <img width="1600" height="986" src="../assets/img/collision-architecture.webp" alt="Architecture diagram: depth stack and Gaussian goal channel form a 7-channel state through a convolutional encoder; an explicit goal vector passes through an MLP; both concatenate into the actor producing four velocity actions; below, the replay buffer, twin critics, target networks and delayed actor update form the TD3 learning loop" loading="lazy" decoding="async">
     <figcaption>TD3 anatomy applied to this problem. Top: the acting path: dual goal encoding (image channel + explicit vector) fused with the depth features, deterministic actor, exploration noise. Bottom: the learning path: replay, twin critics with separate encoders, smoothed targets with clipped double-Q, delayed actor updates.</figcaption>
   </figure>
 
@@ -215,7 +216,7 @@
     collision terminal.
   </p>
   <figure class="plate">
-    <img src="../assets/img/collision-ppo-architecture.png" alt="Architecture diagram of the recurrent predictive PPO second learner: the shared ConvEncoder and goal MLP feed a concatenated 320-d feature into a single-layer GRU whose hidden state is carried across the episode; three heads branch off: a Gaussian actor, a PopArt-normalized value head, and a training-only future-depth prediction head; below, the on-policy learning path shows the rollout, per-episode GAE, PopArt stats with truncated BPTT, and the clipped-surrogate update with a KL actor-freeze; a contrast ribbon lists how the data path differs from the deployed TD3 baseline" width="2220" height="1488" loading="lazy" decoding="async">
+    <img width="1600" height="1072" src="../assets/img/collision-ppo-architecture.webp" alt="Architecture diagram of the recurrent predictive PPO second learner: the shared ConvEncoder and goal MLP feed a concatenated 320-d feature into a single-layer GRU whose hidden state is carried across the episode; three heads branch off: a Gaussian actor, a PopArt-normalized value head, and a training-only future-depth prediction head; below, the on-policy learning path shows the rollout, per-episode GAE, PopArt stats with truncated BPTT, and the clipped-surrogate update with a KL actor-freeze; a contrast ribbon lists how the data path differs from the deployed TD3 baseline" loading="lazy" decoding="async">
     <figcaption>The second learner, <code>ppo_rec</code>, laid out beside the TD3 anatomy above.
       Top: the recurrent acting path: the shared depth+goal front end, a GRU carrying memory
       across the episode, and the Gaussian actor / PopArt value / training-only future-depth heads.
@@ -238,7 +239,7 @@
     redundant dual encoding measurably sped up learning.
   </p>
   <figure class="plate">
-    <img src="../assets/img/collision-goal-channel.png" alt="The goal-direction channel: a gaussian stripe encoding the bearing to the goal, added to the stacked depth frames" width="1459" height="465" loading="lazy" decoding="async">
+    <img width="1459" height="465" src="../assets/img/collision-goal-channel.webp" alt="The goal-direction channel: a gaussian stripe encoding the bearing to the goal, added to the stacked depth frames" loading="lazy" decoding="async">
     <figcaption>The goal-direction channel: a Gaussian stripe that slides with the goal bearing and dims with distance, giving the CNN a dense, spatially aligned navigation gradient.</figcaption>
   </figure>
 
@@ -257,7 +258,7 @@
     stalling behaviour.
   </p>
   <figure class="plate">
-    <img src="../assets/img/collision-reward-traps.png" alt="Challenge diagram: three panels showing the safe-circling optimum where loitering income beats a risky goal run, the goal-parking optimum where hovering outside the goal radius beats finishing, and the fixed reward landscape where a dominant potential-based progress term makes finishing strictly dominate" width="2190" height="990" loading="lazy" decoding="async">
+    <img width="1600" height="723" src="../assets/img/collision-reward-traps.webp" alt="Challenge diagram: three panels showing the safe-circling optimum where loitering income beats a risky goal run, the goal-parking optimum where hovering outside the goal radius beats finishing, and the fixed reward landscape where a dominant potential-based progress term makes finishing strictly dominate" loading="lazy" decoding="async">
     <figcaption>The two degenerate optima the shaped reward fell into, and the landscape that removed them: zero survival income, a dominant potential-based progress pull, and a deliberately small proximity bonus.</figcaption>
   </figure>
 
@@ -326,7 +327,7 @@
     directly from the Gazebo viewer, and it is the primary demonstration of this project's newest
     work.
   </p>
-  <figure class="media16"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/collision-ppo-detour-poster.png" src="../assets/video/collision-ppo-detour-gazebo.mp4" aria-label="Deterministic ppo_rec evaluation in gen_room_detour: the drone flying the detour course, curving around the blue box occluders and orange pillars to reach the g"></video></div><figcaption>Deterministic <code>ppo_rec</code> evaluation in <code>gen_room_detour</code>: the drone flying the detour course, curving around the blue box occluders and orange pillars to reach the green goal, exploration noise off.</figcaption></figure>
+  <figure class="media16"><div class="media-frame"><img class="vposter" src="../assets/img/collision-ppo-detour-poster.webp" width="960" height="540" alt="" loading="lazy" decoding="async"><video data-auto controls muted loop playsinline preload="none"  src="../assets/video/collision-ppo-detour-gazebo.mp4" aria-label="Deterministic ppo_rec evaluation in gen_room_detour: the drone flying the detour course, curving around the blue box occluders and orange pillars to reach the g"></video></div><figcaption>Deterministic <code>ppo_rec</code> evaluation in <code>gen_room_detour</code>: the drone flying the detour course, curving around the blue box occluders and orange pillars to reach the green goal, exploration noise off.</figcaption></figure>
   <p>
     Across 15 deterministic episodes the recurrent policy reaches the goal in <strong>12 of 15,
     80.0%</strong>. The most important detail is <em>how</em> it fails: all three failures
@@ -335,11 +336,11 @@
     is a decisive-but-occasionally-wrong signature carried onto a genuinely hard detour task.
   </p>
   <figure class="plate">
-    <img src="../assets/img/collision-ppo-detour-map.png" alt="Bird's-eye plot of 15 deterministic ppo_rec detour trajectories over the gen_room_detour occupancy grid: green paths curve around grey obstacles to reach goal stars, three red paths end in crash-marked collisions" width="1416" height="1165" loading="lazy" decoding="async">
+    <img width="1416" height="1165" src="../assets/img/collision-ppo-detour-map.webp" alt="Bird's-eye plot of 15 deterministic ppo_rec detour trajectories over the gen_room_detour occupancy grid: green paths curve around grey obstacles to reach goal stars, three red paths end in crash-marked collisions" loading="lazy" decoding="async">
     <figcaption>Every <code>ppo_rec</code> detour run drawn over the real occupancy grid: green reaches the goal, red is a collision with the crash point marked, stars are goals. The green paths visibly <em>curve</em> around the occluders instead of cutting straight through them.</figcaption>
   </figure>
   <figure class="plate">
-    <img src="../assets/img/collision-ppo-detour-stats.png" alt="Outcome breakdown and step-count, path-efficiency and score distributions for the ppo_rec detour evaluation: 12 goals, 3 collisions, 0 timeouts, 0 no-goal; path efficiency mean 2.35; episode score mean 193" width="1676" height="1152" loading="lazy" decoding="async">
+    <img width="1600" height="1100" src="../assets/img/collision-ppo-detour-stats.webp" alt="Outcome breakdown and step-count, path-efficiency and score distributions for the ppo_rec detour evaluation: 12 goals, 3 collisions, 0 timeouts, 0 no-goal; path efficiency mean 2.35; episode score mean 193" loading="lazy" decoding="async">
     <figcaption>Outcome breakdown with step-count, path-efficiency, and score distributions across the 15-episode <code>ppo_rec</code> detour evaluation.</figcaption>
   </figure>
   <p>
@@ -354,7 +355,7 @@
     (median 3.1&nbsp;m) of the goal before they crash.
   </p>
   <figure class="plate">
-    <img src="../assets/img/collision-ppo-detour-failures.png" alt="Two-panel failure analysis: left, goal positions coloured by outcome showing the three failed goals; right, the three collision endpoints marked where the deterministic policy crashes, clustered among the mid-room occluders on one side of the course" width="1936" height="814" loading="lazy" decoding="async">
+    <img width="1600" height="673" src="../assets/img/collision-ppo-detour-failures.webp" alt="Two-panel failure analysis: left, goal positions coloured by outcome showing the three failed goals; right, the three collision endpoints marked where the deterministic policy crashes, clustered among the mid-room occluders on one side of the course" loading="lazy" decoding="async">
     <figcaption>Failure geometry: goal positions by outcome (left) and the three collision endpoints (right). The crashes cluster among the mid-room occluders on one side of the room rather than scattering randomly.</figcaption>
   </figure>
   <p>
@@ -365,7 +366,7 @@
     (around 40%, with more collisions), so the deployed greedy policy is meaningfully sharper than
     the noisy behaviour policy that produced it.
   </p>
-  <figure class="media16"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/collision-ppo-detour-map.png" src="../assets/video/collision-ppo-detour-trajectories.mp4" aria-label="A lighter supporting clip: top-down animated playback of the same 15 detour runs over the occupancy grid."></video></div><figcaption>A lighter supporting clip: top-down animated playback of the same 15 detour runs over the occupancy grid.</figcaption></figure>
+  <figure class="media16"><div class="media-frame"><img class="vposter" src="../assets/img/collision-ppo-detour-map.webp" width="1416" height="1165" alt="" loading="lazy" decoding="async"><video data-auto controls muted loop playsinline preload="none"  src="../assets/video/collision-ppo-detour-trajectories.mp4" aria-label="A lighter supporting clip: top-down animated playback of the same 15 detour runs over the occupancy grid."></video></div><figcaption>A lighter supporting clip: top-down animated playback of the same 15 detour runs over the occupancy grid.</figcaption></figure>
 
   <h3>The TD3 baseline it builds on</h3>
   <p>
@@ -381,7 +382,7 @@
     cannot remember an occluder it has already passed or plan a detour around a large one.
   </p>
   <figure class="plate">
-    <img src="../assets/img/collision-trajectory-map.png" alt="TD3 baseline: bird's-eye view of deterministic evaluation trajectories over the real gen_room_mixed obstacle map, coloured by outcome: near-straight green paths reach the goals, a few red paths end in collisions" width="1345" height="1157" loading="lazy" decoding="async">
+    <img width="1345" height="1157" src="../assets/img/collision-trajectory-map.webp" alt="TD3 baseline: bird's-eye view of deterministic evaluation trajectories over the real gen_room_mixed obstacle map, coloured by outcome: near-straight green paths reach the goals, a few red paths end in collisions" loading="lazy" decoding="async">
     <figcaption>TD3 baseline: every deterministic evaluation run on the non-detour <code>gen_room_mixed</code> world, drawn over its real occupancy grid: green reaches the goal, red is a collision with the crash point marked, stars are goal positions. Successful runs travel almost straight to their goals (path efficiency ~1.05&times;), with no timeouts.</figcaption>
   </figure>
   <p>
@@ -436,7 +437,7 @@
   <div class="wrap footer-inner">
     <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
     <div class="theme" role="group" aria-label="Colour theme"><span>Theme</span><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button><button type="button" data-theme-set="auto" aria-pressed="true">Auto</button></div>
-    <a class="link" href="../assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="Download CV as PDF">CV (PDF)</a>
+    <a class="link" href="../assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="CV (PDF), download">CV (PDF)</a>
     <span><a class="link" href="../index.html">mickyasta.github.io</a></span>
   </div>
 </footer>

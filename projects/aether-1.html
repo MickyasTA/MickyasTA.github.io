@@ -19,9 +19,10 @@
 <meta name="twitter:image" content="https://mickyasta.github.io/assets/img/aether1-cad-iso.png">
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<link rel="preload" href="../assets/fonts/instrument-serif-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/geist-latin-400-500-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/geist-mono-latin-400-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -29,7 +30,7 @@
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="../index.html" aria-label="Mickyas Tamiru Asfaw, home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
     <nav aria-label="Primary"><button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links"><span>Menu</span></button>
       <ul class="nav-links" id="nav-links">
         <li><a href="../index.html#flagship">AETHER-1</a></li>
@@ -55,7 +56,7 @@
     high level; if you want to talk details, <a href="mailto:mickyastamiru92@gmail.com">get in touch</a>.</p>
     </div>
 
-    <div class="pp-hero reveal"><div class="media-frame"><video data-click data-label="Play simulation montage (22 MB)" controls muted loop playsinline preload="none" poster="../assets/img/aether1-poster.jpg" src="../assets/video/aether1_sim_v2.mp4" aria-label="Montage of the AETHER-1 policy balancing, driving and flying in the verification simulator"></video></div></div>
+    <div class="pp-hero reveal"><div class="media-frame"><img class="vposter" src="../assets/img/aether1-poster.webp" width="1600" height="875" alt="" loading="eager" fetchpriority="high" decoding="async"><video data-click data-label="Play simulation montage (22 MB)" controls muted loop playsinline preload="none"  src="../assets/video/aether1_sim_v2.mp4" aria-label="Montage of the AETHER-1 policy balancing, driving and flying in the verification simulator"></video></div></div>
     <dl class="datastrip"><div><dt>final curriculum gate success</dt><dd>0.995</dd></div><div><dt>one policy, one continuous run</dt><dd>6 stages</dd></div><div><dt>verified physics &amp; training stack</dt><dd>250 tests</dd></div><div><dt>drive vs hover energy asymmetry</dt><dd>~10×</dd></div><div><dt>domain randomization for sim2real</dt><dd>36 axes</dd></div><div><dt>Mk1 hardware prototype target</dt><dd>15 kg</dd></div></dl>
 
     <div class="pp-layout">
@@ -110,15 +111,15 @@
     physically incapable of flight, a story told under <a href="#challenges">Critical challenges</a>.
   </p>
   <figure class="plate">
-    <img src="../assets/img/aether1-pipeline.png" alt="Pipeline diagram: CAD design to URDF and MJCF export, to MuJoCo environment, to curriculum RL training, to the seeded verification battery, to the deployment package" width="2220" height="600" loading="lazy" decoding="async">
+    <img width="1600" height="432" src="../assets/img/aether1-pipeline.webp" alt="Pipeline diagram: CAD design to URDF and MJCF export, to MuJoCo environment, to curriculum RL training, to the seeded verification battery, to the deployment package" loading="lazy" decoding="async">
     <figcaption>The pipeline from CAD to a deployable controller. Every hop has its own validation: mass and forward-kinematics checks on the description, calibration probes on the actuators, physics sanity gates before training.</figcaption>
   </figure>
   <figure class="plate">
-    <img src="../assets/img/aether1-cad-iso.png" alt="AETHER-1 Mk1 CAD model, isometric view" width="1600" height="1200" loading="lazy" decoding="async">
+    <img width="1600" height="1200" src="../assets/img/aether1-cad-iso.webp" alt="AETHER-1 Mk1 CAD model, isometric view" loading="lazy" decoding="async">
     <figcaption>The Mk1 prototype CAD: a 15 kg redesign generated parametrically (every dimension flows from one parameter file into STEP, URDF, and previews). The 26.47 kg simulation robot remains the validated dynamics reference.</figcaption>
   </figure>
   <figure class="plate">
-    <img src="../assets/img/aether1-geometry.png" alt="AETHER-1 to-scale geometry drawing: side view with center of mass, top view of rotor and wheel layout" width="2021" height="1218" loading="lazy" decoding="async">
+    <img width="1600" height="964" src="../assets/img/aether1-geometry.webp" alt="AETHER-1 to-scale geometry drawing: side view with center of mass, top view of rotor and wheel layout" loading="lazy" decoding="async">
     <figcaption>To-scale geometry, generated directly from the simulation model's constants, the documentation can never drift from the MJCF, because the drawing is regenerated from it.</figcaption>
   </figure>
 
@@ -161,7 +162,7 @@
     that grades the live telemetry against explicit thresholds instead of relying on eyeballs.
   </p>
   <figure class="plate">
-    <img src="../assets/img/aether1-architecture.png" alt="Architecture diagram: curriculum RL training wrapped in verification gates produces gated policy checkpoints; at deployment a learned policy and a classical LQR/MPC/PID stack are composed residually behind one controller interface driving the MuJoCo plant" width="2220" height="960" loading="lazy" decoding="async">
+    <img width="1600" height="692" src="../assets/img/aether1-architecture.webp" alt="Architecture diagram: curriculum RL training wrapped in verification gates produces gated policy checkpoints; at deployment a learned policy and a classical LQR/MPC/PID stack are composed residually behind one controller interface driving the MuJoCo plant" loading="lazy" decoding="async">
     <figcaption>Two-layer control architecture. Training lives inside verification gates; deployment composes the learned policy with the classical stack behind a single controller interface.</figcaption>
   </figure>
 
@@ -212,7 +213,7 @@
     railing at the clip limits after an innocent-looking rescale).
   </p>
   <figure class="plate">
-    <img src="../assets/img/aether1-challenge.png" alt="Two conceptual panels: with sequential training only, balance and drive skill curves decay as new stages arrive; with retention rehearsal, all three skill curves rise and stay high" width="2220" height="840" loading="lazy" decoding="async">
+    <img width="1600" height="605" src="../assets/img/aether1-challenge.webp" alt="Two conceptual panels: with sequential training only, balance and drive skill curves decay as new stages arrive; with retention rehearsal, all three skill curves rise and stay high" loading="lazy" decoding="async">
     <figcaption>The forgetting failure mode and its fix, conceptually. Left: training only the newest skill lets earlier ones decay. Right: rehearsing all earlier stages keeps every skill alive in one policy.</figcaption>
   </figure>
 
@@ -242,7 +243,7 @@
     ship to hardware.
   </p>
   <figure class="plate">
-    <img src="../assets/img/aether1-results-overview.png" alt="Training outcome overview: curriculum stage progression, episode length and return, evaluation length, return and success rate over the run" width="1500" height="730" loading="lazy" decoding="async">
+    <img width="1500" height="730" src="../assets/img/aether1-results-overview.webp" alt="Training outcome overview: curriculum stage progression, episode length and return, evaluation length, return and success rate over the run" loading="lazy" decoding="async">
     <figcaption>Training overview: curriculum stage index, episode length and return (top), evaluation length, return and success rate (bottom) over &#8776;150 million environment steps.</figcaption>
   </figure>
   <p>
@@ -293,7 +294,7 @@
     the envelope. Qualitatively, the montage below shows what the numbers summarize: the same policy
     balancing, driving, and flying in the verification simulator.
   </p>
-  <figure class="media16"><div class="media-frame"><video data-click data-label="Play simulation montage (22 MB)" controls muted loop playsinline preload="none" poster="../assets/img/aether1-poster.jpg" src="../assets/video/aether1_sim_v2.mp4" aria-label="The deployed policy driving and flying in the verification simulator (montage)."></video></div><figcaption>The deployed policy driving and flying in the verification simulator (montage).</figcaption></figure>
+  <figure class="media16"><div class="media-frame"><img class="vposter" src="../assets/img/aether1-poster.webp" width="1600" height="875" alt="" loading="lazy" decoding="async"><video data-click data-label="Play simulation montage (22 MB)" controls muted loop playsinline preload="none"  src="../assets/video/aether1_sim_v2.mp4" aria-label="The deployed policy driving and flying in the verification simulator (montage)."></video></div><figcaption>The deployed policy driving and flying in the verification simulator (montage).</figcaption></figure>
 
   <h2 id="future-work">Future work</h2>
   <ul>
@@ -319,7 +320,7 @@
   <div class="wrap footer-inner">
     <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
     <div class="theme" role="group" aria-label="Colour theme"><span>Theme</span><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button><button type="button" data-theme-set="auto" aria-pressed="true">Auto</button></div>
-    <a class="link" href="../assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="Download CV as PDF">CV (PDF)</a>
+    <a class="link" href="../assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="CV (PDF), download">CV (PDF)</a>
     <span><a class="link" href="../index.html">mickyasta.github.io</a></span>
   </div>
 </footer>

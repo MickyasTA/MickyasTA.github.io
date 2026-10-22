@@ -64,7 +64,8 @@
       items.forEach(function (it) { if (it === cur) it.a.setAttribute("aria-current", "true"); else it.a.removeAttribute("aria-current"); });
     }
     window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-    update();
+    // initial state only matters when the page opens scrolled; avoid forcing layout at startup
+    window.addEventListener("load", function () { requestAnimationFrame(function () { if (window.scrollY > 0) update(); }); }, { once: true });
   }
   trackSections($$(".nav-links a[href^='#']"));
   trackSections($$(".toc a[href^='#']"));

@@ -19,9 +19,10 @@
 <meta name="twitter:image" content="https://mickyasta.github.io/assets/img/wquad-demo-poster.png">
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<link rel="preload" href="../assets/fonts/instrument-serif-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/geist-latin-400-500-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/geist-mono-latin-400-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -29,7 +30,7 @@
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a class="brand" href="../index.html" aria-label="Mickyas Tamiru Asfaw, home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
     <nav aria-label="Primary"><button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links"><span>Menu</span></button>
       <ul class="nav-links" id="nav-links">
         <li><a href="../index.html#flagship">AETHER-1</a></li>
@@ -65,7 +66,7 @@
       <div class="pp-actions rise" style="--i:3"><a class="btn btn-solid ext" target="_blank" rel="noopener" href="https://github.com/MickyasTA/wheeled_quadruped_robot">View the code</a><a class="btn btn-line ext" target="_blank" rel="noopener" href="https://isaac-sim.github.io/IsaacLab/">NVIDIA Isaac Lab</a></div>
     </div>
 
-    <div class="pp-hero reveal"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/wquad-demo-poster.png" src="../assets/video/wquad-demo.mp4" aria-label="Trained wheeled quadruped driving across rough terrain in Isaac Sim"></video></div></div>
+    <div class="pp-hero reveal"><div class="media-frame"><img class="vposter" src="../assets/img/wquad-demo-poster.webp" width="1280" height="762" alt="" loading="eager" fetchpriority="high" decoding="async"><video data-auto controls muted loop playsinline preload="none"  src="../assets/video/wquad-demo.mp4" aria-label="Trained wheeled quadruped driving across rough terrain in Isaac Sim"></video></div></div>
     <dl class="datastrip cols-4"><div><dt>parallel environments on a single GPU</dt><dd>2048</dd></div><div><dt>trained policies: balance and velocity, flat and rough</dt><dd>4</dd></div><div><dt>steps held by the velocity policy</dt><dd>996 / 1000</dd></div><div><dt>policies transfer at 100% in MuJoCo</dt><dd>3 of 4</dd></div></dl>
 
     <div class="pp-layout">
@@ -176,8 +177,8 @@
     flat case.
   </p>
   <figure class="pair">
-    <img src="../assets/img/wquad-robot_balancing.png" alt="The wheeled quadruped standing upright on its rear wheels on a light grid floor in Isaac Sim, at roughly its target balance height" width="256" height="256" loading="lazy" decoding="async">
-    <img src="../assets/img/wquad-robot_collision.png" alt="The same robot rendered with its green collision / articulation wireframe overlaid, showing the wheels, thighs, shins and body links used by the physics engine" width="256" height="256" loading="lazy" decoding="async">
+    <img width="256" height="256" src="../assets/img/wquad-robot_balancing.webp" alt="The wheeled quadruped standing upright on its rear wheels on a light grid floor in Isaac Sim, at roughly its target balance height" loading="lazy" decoding="async">
+    <img width="256" height="256" src="../assets/img/wquad-robot_collision.webp" alt="The same robot rendered with its green collision / articulation wireframe overlaid, showing the wheels, thighs, shins and body links used by the physics engine" loading="lazy" decoding="async">
   </figure>
   <figcaption>
     <b>Left:</b> the balancing pose, the quadruped standing on its rear wheels at close to the
@@ -215,7 +216,7 @@
     Different engine, different contact model, different terrain: a genuine cross-engine test rather
     than a replay.
   </p>
-  <figure class="media16"><div class="media-frame"><video data-auto controls muted loop playsinline preload="none" poster="../assets/img/wquad-demo-poster.png" src="../assets/video/wquad-sim2sim.mp4" aria-label="Isaac-trained policy driving over rough terrain in MuJoCo"></video></div><figcaption>The same Isaac-trained policy driving over rough terrain in <strong>MuJoCo</strong>, a physics
+  <figure class="media16"><div class="media-frame"><img class="vposter" src="../assets/img/wquad-demo-poster.webp" width="1280" height="762" alt="" loading="lazy" decoding="async"><video data-auto controls muted loop playsinline preload="none"  src="../assets/video/wquad-sim2sim.mp4" aria-label="Isaac-trained policy driving over rough terrain in MuJoCo"></video></div><figcaption>The same Isaac-trained policy driving over rough terrain in <strong>MuJoCo</strong>, a physics
       engine it never saw during training.</figcaption></figure>
   <p>
     <strong>Three of the four policies transferred at 100%</strong>, surviving every episode in MuJoCo:
@@ -267,7 +268,7 @@
   <div class="wrap footer-inner">
     <span>&copy; 2026 Mickyas Tamiru Asfaw. All rights reserved.</span>
     <div class="theme" role="group" aria-label="Colour theme"><span>Theme</span><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button><button type="button" data-theme-set="auto" aria-pressed="true">Auto</button></div>
-    <a class="link" href="../assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="Download CV as PDF">CV (PDF)</a>
+    <a class="link" href="../assets/Mickyas_Tamiru_Asfaw_CV.pdf" download="Mickyas_Tamiru_Asfaw_CV.pdf" type="application/pdf" aria-label="CV (PDF), download">CV (PDF)</a>
     <span><a class="link" href="../index.html">mickyasta.github.io</a></span>
   </div>
 </footer>

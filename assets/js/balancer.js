@@ -142,6 +142,7 @@
   /* ============================================================
      Browser part: canvas drawing, interaction, scheduling
      ============================================================ */
+  function boot() {
   var host = document.getElementById("sim");
   if (!host) { return; }
   var frame = host.querySelector(".sim-frame");
@@ -459,4 +460,9 @@
   host.dataset.k = ctl.K.map(function (k) { return k.toFixed(2); }).join(", ");
   host.dataset.iters = ctl.iters;
   root.__balancer = { K: ctl.K, iters: ctl.iters };
+  }
+
+  /* start after first paint: wait for load, then an idle slot (with a timeout fallback) */
+  function later() { if (window.requestIdleCallback) { requestIdleCallback(boot, { timeout: 1500 }); } else { setTimeout(boot, 200); } }
+  if (document.readyState === "complete") { later(); } else { window.addEventListener("load", later, { once: true }); }
 })(typeof window !== "undefined" ? window : globalThis);
