@@ -356,11 +356,15 @@
   function setState(live) {
     host.classList.toggle("is-live", live);
     chip.textContent = live ? "Live · LQR" : (sleeping ? "Settled · LQR" : "Paused");
-    toggle.textContent = running || sleeping && !userPaused ? "Pause" : "Play";
-    toggle.setAttribute("aria-pressed", String(userPaused));
+    var playing = !held() && !userPaused;
+    toggle.textContent = playing ? "Pause" : "Play";
+    toggle.setAttribute("aria-label", playing ? "Pause simulation" : "Play simulation");
+    toggle.setAttribute("aria-pressed", String(!playing));
   }
 
-  function canRun() { return visible && !document.hidden && !userPaused; }
+  /* held: reduced motion is on and the visitor has not explicitly started it */
+  function held() { return reduce.matches && !ever; }
+  function canRun() { return visible && !document.hidden && !userPaused && !held(); }
 
   function wake() {
     clearTimeout(nudgeTimer);
@@ -382,15 +386,15 @@
 
   /* ---------- pointer interaction ---------- */
   function localX(e) { var r = frame.getBoundingClientRect(); return e.clientX - r.left; }
-  frame.addEventListener("pointerdown", function (e) {
+  canvas.addEventListener("pointerdown", function (e) {
     if (e.button !== undefined && e.button > 0) return;
     push.down = true; push.moved = false; push.x0 = localX(e); push.x = push.x0; push.t0 = performance.now();
     frame.classList.add("is-grabbing");
-    try { frame.setPointerCapture(e.pointerId); } catch (_) {}
-    if (userPaused) { userPaused = false; }
+    try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+    userPaused = false; ever = true;
     wake();
   });
-  frame.addEventListener("pointermove", function (e) {
+  canvas.addEventListener("pointermove", function (e) {
     if (!push.down) return;
     push.x = localX(e);
     if (Math.abs(push.x - push.x0) > 6) push.moved = true;
@@ -407,22 +411,36 @@
     frame.classList.remove("is-grabbing");
     wake();
   }
-  frame.addEventListener("pointerup", release);
-  frame.addEventListener("pointercancel", release);
+  canvas.addEventListener("pointerup", release);
+  canvas.addEventListener("pointercancel", release);
 
   toggle.addEventListener("click", function () {
-    if (running || (sleeping && !userPaused)) { userPaused = true; stop(); sleeping = false; setState(false); toggle.textContent = "Play"; }
-    else { userPaused = false; if (sim.s[2] === 0 && Math.abs(sim.s[0]) < 1e-9) sim.s[2] = 0.12; wake(); }
+    if (!held() && !userPaused) { userPaused = true; stop(); sleeping = false; setState(false); }
+    else { userPaused = false; ever = true; if (sim.s[2] === 0 && Math.abs(sim.s[0]) < 1e-9) sim.s[2] = 0.12; wake(); }
+  });
+
+  /* keyboard-operable pushes (same impulse as a tap) */
+  Array.prototype.forEach.call(host.querySelectorAll("[data-push]"), function (b) {
+    b.addEventListener("click", function () {
+      pulse.F = (+b.getAttribute("data-push")) * 10; pulse.t = 0.06;
+      userPaused = false; ever = true; wake();
+    });
   });
 
   /* ---------- visibility, theme, resize ---------- */
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (es) {
       visible = es[0].isIntersecting;
-      if (visible) { if (!userPaused && !(reduce.matches && !ever)) wake(); } else { stop(); setState(false); }
+      if (visible) { wake(); } else { stop(); setState(false); }
     }, { threshold: 0.15 }).observe(host);
   }
-  document.addEventListener("visibilitychange", function () { if (document.hidden) { stop(); } else if (visible && !userPaused && !(reduce.matches && !ever)) { wake(); } });
+  document.addEventListener("visibilitychange", function () { if (document.hidden) { stop(); } else { wake(); } });
+  function onReduceChange() {
+    ever = false;                       // an earlier explicit start does not outlive the preference flipping
+    if (reduce.matches) { stop(); sleeping = false; draw(); readout(); setState(false); }
+    else { wake(); }                    // resumes unless the visitor had explicitly paused
+  }
+  if (reduce.addEventListener) reduce.addEventListener("change", onReduceChange); else if (reduce.addListener) reduce.addListener(onReduceChange);
   if ("ResizeObserver" in window) { new ResizeObserver(function () { resize(); }).observe(frame); } else { window.addEventListener("resize", resize); }
   new MutationObserver(function () { readColors(); draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   var mq = window.matchMedia("(prefers-color-scheme: dark)");
@@ -434,8 +452,7 @@
   out.th.firstChild || (out.th.textContent = "+0.0");
   if (reduce.matches) {
     // static frame: a visibly tilted pose, no loop until the user presses Play
-    userPaused = true; sim.s = [0, 0, 0.12, 0]; draw(); readout(); setState(false);
-    toggle.addEventListener("click", function () { ever = true; }, { once: true });
+    sim.s = [0, 0, 0.12, 0]; draw(); readout(); setState(false);
   } else {
     wake();
   }

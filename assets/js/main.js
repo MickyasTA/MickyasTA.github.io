@@ -114,6 +114,7 @@
 
   /* ---------- videos ---------- */
   var saveData = !!(navigator.connection && navigator.connection.saveData);
+  var reducedMQ = window.matchMedia("(prefers-reduced-motion: reduce)"), reducedHandlers = [];
   $$("video").forEach(function (v) {
     var frame = v.closest(".media-frame");
     if (v.hasAttribute("data-click")) {
@@ -131,16 +132,37 @@
       frame.appendChild(b);
       return;
     }
-    if (v.hasAttribute("data-auto")) {
-      if (reduce || saveData || !("IntersectionObserver" in window)) return; // keep native controls
+    if (v.hasAttribute("data-auto") && frame) {
+      // visibility-driven loop with an explicit Play/Pause button; explicit choices win over automation
       v.removeAttribute("controls");
       v.muted = true;
-      new IntersectionObserver(function (es) {
-        es.forEach(function (e) {
-          if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-          else { v.pause(); }
-        });
-      }, { threshold: 0.5 }).observe(v);
+      var user = null, seen = false;           // user: null | "play" | "pause"
+      var btn = doc.createElement("button");
+      btn.type = "button"; btn.className = "vtoggle";
+      btn.innerHTML = "<span></span>";
+      frame.appendChild(btn);
+      function label() {
+        var playing = !v.paused && !v.ended;
+        btn.firstChild.textContent = playing ? "Pause" : "Play";
+        btn.setAttribute("aria-label", playing ? "Pause demo" : "Play demo");
+        btn.setAttribute("aria-pressed", String(!playing));
+      }
+      function tryPlay() { var p = v.play(); if (p && p.catch) p.catch(label); }
+      function sync() {
+        var auto = !reducedMQ.matches && !saveData;
+        var want = seen && (user === "play" || (user === null && auto));
+        if (want) tryPlay(); else v.pause();
+        label();
+      }
+      v.addEventListener("play", label); v.addEventListener("pause", label); v.addEventListener("ended", label);
+      btn.addEventListener("click", function () { user = (!v.paused && !v.ended) ? "pause" : "play"; if (user === "play") seen = true; sync(); });
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (es) { es.forEach(function (e) { seen = e.isIntersecting; sync(); }); }, { threshold: 0.5 }).observe(v);
+      } else { seen = true; }
+      reducedHandlers.push(sync);
+      label();
     }
   });
+  var rm = reducedMQ.addEventListener ? function (f) { reducedMQ.addEventListener("change", f); } : function (f) { reducedMQ.addListener(f); };
+  rm(function () { reducedHandlers.forEach(function (f) { f(); }); });
 })();

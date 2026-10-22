@@ -266,6 +266,15 @@ code { font-family: var(--mono); font-size: .86em; background: var(--paper-2); p
 .sim-readout dt { font-family: var(--mono); font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; }
 .sim-readout dd { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: .92rem; margin-top: 2px; white-space: nowrap; }
 .sim-readout dd small { font-size: .72em; color: var(--ink-3); margin-left: 2px; }
+.sim-keys { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 12px; }
+.sim-keys .label { font-size: .68rem; margin-right: 2px; }
+.sim-keys button { font-family: var(--mono); font-size: .74rem; letter-spacing: .02em; padding: 8px 12px; border: 1px solid var(--rule); border-radius: 2px; color: var(--ink-2); transition: color .2s, border-color .2s, transform .16s var(--ease); }
+.sim-keys button:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .sim-keys button:hover { color: var(--accent); border-color: var(--accent); } }
+.vtoggle { position: absolute; right: 10px; bottom: 10px; z-index: 3; padding: 8px 12px; background: var(--paper); color: var(--ink); border: 1px solid var(--ink); border-radius: 2px; font-family: var(--mono); font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; transition: transform .16s var(--ease), background-color .2s, color .2s; }
+.vtoggle:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .vtoggle:hover { background: var(--ink); color: var(--paper); } }
+.work-media { position: relative; z-index: 2; }
 .sim figcaption { margin-top: 12px; font-family: var(--mono); font-size: .74rem; line-height: 1.55; color: var(--ink-3); max-width: 62ch; }
 @media (max-width: 420px) {
   .sim-readout dd { font-size: .8rem; }

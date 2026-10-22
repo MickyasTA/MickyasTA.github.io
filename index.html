@@ -75,7 +75,7 @@
 
     <figure class="sim rise" id="sim" style="--i:2">
       <div class="sim-frame">
-        <canvas role="img" aria-label="Interactive simulation of a two-wheeled self-balancing robot stabilised by an LQR controller. Drag the robot or tap beside it to push it and watch it recover."></canvas>
+        <canvas role="img" aria-label="Interactive simulation of a two-wheeled self-balancing robot stabilised by an LQR controller. Drag the robot or tap beside it to push it and watch it recover. The Push left and Push right buttons below do the same from the keyboard."></canvas>
         <div class="sim-chip"><i aria-hidden="true"></i><span>Live &middot; LQR</span></div>
         <button class="sim-toggle" type="button" aria-pressed="false">Pause</button>
       </div>
@@ -85,7 +85,8 @@
         <div><dt>Wheel cmd</dt><dd data-o="u">+0.0<small>N</small></dd></div>
         <div><dt>Ctrl</dt><dd data-o="c">LQR</dd></div>
       </dl>
-      <figcaption>Live: LQR-stabilised two-wheel balancer, simulated in your browser. Push it: drag the body, or tap beside it. Gains are computed at load by iterating the Riccati equation.</figcaption>
+      <div class="sim-keys"><span class="label">Push</span><button type="button" data-push="-1">&larr; Push left</button><button type="button" data-push="1">Push right &rarr;</button></div>
+      <figcaption>Live: LQR-stabilised two-wheel balancer, simulated in your browser. Push it: drag the body, tap beside it, or use the buttons. Gains are computed at load by iterating the Riccati equation.</figcaption>
     </figure>
   </div>
 </section>
