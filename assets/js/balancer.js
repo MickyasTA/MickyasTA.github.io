@@ -176,7 +176,7 @@
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-    S = W / 2.3;   // px per metre
+    S = W / 1.9;   // px per metre
     draw();
   }
 
@@ -201,7 +201,7 @@
     }
     ctx.stroke();
     ctx.fillStyle = col.ink3; ctx.font = "10px " + col.mono; ctx.textAlign = "center";
-    for (tick = -1; tick <= 1; tick += 0.5) { ctx.fillText((tick > 0 ? "+" : "") + tick.toFixed(1), cx + tick * S, gy + 22); }
+    for (tick = -0.5; tick <= 0.5; tick += 0.5) { ctx.fillText((tick > 0 ? "+" : "") + tick.toFixed(1), cx + tick * S, gy + 22); }
 
     // reference marker at x = 0
     ctx.strokeStyle = col.accent; ctx.fillStyle = col.accent; ctx.lineWidth = 1;
@@ -286,8 +286,10 @@
     ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x0 + w, y0); ctx.stroke();
     ctx.fillStyle = col.ink3; ctx.font = "9.5px " + col.mono; ctx.textAlign = "left";
     ctx.fillText("last 6 s", x0, y0 + hh + 14);
-    ctx.textAlign = "right"; ctx.fillStyle = col.accent; ctx.fillText("θ", x0 + w - 56, y0 + hh + 14);
-    ctx.fillStyle = col.ink3; ctx.fillText("u", x0 + w - 40, y0 + hh + 14); ctx.fillText("±30° / ±" + P.umax + " N", x0 + w, y0 + hh + 14);
+    ctx.textAlign = "right";
+    var uT = "u ±" + P.umax + " N", tT = "θ ±30°";
+    ctx.fillStyle = col.ink3; ctx.fillText(uT, x0 + w, y0 + hh + 14);
+    ctx.fillStyle = col.accent; ctx.fillText(tT, x0 + w - ctx.measureText(uT).width - 14, y0 + hh + 14);
     var n = Math.min(histN, HIST);
     if (n < 2) return;
     function trace(idx, scl, color, lw) {
@@ -318,8 +320,8 @@
   function pushForce() {
     if (push.down && push.moved) {
       var s = sim.s, topX = W / 2 + (s[0] + Math.sin(s[2]) * P.h) * S;
-      var target = Math.max(W / 2 - 0.85 * S, Math.min(W / 2 + 0.85 * S, push.x));
-      return Math.max(-8, Math.min(8, 55 * (target - topX) / S));
+      var target = Math.max(W / 2 - 0.4 * S, Math.min(W / 2 + 0.4 * S, push.x));
+      return Math.max(-3, Math.min(3, 15 * (target - topX) / S));
     }
     if (pulse.t > 0) return pulse.F;
     return 0;
@@ -337,7 +339,7 @@
         if (pulse.t > 0) pulse.t -= P.dt;
         step(sim, Fd);
         var s = sim.s;
-        if (Math.abs(s[2]) > 0.95 || Math.abs(s[0]) > 1.12) { fallT = 0.9; sim.u = 0; }
+        if (Math.abs(s[2]) > 0.95 || Math.abs(s[0]) > 0.9) { fallT = 0.9; sim.u = 0; }
         var quiet = Math.abs(s[2]) < 0.0025 && Math.abs(s[3]) < 0.02 && Math.abs(s[0]) < 0.02 && Math.abs(s[1]) < 0.03;
         settled = (quiet && !push.down) ? settled + P.dt : 0;
         var j = histN % HIST; hist[j * 2] = s[2]; hist[j * 2 + 1] = sim.u; histN++;

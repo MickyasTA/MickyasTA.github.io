@@ -53,21 +53,21 @@
 
   /* ---------- active section in nav / table of contents ---------- */
   function trackSections(links) {
-    if (!links.length || !("IntersectionObserver" in window)) return;
-    var map = {};
-    links.forEach(function (a) { var t = doc.querySelector(a.getAttribute("href")); if (t) map[t.id] = a; });
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        links.forEach(function (a) { a.removeAttribute("aria-current"); });
-        var a = map[e.target.id]; if (a) a.setAttribute("aria-current", "true");
-      });
-    }, { rootMargin: "-40% 0px -55% 0px" });
-    Object.keys(map).forEach(function (id) { io.observe(doc.getElementById(id)); });
+    if (!links.length) return;
+    var items = [];
+    links.forEach(function (a) { var t = doc.querySelector(a.getAttribute("href")); if (t) items.push({ a: a, t: t }); });
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var line = window.innerHeight * 0.35, cur = null;
+      items.forEach(function (it) { if (it.t.getBoundingClientRect().top <= line) cur = it; });
+      items.forEach(function (it) { if (it === cur) it.a.setAttribute("aria-current", "true"); else it.a.removeAttribute("aria-current"); });
+    }
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
   }
   trackSections($$(".nav-links a[href^='#']"));
   trackSections($$(".toc a[href^='#']"));
-
   /* ---------- YouTube facades: nothing loads until clicked ---------- */
   $$("a[data-yt]").forEach(function (a) {
     a.addEventListener("click", function (ev) {
