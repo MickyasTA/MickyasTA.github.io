@@ -47,6 +47,6 @@ hidden, and sleeps once the robot has settled.
   pre-patent-filing, the EU has no disclosure grace period).
 - Videos are H.264 MP4s with `preload="none"`; small ones play while visible, the 22 MB AETHER-1
   montage waits for a click. YouTube demos are click-to-load (`youtube-nocookie.com`).
-- Content mirrors the owner's CV (role at CESI LINEACT, Rouen; experience, publications,
+- Content mirrors the owner's CV (former role at CESI LINEACT, Rouen, Feb 2025 - Jul 2026; experience, publications,
   education); contact is email + GitHub + LinkedIn + YouTube. Phone number is intentionally
   not published.
