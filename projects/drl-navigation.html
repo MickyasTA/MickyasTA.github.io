@@ -30,8 +30,8 @@
 <header class="nav">
   <div class="wrap nav-inner">
     <a class="brand" href="../index.html" aria-label="Mickyas Tamiru Asfaw, home"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mickyas Tamiru Asfaw</span></a>
-    <nav aria-label="Primary">
-      <ul class="nav-links">
+    <nav aria-label="Primary"><button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links"><span>Menu</span></button>
+      <ul class="nav-links" id="nav-links">
         <li><a href="../index.html#flagship">AETHER-1</a></li>
         <li><a href="../index.html#work">Work</a></li>
         <li><a href="../index.html#experience">Experience</a></li>
@@ -56,7 +56,7 @@
       <div class="pp-actions rise" style="--i:3"><a class="btn btn-solid ext" target="_blank" rel="noopener" href="https://github.com/MickyasTA/DRL_robot_navigation_ros2">View the code</a><a class="btn btn-line ext" target="_blank" rel="noopener" href="https://www.researchgate.net/publication/380875371_Controlling_a_Mobile_Robot_Using_ROS2_and_Machine_Learning">Read the paper</a><a class="btn btn-line ext" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=IRASuKMiOvw">Watch the demo</a></div>
     </div>
 
-    <div class="pp-hero reveal"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping: demo" target="_blank" rel="noopener"><span class="yt-art" aria-hidden="true"></span><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 robot navigation with live SLAM mapping: demo</span></a></div>
+    <div class="pp-hero reveal"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping: demo" target="_blank" rel="noopener"><img class="yt-img" src="../assets/img/yt-IRASuKMiOvw.jpg" width="800" height="450" loading="lazy" decoding="async" alt="TD3 robot navigation with live SLAM mapping: demo"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 robot navigation with live SLAM mapping: demo</span></a></div>
     <dl class="datastrip cols-4"><div><dt>state values: 20 LiDAR sectors, goal distance, heading error, previous action</dt><dd>24</dd></div><div><dt>angular sectors across the 180° in front</dt><dd>20</dd></div><div><dt>goal and collision reward</dt><dd>±100</dd></div><div><dt>a full from-scratch training run</dt><dd>8–10 h</dd></div></dl>
 
     <div class="pp-layout">
@@ -198,7 +198,7 @@
   </p>
 
   <h2 id="results">Results &amp; analysis</h2>
-  <figure class="media16"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping: demo" target="_blank" rel="noopener"><span class="yt-art" aria-hidden="true"></span><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 robot navigation with live SLAM mapping: demo</span></a><figcaption>The trained agent explores the room and avoids obstacles while <code>slam_toolbox</code> maps it live. <b>Left:</b> the occupancy grid growing in RViz &nbsp;&middot;&nbsp; <b>Right:</b> the Gazebo simulation with the robot, obstacles, and laser scan.</figcaption></figure>
+  <figure class="media16"><a class="media-frame yt" href="https://www.youtube.com/watch?v=IRASuKMiOvw" data-yt="IRASuKMiOvw" data-title="TD3 robot navigation with live SLAM mapping: demo" target="_blank" rel="noopener"><img class="yt-img" src="../assets/img/yt-IRASuKMiOvw.jpg" width="800" height="450" loading="lazy" decoding="async" alt="TD3 robot navigation with live SLAM mapping: demo"><span class="yt-btn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Play demo</span><span class="yt-title">TD3 robot navigation with live SLAM mapping: demo</span></a><figcaption>The trained agent explores the room and avoids obstacles while <code>slam_toolbox</code> maps it live. <b>Left:</b> the occupancy grid growing in RViz &nbsp;&middot;&nbsp; <b>Right:</b> the Gazebo simulation with the robot, obstacles, and laser scan.</figcaption></figure>
   <p>
     The clip shows the full system running: the pre-trained TD3 policy continuously re-targets goals
     and threads the Pioneer 3-DX between the obstacles, while the parallel SLAM node turns those
