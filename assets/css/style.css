@@ -238,7 +238,7 @@ code { font-family: var(--mono); font-size: .86em; background: var(--paper-2); p
 .hero-sub { margin-top: 28px; max-width: 54ch; color: var(--ink-2); font-size: clamp(1.02rem, 1.25vw, 1.15rem); }
 .hero-intro { display: flex; gap: 18px; align-items: flex-start; margin-top: 28px; }
 .hero-intro .hero-sub { margin-top: 0; }
-.portrait { flex: none; display: block; width: 64px; height: 64px; border-radius: 4px; border: 1px solid var(--ink-3); background: #fff; object-fit: cover; }
+.portrait { flex: none; display: block; width: 64px; height: 64px; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--ink-3); background: #fff; object-fit: cover; object-position: 50% 50%; }
 .portrait-lg { width: 120px; height: 120px; margin-bottom: 24px; }
 .about-aside { align-self: start; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
